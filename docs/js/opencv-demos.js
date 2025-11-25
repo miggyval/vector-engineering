@@ -41,3 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial load
   updateImage();
 });
+
+const input = document.getElementById("expr-input");
+const img = document.getElementById("plot-img");
+
+function updatePlot() {
+  const expr = encodeURIComponent(input.value);
+  img.src = `http://127.0.0.1:8001/api/plot-func?expr=${expr}&x_min=-10&x_max=10`;
+}
+
+input.addEventListener("change", updatePlot);
+input.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") updatePlot();
+});

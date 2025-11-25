@@ -4,17 +4,19 @@
 
 /* Light mode overrides */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #51247a;
+  --md-primary-fg-color: #b39ddb;
   --md-primary-fg-color--light: #f4ecfb;
   --md-primary-fg-color--dark: #341852;
   --md-accent-fg-color: #f2a900;
 
-  --uq-purple: #51247a;
+  --uq-purple: #b39ddb;
   --uq-purple-light: #f4ecfb;
   --uq-purple-lighter: #faf5ff;
   --uq-purple-dark: #341852;
   --uq-gold: #f2a900;
 }
+
+
 
 /* Dark mode overrides */
 [data-md-color-scheme="slate"] {
@@ -31,10 +33,51 @@
 }
 
 
+/* Custom background / text colours per scheme */
+[data-md-color-scheme="default"] {
+  --uq-page-bg: #f7f3ff;   /* light lilac */
+  --uq-page-fg: #111827;   /* dark text */
+}
+
+[data-md-color-scheme="slate"] {
+  --uq-page-bg: #05030a;   /* very dark purple-ish */
+  --uq-page-fg: #e5e7eb;   /* light text */
+}
+
+
 /* Make math a little nicer spaced */
 mjx-container {
   margin: 0.5em 0;
 }
+
+
+:root {
+  --uq-theme-transition: background-color 0.35s ease,
+                         color 0.35s ease,
+                         border-color 0.35s ease;
+}
+
+/* Smooth theme transition for main surfaces */
+html[data-md-color-scheme] body {
+  background-color: var(--uq-page-bg);
+  color: var(--uq-page-fg);
+  transition: var(--uq-theme-transition);
+}
+
+/* Main content area */
+html[data-md-color-scheme] .md-main,
+html[data-md-color-scheme] .md-content,
+html[data-md-color-scheme] .md-sidebar {
+  background-color: var(--uq-page-bg);
+  transition: background-color 0.5s ease;
+}
+
+/* Header – keep whatever colour you like, but make it animate too */
+html[data-md-color-scheme] .md-header {
+  background-color: var(--md-primary-fg-color);
+  transition: background-color 0.5s ease;
+}
+
 
 /* ------------------------------------------------------------------ */
 /* Admonitions                                                        */

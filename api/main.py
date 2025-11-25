@@ -10,11 +10,53 @@ import io
 import contextlib
 import traceback
 
+import matplotlib
+
+matplotlib.use("Agg")
+matplotlib.rcParams.update({
+    "mathtext.fontset": "stix",
+    "font.family": "STIXGeneral",
+})
+
+#import matplotlib
+
+#matplotlib.use("Agg")
+#matplotlib.rcParams.update({
+#    "text.usetex": True,
+#    "font.family": "serif",
+#    "font.serif": ["Computer Modern Roman"],
+#    # optional:
+#    # "text.latex.preamble": r"\usepackage{amsmath}",
+#})
+
+
+
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import re
+
+PLOT_WIDTH_IN = 6      # inches
+PLOT_HEIGHT_IN = 3.5   # inches
+PLOT_DPI = 200         # increase for higher resolution
+
+
+def _new_figure() -> Figure:
+    """
+    Create a new high-DPI Matplotlib figure for plots.
+    """
+    return Figure(figsize=(PLOT_WIDTH_IN, PLOT_HEIGHT_IN), dpi=PLOT_DPI)
+
+
 
 app = FastAPI()
 
+
+
 class CodeRequest(BaseModel):
-  code: str
+    code: str
+    
+    
+
 
 @app.post("/api/python-repl")
 def python_repl(req: CodeRequest):
@@ -76,6 +118,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# ------------------------
+# CANNY EDGE DEMO
+# ------------------------
+
 # Load a base image once at startup
 DATA_DIR = Path(__file__).parent / "data"
 IMG_PATH = DATA_DIR / "input.jpg"
@@ -114,3 +161,213 @@ def edge_demo(
 
     return Response(content=buf.tobytes(), media_type="image/png")
 
+
+# ------------------------
+# GRAPH PLOTTING DEMO
+# ------------------------
+
+def _fig_to_png_bytes(fig: Figure) -> bytes:
+    """
+    Render a Matplotlib Figure to PNG bytes using the Agg canvas.
+    """
+    buf = io.BytesIO()
+    canvas = FigureCanvas(fig)
+    canvas.print_png(buf)
+    buf.seek(0)
+    return buf.getvalue()
+
+def _expr_to_math(expr: str) -> str:
+    """
+    Convert a Python-style expression into something that looks nicer in
+    Matplotlib mathtext, without changing how it's actually evaluated.
+
+    Rules:
+      - t**2, (t-1)**2, sin(t)**2, t**(2*t) -> base^{exponent}
+      - sin, cos, ...                     -> \\sin, \\cos, ...
+      - pi                                -> \\pi
+      - *                                 -> replaced with a single space
+      - underscores                       -> escaped so they don't become subscripts
+
+    'exp' is left as plain 'exp'.
+    """
+    s = expr
+
+    # 1) Escape underscores (but not already-escaped ones)
+    s = re.sub(r'(?<!\\)_', r'\_', s)
+
+    # 2) Powers: base ** exponent -> base^{exponent}
+    #
+    #   base:   function call like f(...), or (...), or a simple token
+    #   exp:    either (...), or a simple token/number
+    #
+    # This covers:
+    #   t**2
+    #   (t-1)**2
+    #   sin(t)**2
+    #   t**(2*t)
+    def power_repl(m: re.Match) -> str:
+        base = m.group(1).strip()
+        exp_part = m.group(2).strip()
+        # strip outer parens from exponent if present, keep inside
+        if exp_part.startswith("(") and exp_part.endswith(")"):
+            exp_part = exp_part[1:-1].strip()
+        return f"{base}^{{{exp_part}}}"
+
+    power_pattern = (
+        r'('
+        r'(?:[A-Za-z0-9_\\]+\([^()]*\)'   # func call: f(...)
+        r'|\([^()]*\)'                    # or parenthesised group: (...)
+        r'|[A-Za-z0-9_\\]+'               # or simple token: t, 2, etc.
+        r')'
+        r')\s*\*\*\s*'
+        r'('
+        r'\([^()]*\)'                     # exponent in parens: (2*t)
+        r'|[A-Za-z0-9\.\+\-]+'            # or simple exponent: 2, -1, n
+        r')'
+    )
+    s = re.sub(power_pattern, power_repl, s)
+
+    func_names = [
+        "sin", "cos", "tan", "exp",
+        "arcsin", "arccos", "arctan",
+        "sinh", "cosh", "tanh",
+        "log", "log10", "sqrt",
+    ]
+    for name in func_names:
+        # word boundary so we don't clobber 'signal', 'cost', etc.
+        s = re.sub(rf"\b{name}\b", rf"\\{name}", s)
+
+    # 4) pi -> \pi (word boundary)
+    s = re.sub(r"\bpi\b", r"\\pi", s)
+
+    # 5) Remove explicit * but keep a single space in its place
+    s = re.sub(r'\s*\*\s*', ' ', s)
+
+    # 6) Squash multiple spaces, trim ends
+    s = re.sub(r'\s+', ' ', s).strip()
+
+    return s
+
+
+
+
+
+def _empty_plot(expr: str, t_min: float, t_max: float) -> Figure:
+    """
+    Create an "empty" plot:
+    - axes, labels, grid, title
+    - no function curve
+    """
+    fig = _new_figure()
+    ax = fig.add_subplot(111)
+
+    if t_min < t_max:
+        ax.set_xlim(t_min, t_max)
+
+    expr_math = _expr_to_math(expr)
+
+    ax.set_xlabel(r"$t$")
+    ax.set_ylabel(r"$f(t)$")
+    ax.set_title(r"$f(t) = " + expr_math + r"$")
+    ax.grid(True)
+    return fig
+
+
+def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
+    """
+    Safely evaluate a math expression of t using NumPy.
+
+    Allowed:
+      - variable: t
+      - functions: sin, cos, tan, exp, log, sqrt, abs, arctan, etc.
+      - constants: pi, e
+
+    Expression example: "sin(t)", "t**2", "exp(-t**2)", "sin(t)/t"
+    NOTE: Use ** for powers, not ^.
+    """
+    
+    # Custom unit step: u(t) = 0 for t < 0, 1 for t >= 0
+    def u(t):
+        return np.where(t >= 0, 1.0, 0.0)
+        # If you prefer u(0) = 0.5, use:
+        # return np.where(x > 0, 1.0, np.where(x < 0, 0.0, 0.5))
+
+
+    allowed_funcs = {
+        "sin": np.sin,
+        "cos": np.cos,
+        "tan": np.tan,
+        "arcsin": np.arcsin,
+        "arccos": np.arccos,
+        "arctan": np.arctan,
+        "sinh": np.sinh,
+        "cosh": np.cosh,
+        "tanh": np.tanh,
+        "exp": np.exp,
+        "log": np.log,
+        "log10": np.log10,
+        "sqrt": np.sqrt,
+        "abs": np.abs,
+        "u": u,
+    }
+    allowed_consts = {
+        "pi": np.pi,
+        "e": np.e,
+    }
+
+    env = {}
+    env.update(allowed_funcs)
+    env.update(allowed_consts)
+    env["t"] = t
+
+    # No builtins, just our env
+    return eval(expr, {"__builtins__": {}}, env)
+
+
+@app.get("/api/plot-func")
+def plot_func(
+    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 'x**2'"),
+    t_min: float = Query(-10.0, description="Left end of domain"),
+    t_max: float = Query(10.0, description="Right end of domain"),
+    n: int = Query(400, ge=10, le=5000, description="Number of sample points"),
+):
+    """
+    Plot a 1D function f(x) specified by 'expr' and return a PNG.
+
+    Examples:
+      /api/plot-func?expr=sin(t)
+      /api/plot-func?expr=x**2&t_min=-5&t_max=5
+      /api/plot-func?expr=exp(-t**2)
+
+    NOTE: Use ** for powers (e.g., t**2), not ^.
+    """
+
+    # If range is invalid, just return an empty plot too
+    if t_min >= t_max:
+        fig = _empty_plot(expr, t_min, t_max)
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")
+
+    t = np.linspace(t_min, t_max, n)
+
+    try:
+        y = _eval_expr(expr, t)
+
+        fig = _new_figure()
+        ax = fig.add_subplot(111)
+        expr_math = _expr_to_math(expr)
+        
+        ax.plot(t, y)
+        ax.set_xlabel("t")
+        ax.set_ylabel("f(t)")
+        ax.set_title(r"$f(t) = " + expr_math + r"$")
+        ax.grid(True)
+
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")
+
+    except Exception:
+        # Invalid expression → empty plot (no curve)
+        fig = _empty_plot(expr, t_min, t_max)
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")

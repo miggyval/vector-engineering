@@ -31,6 +31,7 @@ Use the sliders to adjust the thresholds and see the effect in real time.
   </div>
 </div>
 
+
 !!! note "How this works under the hood"
     The browser sends the chosen thresholds to a small Python/OpenCV
     backend (via FastAPI). The backend runs Canny edge detection on a

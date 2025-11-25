@@ -1,4 +1,4 @@
-site_name: "ROBO4000: Introduction to Robotics"
+site_name: "Engineering Fundamentals"
 site_url: ""
 
 docs_dir: docs
@@ -33,6 +33,7 @@ nav:
       - Theory: module1/theory.md
       - Quiz: module1/quiz.md
       - Demo: module1/demo.md
+      - Plotting Demo: module1/plot-demo.md
       - Python Shell: module1/repl.md
 
 markdown_extensions:

@@ -2,9 +2,11 @@
 
 This module introduces the core ideas we'll explore:
 
-- Concept A
-- Concept B
-- Concept C
+- Differential Equations
+- Phasors
+- The Fourier Series
+- The Laplace Transform
+- The Fourier Transform
 
 We'll add a video and proper content here later.
 

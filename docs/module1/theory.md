@@ -1,11 +1,9 @@
-# Module 1: Theory
+# Module 1: The Fourier Transform
 
-Here we'll put the detailed notes and derivations.
 
-Example equation:
 
 $$
-y(t) = \int_{-\infty}^{\infty} x(\tau) h(t - \tau) \, d\tau
+F(\omega) = \int_{-\infty}^{\infty} f(t)e^{-j\omega t} \, d\tau
 $$
 
 ## Example: RC low-pass filter
@@ -26,5 +24,5 @@ Here is the circuit we'll analyse:
 We will derive the transfer function
 
 $$
-H(s) = \frac{V_o(s)}{V_s(s)} = \frac{1}{1 + sRC}.
+H(s) = \frac{V_o(s)}{V_s(s)} = \frac{R}{R + \frac{1}{sC}}.
 $$
