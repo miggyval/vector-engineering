@@ -1,0 +1,36 @@
+site_name: "My Engineering Course"
+site_url: ""
+
+docs_dir: docs
+
+theme:
+  name: "material"
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - content.code.copy
+    - content.tabs.link
+
+nav:
+  - Home: index.md
+  - Module 1:
+      - Overview: module1/overview.md
+      - Theory: module1/theory.md
+      - Quiz: module1/quiz.md
+      - Demo: module1/demo.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - js/mathjax-config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - js/quizzes.js
+extra_css:
+  - css/custom.css
