@@ -1,45 +1,194 @@
+/* ------------------------------------------------------------------ */
+/* UQ-ish theme base                                                  */
+/* ------------------------------------------------------------------ */
+
+:root {
+
+  /* Tell Material theme to use UQ-ish purple + gold */
+  --md-primary-fg-color: #51247a;
+  --md-primary-fg-color--light: #f4ecfb;
+  --md-primary-fg-color--dark: #341852;
+  --md-accent-fg-color: #f2a900;
+
+  --uq-purple: #51247a;
+  --uq-purple-light: #f4ecfb;
+  --uq-purple-lighter: #faf5ff;
+  --uq-purple-dark: #341852;
+  --uq-gold: #f2a900;
+}
+
 /* Make math a little nicer spaced */
 mjx-container {
   margin: 0.5em 0;
 }
 
-/* Make admonitions slightly wider and cleaner */
+/* ------------------------------------------------------------------ */
+/* Admonitions                                                        */
+/* ------------------------------------------------------------------ */
+
 .md-typeset .admonition {
   border-radius: 8px;
+  border-left: 4px solid var(--uq-purple);
+  background: var(--uq-purple-light);
 }
 
-/* Placeholder styles for future quizzes/demos */
+.md-typeset .admonition > .admonition-title {
+  font-weight: 600;
+  color: var(--uq-purple-dark);
+}
+
+/* Admonition header + icon fully purple */
+.md-typeset .admonition,
+.md-typeset details {
+  border-left: 4px solid var(--uq-purple);
+  background: var(--uq-purple-light);
+}
+
+.md-typeset .admonition > .admonition-title,
+.md-typeset details > summary {
+  background: rgba(81, 36, 122, 0.06);
+  color: var(--uq-purple-dark);
+}
+
+/* Icon color */
+.md-typeset .admonition > .admonition-title::before,
+.md-typeset details > summary::before {
+  color: var(--uq-purple);
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Multiple-choice quizzes                                            */
+/* ------------------------------------------------------------------ */
+
 .mcq {
   margin: 1.5rem 0;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid rgba(81, 36, 122, 0.25);
+  background: var(--uq-purple-lighter);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
+/* Question text */
+.mcq > p {
+  margin-top: 0;
+}
+
+/* Options list */
+.mcq ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.75rem 0;
+}
+
+/* Individual option */
+.mcq li[data-option] {
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+/* Hover effect */
+.mcq li[data-option]:hover {
+  background: rgba(81, 36, 122, 0.06);
+}
+
+/* Selected option */
 .mcq li.selected {
-  background: rgba(0, 150, 255, 0.08);
+  border-color: var(--uq-purple);
+  background: rgba(81, 36, 122, 0.12);
+  transform: translateY(-1px);
 }
 
-#edge-demo {
+/* Check button */
+.mcq .mcq-check {
+  margin-top: 0.5rem;
+}
+
+/* Feedback text */
+.mcq-feedback {
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* Feedback states */
+.mcq-feedback-correct {
+  color: #2e7d32;
+}
+
+.mcq-feedback-wrong {
+  color: #c62828;
+}
+
+.mcq-feedback-warn {
+  color: #ff8f00;
+}
+
+/* ------------------------------------------------------------------ */
+/* Edge demo layout                                                   */
+/* ------------------------------------------------------------------ */
+
+#edge-demo,
+.edge-demo {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: flex-start;
+  margin-top: 1rem;
 }
 
+.edge-demo .controls {
+  min-width: 220px;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--uq-purple-lighter);
+  border: 1px solid rgba(81, 36, 122, 0.18);
+}
 
-/* Responsive video wrapper */
+.edge-demo label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+/* Slider tweaks */
+.edge-demo input[type="range"] {
+  width: 100%;
+  accent-color: var(--uq-purple);
+}
+
+.edge-demo .preview {
+  flex: 1;
+  min-width: 260px;
+}
+
+.edge-demo #edge-image {
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(81, 36, 122, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: opacity 0.2s ease;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive video wrapper                                           */
+/* ------------------------------------------------------------------ */
+
 .lesson-video {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
   height: 0;
   overflow: hidden;
   margin: 1rem 0 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(81, 36, 122, 0.3);
 }
 
-/* For iframe or video inside the wrapper */
 .lesson-video iframe,
 .lesson-video video {
   position: absolute;
@@ -48,5 +197,98 @@ mjx-container {
   width: 100%;
   height: 100%;
   border: 0;
+  border-radius: 12px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Python REPL                                                        */
+/* ------------------------------------------------------------------ */
+
+.python-repl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.python-repl .repl-input-area textarea {
+  width: 100%;
+  min-height: 180px;
+  font-family: var(--md-code-font, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  font-size: 0.9rem;
   border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(81, 36, 122, 0.35);
+  background: #090b10;
+  color: #e5e7eb;
+}
+
+/* REPL controls */
+.python-repl .repl-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.python-repl #repl-status {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* REPL output layout */
+.python-repl .repl-output-area {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.python-repl .repl-output-area h3 {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  color: var(--uq-purple-dark);
+}
+
+/* Output / error panes */
+.python-repl .repl-output-area pre {
+  background: var(--uq-purple-dark);
+  color: #f4f4ff;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  border: 1px solid rgba(242, 169, 0, 0.3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons (used in quizzes, REPL, etc.)                              */
+/* ------------------------------------------------------------------ */
+
+.mcq .mcq-check,
+#repl-run,
+.edge-demo button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--uq-purple);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(81, 36, 122, 0.35);
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+}
+
+.mcq .mcq-check:hover,
+#repl-run:hover,
+.edge-demo button:hover {
+  background: var(--uq-purple-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(81, 36, 122, 0.5);
+}
+
+.mcq .mcq-check:active,
+#repl-run:active,
+.edge-demo button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(81, 36, 122, 0.25);
 }
