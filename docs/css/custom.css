@@ -2,9 +2,8 @@
 /* UQ-ish theme base                                                  */
 /* ------------------------------------------------------------------ */
 
-:root {
-
-  /* Tell Material theme to use UQ-ish purple + gold */
+/* Light mode overrides */
+[data-md-color-scheme="default"] {
   --md-primary-fg-color: #51247a;
   --md-primary-fg-color--light: #f4ecfb;
   --md-primary-fg-color--dark: #341852;
@@ -16,6 +15,21 @@
   --uq-purple-dark: #341852;
   --uq-gold: #f2a900;
 }
+
+/* Dark mode overrides */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #b39ddb;          /* softer purple */
+  --md-primary-fg-color--light: #d1c4e9;
+  --md-primary-fg-color--dark: #311b92;
+  --md-accent-fg-color: #ffca28;
+
+  --uq-purple: #b39ddb;
+  --uq-purple-light: #21152f;
+  --uq-purple-lighter: #140b20;
+  --uq-purple-dark: #e0d7ff;
+  --uq-gold: #ffca28;
+}
+
 
 /* Make math a little nicer spaced */
 mjx-container {
@@ -291,4 +305,46 @@ mjx-container {
 .edge-demo button:active {
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(81, 36, 122, 0.25);
+}
+
+.circuit-figure {
+  /* keep it narrow and centered */
+  max-width: 260px;            /* tweak to taste */
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+.circuit-figure img {
+  display: block;
+  width: 100%;                 /* fill the small figure width */
+  height: auto;
+}
+
+/* Figure captions – light mode */
+[data-md-color-scheme="default"] .circuit-figure figcaption {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.7);
+  font-style: italic;
+}
+
+/* Figure captions – dark mode */
+[data-md-color-scheme="slate"] .circuit-figure figcaption {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+
+/* Circuit figure color handling */
+
+/* Light mode: normal, no filter */
+[data-md-color-scheme="default"] .circuit-figure img {
+  filter: none;
+}
+
+/* Dark mode: invert so black lines become light */
+[data-md-color-scheme="slate"] .circuit-figure img {
+  filter: invert(0.9) brightness(1.1) contrast(1.05);
 }

@@ -1,0 +1,15 @@
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage[siunitx]{circuitikz}
+\usepackage{xcolor}
+
+\begin{document}
+\begin{circuitikz}
+  % Simple series RC low-pass
+  \draw (0,3) to[american voltage source, l_=$v_s(t)$] (0,0);
+  \draw (0,3) to[american resistor, l=$R$] (3,3);
+  \draw (3,3) to[C, l=$C$] (3,0);
+  \draw (3,0) to[short] (0,0);
+\end{circuitikz}
+\end{document}
+
+

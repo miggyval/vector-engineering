@@ -1,2 +1,82 @@
 docs/media/*
 .DS_Store
+
+
+# -----------------------------
+# OS / Editor cruft
+# -----------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+.vscode/
+.idea/
+
+# -----------------------------
+# Python / tooling
+# -----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Test / tooling caches
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.dmypy.json
+.coverage
+htmlcov/
+
+# Log files (LaTeX, uvicorn, etc.)
+*.log
+
+# -----------------------------
+# MkDocs
+# -----------------------------
+# Built site (mkdocs build/serve)
+site/
+
+# -----------------------------
+# Manim outputs
+# -----------------------------
+# Manim writes to a top-level media/ directory by default.
+# We still keep docs/media/, so this is safe.
+media/
+
+# -----------------------------
+# LaTeX artifacts
+# -----------------------------
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.out
+*.toc
+*.bbl
+*.blg
+*.lof
+*.lot
+
+# Circuits build outputs (SVG/PDF are copied into docs/media/circuits/)
+circuits/*.pdf
+circuits/*-crop.pdf
+circuits/*.svg
+
+# -----------------------------
+# Node (just in case you add front-end tooling later)
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
