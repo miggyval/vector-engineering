@@ -10,6 +10,7 @@ theme:
     - navigation.indexes
     - content.code.copy
     - content.tabs.link
+    - navigation.footer
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -28,13 +29,50 @@ theme:
 
 nav:
   - Home: index.md
-  - Module 1:
-      - Overview: module1/overview.md
-      - Theory: module1/theory.md
-      - Quiz: module1/quiz.md
-      - Demo: module1/demo.md
-      - Plotting Demo: module1/plot-demo.md
-      - Python Shell: module1/repl.md
+  - Test:
+    - Module 0.1 - Test:
+      - Overview: c0-test/m1-test/overview.md
+      - Theory: c0-test/m1-test/theory.md
+      - Quiz: c0-test/m1-test/quiz.md
+      - Demo: c0-test/m1-test/demo.md
+      - Plotting Demo: c0-test/m1-test/plot-demo.md
+      - Python Shell: c0-test/m1-test/repl.md
+  - Signals and Systems:
+    - Module 1.1 - Intro to Signals and Systems:
+      - Overview: c1-signals-and-systems/m1-intro-to-signals-and-systems/00-overview.md
+      - Chapter 1 - What is a Signal?:
+        - Introduction: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/00-intro.md
+        - Types of Signals: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/01-types.md
+      - Chapter 2 - Signal Properties: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties.md
+      - Chapter 3 - Energy and Power: c1-signals-and-systems/m1-intro-to-signals-and-systems/03-energy-and-power.md
+      - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md
+    - Module 1.2 - LTI Systems:
+      - Overview: c1-signals-and-systems/m2-lti-systems/overview.md
+    - Module 1.2 - Frequency Domain Analysis:
+      - Overview: c1-signals-and-systems/m3-frequency-domain-analysis/overview.md
+    - Module 1.4 - Non-linear Systems:
+      - Overview: c1-signals-and-systems/m4-non-linear-systems/overview.md
+    - Module 1.5 - Intro to State-Space:
+      - Overview: c1-signals-and-systems/m5-intro-to-state-space/overview.md
+  - Control:
+    - Module 2.1 - Intro to Control:
+      - Overview: c2-control/m1-intro-to-control/overview.md
+    - Module 2.2 - Open Loop Systems:
+      - Overview: c2-control/m2-open-loop-systems/overview.md
+    - Module 2.3 - Closed Loop Systems:
+      - Overview: c2-control/m3-closed-loop-systems/overview.md
+    - Module 2.4 - PID Control:
+      - Overview: c2-control/m4-pid-control/overview.md
+    - Module 2.5 - State Space Control:
+      - Overview: c2-control/m5-state-space-control/overview.md
+  - Robotics:
+    - Module 3.1 - Intro to Robotics:
+      - Overview: c3-robotics/m1-intro-to-robotics/overview.md
+    - Module 3.2 - Rotations and Transformations:
+      - Overview: c3-robotics/m2-rotations-and-transformations/overview.md
+    - Module 3.3 - Configuration Space:
+      - Overview: c3-robotics/m3-configuration-space/overview.md
+
 
 markdown_extensions:
   - admonition
@@ -55,3 +93,15 @@ extra_css:
   - css/custom.css
 
   
+plugins:
+  - search
+  - toggle-sidebar:
+      theme: material
+      toggle_button: navigation      # show one button controlling the nav
+      show_navigation_by_default: true
+      show_toc_by_default: true
+      # optional: custom icon (defaults already to a hamburger)
+      button_toggle_icon: >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path>
+        </svg>

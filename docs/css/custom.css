@@ -391,3 +391,17 @@ html[data-md-color-scheme] .md-header {
 [data-md-color-scheme="slate"] .circuit-figure img {
   filter: invert(0.9) brightness(1.1) contrast(1.05);
 }
+
+/* Wider primary sidebar on desktop */
+@media screen and (min-width: 76.25em) {
+  /* Width of the nav column */
+  .md-nav--primary .md-nav__list {
+    width: 16rem;
+  }
+
+  /* Actual sidebar element (comes in/out from the left) */
+  .md-sidebar--primary {
+    width: 17rem;
+    left: -17rem;
+  }
+}

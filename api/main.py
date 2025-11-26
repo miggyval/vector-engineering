@@ -18,19 +18,6 @@ matplotlib.rcParams.update({
     "font.family": "STIXGeneral",
 })
 
-#import matplotlib
-
-#matplotlib.use("Agg")
-#matplotlib.rcParams.update({
-#    "text.usetex": True,
-#    "font.family": "serif",
-#    "font.serif": ["Computer Modern Roman"],
-#    # optional:
-#    # "text.latex.preamble": r"\usepackage{amsmath}",
-#})
-
-
-
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import re
@@ -161,10 +148,50 @@ def edge_demo(
 
     return Response(content=buf.tobytes(), media_type="image/png")
 
-
 # ------------------------
 # GRAPH PLOTTING DEMO
 # ------------------------
+
+import re
+
+# High-res figure settings (same visual size, more pixels)
+PLOT_WIDTH_IN = 6
+PLOT_HEIGHT_IN = 3.5
+PLOT_DPI = 200
+
+def _numeric_fourier(t: np.ndarray, y: np.ndarray):
+    """
+    Compute a numerical approximation of the continuous-time Fourier transform
+
+        F(ω) = ∫ f(t) e^{-j ω t} dt
+
+    using an FFT over the finite interval [t_min, t_max].
+
+    Returns:
+        omega : array of angular frequencies (rad/s), centered at 0
+        F     : complex spectrum F(ω)
+    """
+    if t.size < 2:
+        raise ValueError("Need at least 2 samples to compute Fourier transform")
+
+    dt = t[1] - t[0]  # assume uniform sampling
+
+    # FFT frequencies in Hz, then convert to rad/s
+    freqs = np.fft.fftfreq(t.size, d=dt)     # cycles per second
+    omega = 2 * np.pi * freqs                # rad/s
+
+    # FFT with shift so ω=0 is in the middle
+    F = np.fft.fft(y) * dt                   # dt factor ≈ continuous integral
+    F = np.fft.fftshift(F)
+    omega = np.fft.fftshift(omega)
+
+    return omega, F
+
+
+
+def _new_figure() -> Figure:
+    return Figure(figsize=(PLOT_WIDTH_IN, PLOT_HEIGHT_IN), dpi=PLOT_DPI)
+
 
 def _fig_to_png_bytes(fig: Figure) -> bytes:
     """
@@ -176,39 +203,27 @@ def _fig_to_png_bytes(fig: Figure) -> bytes:
     buf.seek(0)
     return buf.getvalue()
 
+
 def _expr_to_math(expr: str) -> str:
     """
     Convert a Python-style expression into something that looks nicer in
     Matplotlib mathtext, without changing how it's actually evaluated.
 
-    Rules:
-      - t**2, (t-1)**2, sin(t)**2, t**(2*t) -> base^{exponent}
-      - sin, cos, ...                     -> \\sin, \\cos, ...
-      - pi                                -> \\pi
-      - *                                 -> replaced with a single space
-      - underscores                       -> escaped so they don't become subscripts
-
-    'exp' is left as plain 'exp'.
+    - t**2, (t-1)**2, sin(t)**2, t**(2*t) -> base^{...}
+    - sin, cos, ...                       -> \\sin, \\cos, ...
+    - pi                                  -> \\pi
+    - *                                   -> space
+    - underscores                         -> escaped
     """
     s = expr
 
-    # 1) Escape underscores (but not already-escaped ones)
+    # Escape underscores (but not already-escaped ones)
     s = re.sub(r'(?<!\\)_', r'\_', s)
 
-    # 2) Powers: base ** exponent -> base^{exponent}
-    #
-    #   base:   function call like f(...), or (...), or a simple token
-    #   exp:    either (...), or a simple token/number
-    #
-    # This covers:
-    #   t**2
-    #   (t-1)**2
-    #   sin(t)**2
-    #   t**(2*t)
+    # Powers: base ** exponent -> base^{exponent}
     def power_repl(m: re.Match) -> str:
         base = m.group(1).strip()
         exp_part = m.group(2).strip()
-        # strip outer parens from exponent if present, keep inside
         if exp_part.startswith("(") and exp_part.endswith(")"):
             exp_part = exp_part[1:-1].strip()
         return f"{base}^{{{exp_part}}}"
@@ -234,25 +249,48 @@ def _expr_to_math(expr: str) -> str:
         "log", "log10", "sqrt",
     ]
     for name in func_names:
-        # word boundary so we don't clobber 'signal', 'cost', etc.
         s = re.sub(rf"\b{name}\b", rf"\\{name}", s)
 
-    # 4) pi -> \pi (word boundary)
+    # pi -> \pi
     s = re.sub(r"\bpi\b", r"\\pi", s)
 
-    # 5) Remove explicit * but keep a single space in its place
+    # Remove explicit * but keep a single space
     s = re.sub(r'\s*\*\s*', ' ', s)
 
-    # 6) Squash multiple spaces, trim ends
+    # Collapse spaces
     s = re.sub(r'\s+', ' ', s).strip()
 
     return s
 
 
+def _apply_plot_theme(ax, theme: str):
+    """Match MkDocs Material schemes: 'default' (light) and 'slate' (dark)."""
+    if theme == "slate":  # dark mode
+        fig_bg = "#05030a"   # your dark page bg
+        ax_bg = "#05030a"
+        fg = "#e5e7eb"       # your light text
+        grid = "#444444"
+    else:  # "default" light
+        fig_bg = "#f7f3ff"   # your light page bg
+        ax_bg = "#f7f3ff"
+        fg = "#111827"       # your dark text
+        grid = "#cccccc"
+
+    fig = ax.figure
+    fig.patch.set_facecolor(fig_bg)
+    ax.set_facecolor(ax_bg)
+
+    for spine in ax.spines.values():
+        spine.set_edgecolor(fg)
+
+    ax.tick_params(colors=fg)
+    ax.xaxis.label.set_color(fg)
+    ax.yaxis.label.set_color(fg)
+    ax.title.set_color(fg)
+    ax.grid(True, color=grid)
 
 
-
-def _empty_plot(expr: str, t_min: float, t_max: float) -> Figure:
+def _empty_plot(expr: str, t_min: float, t_max: float, theme: str) -> Figure:
     """
     Create an "empty" plot:
     - axes, labels, grid, title
@@ -265,11 +303,12 @@ def _empty_plot(expr: str, t_min: float, t_max: float) -> Figure:
         ax.set_xlim(t_min, t_max)
 
     expr_math = _expr_to_math(expr)
-
     ax.set_xlabel(r"$t$")
     ax.set_ylabel(r"$f(t)$")
     ax.set_title(r"$f(t) = " + expr_math + r"$")
-    ax.grid(True)
+    
+
+    _apply_plot_theme(ax, theme)
     return fig
 
 
@@ -280,18 +319,15 @@ def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
     Allowed:
       - variable: t
       - functions: sin, cos, tan, exp, log, sqrt, abs, arctan, etc.
+      - custom: u(t) = unit step (1 for t >= 0, 0 for t < 0)
       - constants: pi, e
 
-    Expression example: "sin(t)", "t**2", "exp(-t**2)", "sin(t)/t"
     NOTE: Use ** for powers, not ^.
     """
-    
-    # Custom unit step: u(t) = 0 for t < 0, 1 for t >= 0
-    def u(t):
-        return np.where(t >= 0, 1.0, 0.0)
-        # If you prefer u(0) = 0.5, use:
-        # return np.where(x > 0, 1.0, np.where(x < 0, 0.0, 0.5))
 
+    # Custom unit step: u(t) = 0 for t < 0, 1 for t >= 0
+    def u(x):
+        return np.where(x >= 0, 1.0, 0.0)
 
     allowed_funcs = {
         "sin": np.sin,
@@ -324,27 +360,87 @@ def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
     return eval(expr, {"__builtins__": {}}, env)
 
 
+@app.get("/api/plot-fourier")
+def plot_fourier(
+    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 't**2'"),
+    t_min: float = Query(-10.0, description="Left end of time domain"),
+    t_max: float = Query(10.0, description="Right end of time domain"),
+    n: int = Query(400, ge=10, le=5000, description="Number of time-domain sample points"),
+    theme: str = Query("default", description="Color scheme: 'default' or 'slate'"),
+):
+    """
+    Plot the magnitude of the Fourier transform F(ω) of f(t) = expr(t),
+    approximated numerically with an FFT over [t_min, t_max].
+
+    Uses the convention: F(ω) = ∫ f(t) e^{-j ω t} dt.
+    """
+
+    # If range is invalid, just make an empty plot with axes
+    if t_min >= t_max:
+        fig = _empty_plot(expr, t_min, t_max, theme)
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")
+
+    t = np.linspace(t_min, t_max, n)
+
+    try:
+        # Evaluate f(t)
+        y = _eval_expr(expr, t)
+
+        # Numerical Fourier transform
+        omega, F = _numeric_fourier(t, y)
+
+        fig = _new_figure()
+        ax = fig.add_subplot(111)
+
+        expr_math = _expr_to_math(expr)
+
+        # Plot magnitude |F(ω)|
+        ax.plot(omega, np.abs(F))
+        ax.set_xlabel(r"$\omega$")
+        ax.set_ylabel(r"$|F(\omega)|$")
+        ax.set_title(r"$\mathcal{F}\{f(t)\},\quad f(t) = " + expr_math + r"$")
+
+        _apply_plot_theme(ax, theme)
+
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")
+
+    except Exception:
+        # On failure (bad expr, etc.), just show an empty axes with a note
+        fig = _new_figure()
+        ax = fig.add_subplot(111)
+
+        expr_math = _expr_to_math(expr)
+        ax.set_xlabel(r"$\omega$")
+        ax.set_ylabel(r"$|F(\omega)|$")
+        ax.set_title(
+            r"Could not evaluate $\mathcal{F}\{f(t)\}$ for $f(t) = "
+            + expr_math
+            + r"$"
+        )
+
+        _apply_plot_theme(ax, theme)
+
+        png = _fig_to_png_bytes(fig)
+        return Response(content=png, media_type="image/png")
+
+
 @app.get("/api/plot-func")
 def plot_func(
-    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 'x**2'"),
+    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 't**2'"),
     t_min: float = Query(-10.0, description="Left end of domain"),
     t_max: float = Query(10.0, description="Right end of domain"),
     n: int = Query(400, ge=10, le=5000, description="Number of sample points"),
+    theme: str = Query("default", description="Color scheme: 'default' or 'slate'"),
 ):
     """
-    Plot a 1D function f(x) specified by 'expr' and return a PNG.
-
-    Examples:
-      /api/plot-func?expr=sin(t)
-      /api/plot-func?expr=x**2&t_min=-5&t_max=5
-      /api/plot-func?expr=exp(-t**2)
-
-    NOTE: Use ** for powers (e.g., t**2), not ^.
+    Plot a 1D function f(t) specified by 'expr' and return a PNG.
     """
 
     # If range is invalid, just return an empty plot too
     if t_min >= t_max:
-        fig = _empty_plot(expr, t_min, t_max)
+        fig = _empty_plot(expr, t_min, t_max, theme)
         png = _fig_to_png_bytes(fig)
         return Response(content=png, media_type="image/png")
 
@@ -355,19 +451,21 @@ def plot_func(
 
         fig = _new_figure()
         ax = fig.add_subplot(111)
+
         expr_math = _expr_to_math(expr)
-        
         ax.plot(t, y)
-        ax.set_xlabel("t")
-        ax.set_ylabel("f(t)")
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$f(t)$")
         ax.set_title(r"$f(t) = " + expr_math + r"$")
-        ax.grid(True)
+
+
+        _apply_plot_theme(ax, theme)
 
         png = _fig_to_png_bytes(fig)
         return Response(content=png, media_type="image/png")
 
     except Exception:
         # Invalid expression → empty plot (no curve)
-        fig = _empty_plot(expr, t_min, t_max)
+        fig = _empty_plot(expr, t_min, t_max, theme)
         png = _fig_to_png_bytes(fig)
         return Response(content=png, media_type="image/png")
