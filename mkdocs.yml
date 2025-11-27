@@ -43,6 +43,7 @@ nav:
       - Chapter 1 - What is a Signal?:
         - Introduction: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/00-intro.md
         - Types of Signals: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/01-types.md
+        - Quiz: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/02-quiz.md
       - Chapter 2 - Signal Properties: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties.md
       - Chapter 3 - Energy and Power: c1-signals-and-systems/m1-intro-to-signals-and-systems/03-energy-and-power.md
       - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md

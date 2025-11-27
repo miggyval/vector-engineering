@@ -405,3 +405,45 @@ html[data-md-color-scheme] .md-header {
     left: -17rem;
   }
 }
+/* Base feedback area: always reserved space, even before answering */
+.mcq-feedback {
+  margin-top: 0.5rem;
+  min-height: 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: transparent;
+  color: inherit;
+}
+
+/* Correct answer */
+.mcq-feedback--correct {
+  background-color: rgba(76, 175, 80, 0.12); /* green-ish */
+  color: #2e7d32;
+}
+
+/* Incorrect answer */
+.mcq-feedback--incorrect {
+  background-color: rgba(244, 67, 54, 0.12); /* red-ish */
+  color: #c62828;
+}
+
+/* Incorrect answer */
+.mcq-feedback--warn {
+  background-color: rgba(244, 67, 54, 0.12); /* red-ish */
+  color: #c6a428;
+}
+/* If you want to use the Material theme accent colors instead: */
+/*
+.mcq-feedback--correct {
+  background-color: color-mix(in srgb, var(--md-accent-fg-color) 15%, transparent);
+  color: var(--md-accent-fg-color);
+}
+.mcq-feedback--incorrect {
+  background-color: color-mix(in srgb, #f44336 15%, transparent);
+  color: #f44336;
+}
+*/

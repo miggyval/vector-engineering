@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!selected) {
           if (feedback) {
             feedback.textContent = "Please select an answer first.";
-            feedback.className = "mcq-feedback mcq-feedback-warn";
+            feedback.className = "mcq-feedback mcq-feedback--warn";
           }
           return;
         }
@@ -37,15 +37,100 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selected === correct) {
           if (feedback) {
             feedback.textContent = "✅ Correct!";
-            feedback.className = "mcq-feedback mcq-feedback-correct";
+            feedback.className = "mcq-feedback mcq-feedback--correct";
           }
         } else {
           if (feedback) {
             feedback.textContent = "❌ Not quite. Try again.";
-            feedback.className = "mcq-feedback mcq-feedback-wrong";
+            feedback.className = "mcq-feedback mcq-feedback--incorrect";
           }
         }
       });
     }
   });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mcqs = Array.from(document.querySelectorAll(".mcq"));
+  const checkAllBtn = document.getElementById("quiz-check-all");
+  const summaryEl = document.getElementById("quiz-summary");
+
+  if (!checkAllBtn || mcqs.length === 0) {
+    return;
+  }
+
+  // helper: check if all questions have a selected option
+  function allAnswered() {
+    return mcqs.every(q => q.dataset.selected);
+  }
+
+  // update button enabled/disabled state
+  function updateButtonState() {
+    checkAllBtn.disabled = !allAnswered();
+  }
+
+  // attach click handlers to options
+  mcqs.forEach(mcq => {
+    const options = Array.from(mcq.querySelectorAll("li[data-option]"));
+
+    options.forEach(opt => {
+      opt.addEventListener("click", () => {
+        // clear previous selection
+        options.forEach(o => o.classList.remove("mcq-selected"));
+        // mark new selection
+        opt.classList.add("mcq-selected");
+        mcq.dataset.selected = opt.dataset.option;
+
+        updateButtonState();
+      });
+    });
+  });
+
+  // grading logic when "Check all answers" is clicked
+  checkAllBtn.addEventListener("click", () => {
+    if (!allAnswered()) {
+      // safety guard – should be disabled anyway
+      summaryEl.textContent = "Please answer all questions first.";
+      return;
+    }
+
+    let correct = 0;
+
+    mcqs.forEach(mcq => {
+      const answer = mcq.dataset.answer;
+      const chosen = mcq.dataset.selected;
+      const feedback = mcq.querySelector(".mcq-feedback");
+      const options = Array.from(mcq.querySelectorAll("li[data-option]"));
+
+      // clear old state
+      options.forEach(o => {
+        o.classList.remove("mcq-correct", "mcq-incorrect");
+      });
+
+      const chosenEl = options.find(o => o.dataset.option === chosen);
+
+      if (chosen === answer) {
+        correct += 1;
+        if (chosenEl) chosenEl.classList.add("mcq-correct");
+        if (feedback) {
+          feedback.textContent = "Correct ✅";
+          feedback.classList.remove("mcq-feedback--incorrect");
+          feedback.classList.add("mcq-feedback--correct");
+        }
+      } else {
+        if (chosenEl) chosenEl.classList.add("mcq-incorrect");
+        if (feedback) {
+          feedback.textContent = `Incorrect ❌ (correct answer: ${answer.toUpperCase()})`;
+          feedback.classList.remove("mcq-feedback--correct");
+          feedback.classList.add("mcq-feedback--incorrect");
+        }
+      }
+
+    });
+
+    summaryEl.textContent = `You got ${correct} / ${mcqs.length} correct.`;
+  });
+
+  // initial state
+  updateButtonState();
 });
