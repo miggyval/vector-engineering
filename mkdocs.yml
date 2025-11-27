@@ -44,7 +44,12 @@ nav:
         - Introduction: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/00-intro.md
         - Types of Signals: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/01-types.md
         - Quiz: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/02-quiz.md
-      - Chapter 2 - Signal Properties: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties.md
+      - Chapter 2 - Signal Properties:
+        - Introduction: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/00-intro.md
+        - "Periodicity: Definition": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/01-periodicity.md
+        - "Periodicity: WE1": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/02-periodicity-we01.md
+        - "Periodicity: WE2": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/03-periodicity-we02.md
+        - "Periodicity: Quiz": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/04-periodicity-quiz.md
       - Chapter 3 - Energy and Power: c1-signals-and-systems/m1-intro-to-signals-and-systems/03-energy-and-power.md
       - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md
     - Module 1.2 - LTI Systems:
@@ -85,13 +90,24 @@ markdown_extensions:
       permalink: true
 
 extra_javascript:
-  - js/mathjax-config.js
+  - js/mathjax-config.js              # your existing config for equations
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+
+  # ONE MathJax bundle is enough:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+  # Your own JS
   - js/quizzes.js
   - js/opencv-demos.js
   - js/repl.js
+
+  # TikZJax (after everything else is fine)
+  - https://tikzjax.com/v1/tikzjax.js
+
+
 extra_css:
   - css/custom.css
+  - https://tikzjax.com/v1/fonts.css   # <-- add this
 
   
 plugins:

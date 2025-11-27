@@ -54,3 +54,5 @@ input.addEventListener("change", updatePlot);
 input.addEventListener("keyup", (e) => {
   if (e.key === "Enter") updatePlot();
 });
+
+updatePlot();

@@ -2,7 +2,7 @@
 ## Quiz
 
 ### Question 1
-Which of the following best describes a signal?
+Which of the following **best describes** a signal?
 
 <div class="mcq" data-answer="b">
   <ul>
@@ -11,12 +11,11 @@ Which of the following best describes a signal?
     <li data-option="c">Any type of data that can be stored in a computer</li>
     <li data-option="d">A periodic waveform described by sines and cosines</li>
   </ul>
-  <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
 
 ### Question 2
-A digital audio file (e.g., a .mp3, .wav) is best modelled as:
+A digital audio file (e.g., a .mp3, .wav) is **best modelled** as:
 
 <div class="mcq" data-answer="c">
   <ul>
@@ -25,12 +24,11 @@ A digital audio file (e.g., a .mp3, .wav) is best modelled as:
     <li data-option="c">A discrete-time signal with quantized amplitude</li>
     <li data-option="d">A stochastic signal, because all recordings contain noise</li>
   </ul>
-  <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
 
 ### Question 3
-For the descriptions listed below, pick the one that is most clearly a discrete-time signal in practice:
+For the descriptions listed below, pick the one that is **most clearly** a discrete-time signal in practice:
 <div class="mcq" data-answer="d">
   <ul>
     <li data-option="a">Current output from a solar panel</li>
@@ -38,7 +36,6 @@ For the descriptions listed below, pick the one that is most clearly a discrete-
     <li data-option="c">The speed of a car as a function of time</li>
     <li data-option="d">The output of an ADC (Analog to Digital Converter)</li>
   </ul>
-  <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
 
@@ -51,11 +48,10 @@ Which of the following is the **best example** of a quantized signal?
     <li data-option="c">16-bit PCM audio samples stored on a CD</li>
     <li data-option="d", class="mathjax_process">A mathematical sine wave evaluated for all real $t$</li>
   </ul>
-  <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
 
-## Question 5
+### Question 5
 Which of the following statements is the **most accurate**.
 <div class="mcq" data-answer="b">
   <ul>
@@ -64,7 +60,6 @@ Which of the following statements is the **most accurate**.
     <li data-option="c">A stochastic signal has no structure</li>
     <li data-option="d">A stochastic signal must be sampled to be meaningful</li>
   </ul>
-  <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
 

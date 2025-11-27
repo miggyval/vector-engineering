@@ -7,18 +7,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const options = quiz.querySelectorAll("li[data-option]");
     const feedback = quiz.querySelector(".mcq-feedback");
     const button = quiz.querySelector(".mcq-check");
-
+    const isMulti = typeof correct === "string" && correct.includes(",");
     let selected = null;
 
-    // Select an option by clicking it
+    function normalize(answer) {
+      if (!answer) return "";
+      return answer
+        .split(",")
+        .map((s) => s.trim().toLowerCase())
+        .sort()
+        .join(",");
+    }
+
+
     options.forEach((opt) => {
       opt.addEventListener("click", () => {
-        options.forEach((o) => o.classList.remove("selected"));
-        opt.classList.add("selected");
-        selected = opt.dataset.option;
-        if (feedback) {
-          feedback.textContent = "";
-          feedback.className = "mcq-feedback";
+        const optVal = opt.dataset.option;
+        if (isMulti) {
+          // Toggle selection for multi-answer questions
+          if (optVal == "f") {
+            const isNowSelected = !opt.classList.contains("selected");
+            options.forEach((o) => o.classList.remove("selected"));
+            if (isNowSelected) {
+              opt.classList.add("selected");
+            }
+          } else {
+            const noneOpt = quiz.querySelector('li[data-option="f"]');
+            if (noneOpt) {
+              noneOpt.classList.remove("selected");
+            }
+            opt.classList.toggle("selected");
+
+            const selectedOptions = Array.from(options)
+              .filter((o) => o.classList.contains("selected"))
+              .map((o) => o.dataset.option)
+              .sort();
+
+            selected = selectedOptions.join(",");
+          }
+        } else {
+          // Single-answer: behave like radio buttons
+          options.forEach((o) => o.classList.remove("selected"));
+          opt.classList.add("selected");
+          selected = opt.dataset.option;
         }
       });
     });
@@ -34,7 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        if (selected === correct) {
+        const isCorrect = normalize(selected) === normalize(correct);
+
+        if (isCorrect) {
           if (feedback) {
             feedback.textContent = "✅ Correct!";
             feedback.className = "mcq-feedback mcq-feedback--correct";
@@ -47,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+
   });
 });
 

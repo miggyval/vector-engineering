@@ -155,7 +155,8 @@ html[data-md-color-scheme] .md-header {
 }
 
 /* Selected option */
-.mcq li.selected {
+.mcq li.selected,
+.mcq li.mcq-selected {
   border-color: var(--uq-purple);
   background: rgba(81, 36, 122, 0.12);
   transform: translateY(-1px);
@@ -183,6 +184,14 @@ html[data-md-color-scheme] .md-header {
 
 .mcq-feedback-warn {
   color: #ff8f00;
+}
+
+
+/* When there's no feedback text, don't show the pill at all */
+.mcq-feedback:empty {
+  display: none;
+  margin-top: 0;
+  padding: 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -433,17 +442,44 @@ html[data-md-color-scheme] .md-header {
 
 /* Incorrect answer */
 .mcq-feedback--warn {
-  background-color: rgba(244, 67, 54, 0.12); /* red-ish */
+  background-color: rgba(244, 146, 54, 0.12); /* red-ish */
   color: #c6a428;
 }
-/* If you want to use the Material theme accent colors instead: */
-/*
-.mcq-feedback--correct {
-  background-color: color-mix(in srgb, var(--md-accent-fg-color) 15%, transparent);
-  color: var(--md-accent-fg-color);
+
+/* Global "Check all answers" button */
+#quiz-check-all {
+  display: block;
+  margin: 1.5rem auto 0;           /* centre it under the quiz */
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--uq-purple);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(81, 36, 122, 0.35);
+  transition: background 0.15s ease,
+              transform 0.08s ease,
+              box-shadow 0.15s ease,
+              opacity 0.15s ease;
 }
-.mcq-feedback--incorrect {
-  background-color: color-mix(in srgb, #f44336 15%, transparent);
-  color: #f44336;
+
+#quiz-check-all:hover:not([disabled]) {
+  background: var(--uq-purple-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(81, 36, 122, 0.5);
 }
-*/
+
+#quiz-check-all:active:not([disabled]) {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(81, 36, 122, 0.25);
+}
+
+/* Disabled state */
+#quiz-check-all[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
