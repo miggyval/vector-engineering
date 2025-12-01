@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const outEl = document.getElementById("repl-output");
   const errEl = document.getElementById("repl-errors");
 
-  const API_BASE = "http://127.0.0.1:8001";
+  const API_BASE = "";
 
   async function runCode() {
     const code = textarea.value;

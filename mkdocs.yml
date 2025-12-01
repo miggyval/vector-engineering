@@ -29,14 +29,14 @@ theme:
 
 nav:
   - Home: index.md
-  - Test:
-    - Module 0.1 - Test:
-      - Overview: c0-test/m1-test/overview.md
-      - Theory: c0-test/m1-test/theory.md
-      - Quiz: c0-test/m1-test/quiz.md
-      - Demo: c0-test/m1-test/demo.md
-      - Plotting Demo: c0-test/m1-test/plot-demo.md
-      - Python Shell: c0-test/m1-test/repl.md
+#  - Test:
+#    - Module 0.1 - Test:
+#      - Overview: c0-test/m1-test/overview.md
+#      - Theory: c0-test/m1-test/theory.md
+#      - Quiz: c0-test/m1-test/quiz.md
+#      - Demo: c0-test/m1-test/demo.md
+#      - Plotting Demo: c0-test/m1-test/plot-demo.md
+#      - Python Shell: c0-test/m1-test/repl.md
   - Signals and Systems:
     - Module 1.1 - Intro to Signals and Systems:
       - Overview: c1-signals-and-systems/m1-intro-to-signals-and-systems/00-overview.md

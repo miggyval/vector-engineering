@@ -117,8 +117,9 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
     const freqImg = document.getElementById("freq-plot-img");
     const statusEl = document.getElementById("plot-status");
 
-    const TIME_URL = "http://127.0.0.1:8001/api/plot-func";
-    const FREQ_URL = "http://127.0.0.1:8001/api/plot-fourier";
+    const TIME_URL = "/api/plot-func";
+    const FREQ_URL = "/api/plot-fourier";
+
 
     let debounceId = null;
     let lastRequestId = 0;

@@ -1,3 +1,6 @@
+// ------------------------------------------------------------
+// EDGE DEMO
+// ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   const demo = document.getElementById("edge-demo");
   if (!demo) return;
@@ -8,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const th2Val = document.getElementById("edge-th2-val");
   const img = document.getElementById("edge-image");
 
-  // Base URL of the API (for dev: localhost:8001)
-  const API_BASE = "http://127.0.0.1:8001";
+  // Same-origin backend (nginx will proxy /api → FastAPI)
+  const API_BASE = "";
 
   async function updateImage() {
     const t1 = th1.value;
@@ -18,10 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     th1Val.textContent = t1;
     th2Val.textContent = t2;
 
-    // Show a temporary "loading" state
+    // Temporary "loading" visual
     img.style.opacity = 0.5;
 
-    // Add cache-buster param (_=timestamp) so the browser doesn’t reuse old images
+    // cache-busting _=timestamp so new images always load
     const url = `${API_BASE}/api/edge-demo?t1=${t1}&t2=${t2}&_=${Date.now()}`;
     img.src = url;
 
@@ -34,25 +37,55 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Update on slider move
   th1.addEventListener("input", updateImage);
   th2.addEventListener("input", updateImage);
 
-  // Initial load
   updateImage();
 });
 
-const input = document.getElementById("expr-input");
-const img = document.getElementById("plot-img");
+// ------------------------------------------------------------
+// PLOT DEMO
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("expr-input");
+  const plotImg = document.getElementById("plot-img");
+  if (!input || !plotImg) return;
 
-function updatePlot() {
-  const expr = encodeURIComponent(input.value);
-  img.src = `http://127.0.0.1:8001/api/plot-func?expr=${expr}&x_min=-10&x_max=10`;
-}
+  const API_BASE = "";
 
-input.addEventListener("change", updatePlot);
-input.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") updatePlot();
+  function updatePlot() {
+    const expr = encodeURIComponent(input.value);
+    plotImg.src = `${API_BASE}/api/plot-func?expr=${expr}&t_min=-10&t_max=10&_=${Date.now()}`;
+  }
+
+  input.addEventListener("change", updatePlot);
+  input.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") updatePlot();
+  });
+
+  updatePlot();
 });
 
-updatePlot();
+// ------------------------------------------------------------
+// FOURIER PLOT DEMO
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("expr-input-fourier");
+  const fourierImg = document.getElementById("fourier-plot-img");
+  if (!input || !fourierImg) return;
+
+  const API_BASE = "";
+
+  function updateFourier() {
+    const expr = encodeURIComponent(input.value);
+    fourierImg.src =
+      `${API_BASE}/api/plot-fourier?expr=${expr}&t_min=-10&t_max=10&n=400&theme=default&_=${Date.now()}`;
+  }
+
+  input.addEventListener("change", updateFourier);
+  input.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") updateFourier();
+  });
+
+  updateFourier();
+});
