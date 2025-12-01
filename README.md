@@ -32,11 +32,12 @@ pip install --upgrade pip
 pip install fastapi uvicorn[standard] sympy numpy matplotlib pillow
 pip install mkdocs mkdocs-material
 pip install mkdocs-toggle-sidebar-plugin
+pip install fastapi uvicorn
 ```
 
 ```zsh
 mkdocs build
 ```
-```
+```zsh
 uvicorn api.main:app --host 0.0.0.0 --port 8000
 ```
