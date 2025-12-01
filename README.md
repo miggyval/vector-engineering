@@ -27,8 +27,9 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-```
+```zsh
 pip install --upgrade pip
 pip install fastapi uvicorn[standard] sympy numpy matplotlib pillow
 pip install mkdocs mkdocs-material
+pip install mkdocs-toggle-sidebar-plugin
 ```
