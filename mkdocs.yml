@@ -50,6 +50,8 @@ nav:
         - "Periodicity: WE1": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/02-periodicity-we01.md
         - "Periodicity: WE2": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/03-periodicity-we02.md
         - "Periodicity: Quiz": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/04-periodicity-quiz.md
+        - "Symmetry: Definition": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/05-symmetry.md
+        - "Symmetry: WE1": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/06-symmetry-we01.md
       - Chapter 3 - Energy and Power: c1-signals-and-systems/m1-intro-to-signals-and-systems/03-energy-and-power.md
       - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md
     - Module 1.2 - LTI Systems:

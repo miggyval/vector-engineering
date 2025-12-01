@@ -184,6 +184,7 @@ Select all that apply.
         $$
 
         So we simply have:
+        
         $$
         f_{4}(t) = \cos{(2\pi t)}
         $$
@@ -285,9 +286,29 @@ Select all that apply.
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad g_{1}(t) = \sin{(2\pi t)} + \sin{(4\pi t)}$</li>
     <li data-option="b" class="mathjax_process">B. $\quad g_{2}(t) = \sin{(t)} + \sin{(\sqrt{2}t)}$</li>
-    <li data-option="c" class="mathjax_process">C. $\quad g_{3}(t) = \sin{\left(2t\right)} + \cos{(3.14t)} + \sin{\left(1.\overline{81}\right)}$ (repeating)</li>
+    <li data-option="c" class="mathjax_process">C. $\quad g_{3}(t) = \sin{\left(2t\right)} + \cos{(3.14t)} + \sin{\left(1.\overline{81}t\right)}$ (repeating)</li>
     <li data-option="d" class="mathjax_process">D. $\quad g_{4}(t) = \cos{(2\pi t)} + 2\cos{(12\pi t)}\sin{(25\pi t)}$</li>
     <li data-option="e" class="mathjax_process">E. $\quad g_{5}(t) = \sin{(2\pi t)} + \sin{(t)}$</li>
+    <li data-option="f" class="mathjax_process">F. $\quad$ None of the above.</li>
+  </ul>
+  <button class="mcq-check">Check answer</button>
+  <p class="mcq-feedback"></p>
+</div>
+
+
+### Question 3
+
+Which of the following *discrete-time signals* is **periodic**?
+
+Select all that apply.
+
+<div class="mcq" data-answer="a,b,c,e">
+  <ul>
+    <li data-option="a" class="mathjax_process">A. $\quad h_{1}[n] = (-1)^{n}$</li>
+    <li data-option="b" class="mathjax_process">B. $\quad h_{2}[n] = \sin{\left(\frac{\pi n}{2}\right)}$</li>
+    <li data-option="c" class="mathjax_process">C. $\quad h_{3}[n] = \cos{\left(\frac{2\pi n}{10}\right)} + \cos{\left(\frac{4\pi n}{10}\right)}$</li>
+    <li data-option="d" class="mathjax_process">D. $\quad h_{4}[n] = \cos{(n)} + \cos{(2n)}$</li>
+    <li data-option="e" class="mathjax_process">E. $\quad h_{5}[n] = n\ \mathrm{mod}\ 4$ (i.e., $\{0,1,2,3,0,1,\dots\}$)</li>
     <li data-option="f" class="mathjax_process">F. $\quad$ None of the above.</li>
   </ul>
   <button class="mcq-check">Check answer</button>
