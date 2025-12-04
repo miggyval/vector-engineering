@@ -1,5 +1,5 @@
 # Chapter 2 - Signal Properties
-## Quiz
+## Periodicity - Quiz
 
 ### Question 1
 

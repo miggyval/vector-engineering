@@ -29,14 +29,14 @@ theme:
 
 nav:
   - Home: index.md
-#  - Test:
-#    - Module 0.1 - Test:
-#      - Overview: c0-test/m1-test/overview.md
-#      - Theory: c0-test/m1-test/theory.md
-#      - Quiz: c0-test/m1-test/quiz.md
-#      - Demo: c0-test/m1-test/demo.md
-#      - Plotting Demo: c0-test/m1-test/plot-demo.md
-#      - Python Shell: c0-test/m1-test/repl.md
+  - Test:
+    - Module 0.1 - Test:
+      - Overview: c0-test/m1-test/overview.md
+      - Theory: c0-test/m1-test/theory.md
+      - Quiz: c0-test/m1-test/quiz.md
+      - Demo: c0-test/m1-test/demo.md
+      - Plotting Demo: c0-test/m1-test/plot-demo.md
+      - Python Shell: c0-test/m1-test/repl.md
   - Signals and Systems:
     - Module 1.1 - Intro to Signals and Systems:
       - Overview: c1-signals-and-systems/m1-intro-to-signals-and-systems/00-overview.md
@@ -52,6 +52,9 @@ nav:
         - "Periodicity: Quiz": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/04-periodicity-quiz.md
         - "Symmetry: Definition": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/05-symmetry.md
         - "Symmetry: WE1": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/06-symmetry-we01.md
+        - "Symmetry: WE2": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/07-symmetry-we02.md
+        - "Symmetry: WE3": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/08-symmetry-we03.md
+        - "Symmetry: Quiz": c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/09-symmetry-quiz.md
       - Chapter 3 - Energy and Power: c1-signals-and-systems/m1-intro-to-signals-and-systems/03-energy-and-power.md
       - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md
     - Module 1.2 - LTI Systems:

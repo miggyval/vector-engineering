@@ -10,31 +10,11 @@ $$
 f(t) = \cos{\left(2\pi t - \tfrac{\pi}{4}\right)}
 $$
 
-#### Method A:
-??? example "Show solution"
+??? success "Show answer"
 
-    We can use a trig identity for this one actually.
+    The even and odd components are given by:
 
-    $$
-    f(t) = \cos{\left(2\pi t - \tfrac{\pi}{4}\right)}
-    $$
 
-    $$
-    \cos{(a-b)} = \cos{(a)}\cos{(b)} + \sin{(a)}\sin{(b)}
-    $$
-
-    So for this signal, we have:
-
-    $$
-    \begin{align*}
-    f(t) &= \cos{\left(2\pi t - \frac{\pi}{4}\right)} \\
-        &= \cos{\left(2\pi t\right)}\cos{\left(\tfrac{\pi}{4}\right)} + \sin{\left(2\pi t\right)}\sin{\left(\tfrac{\pi}{4}\right)} \\
-        &=\frac{\sqrt{2}}{2}\cos{\left(2\pi t\right)} + \frac{\sqrt{2}}{2}\sin{\left(2\pi t\right)}
-    \end{align*}
-    $$
-
-    So clearly our even and odd components are:
-    
     $$
     \begin{cases}
     f_{e}(t) &= \frac{\sqrt{2}}{2}\cos{\left(2\pi t\right)} \\
@@ -42,55 +22,94 @@ $$
     \end{cases}
     $$
 
-#### Method B:
-??? example "Show solution"
-
-    The other method for this is to use the formlas directly
+    where
 
     $$
-    f(t) = \cos{\left(2\pi t - \tfrac{\pi}{4}\right)}
+    f(t) = f_{e}(t) + f_{o}(t)
     $$
 
-    For the **even** component:
 
-    $$
-    \begin{align*}
-    f_{e}(t) &= \tfrac{1}{2}\left(f(t) + f(-t)\right) \\
-            &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} + \cos{\left(-2\pi t - \tfrac{\pi}{4}\right)}\right) \\
-            &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} + \cos{\left(2\pi t +\tfrac{\pi}{4}\right)}\right) \\
-    \end{align*}
-    $$
+    #### Method A:
+    ??? example "Show solution"
 
-    Now using the trig identity:
+        We can use a trig identity to solve this.
 
-    $$
-    \cos{(a)}\cos{(b)} = \tfrac{1}{2}\left(\cos{(a - b)} + \cos{(a + b)}\right)
-    $$
+        $$
+        f(t) = \cos{\left(2\pi t - \tfrac{\pi}{4}\right)}
+        $$
 
-    We get:
+        $$
+        \cos{(a-b)} = \cos{(a)}\cos{(b)} + \sin{(a)}\sin{(b)}
+        $$
 
-    $$
-    f_{e}(t) = \cos{\left(2\pi t\right)}\cos{\left(\tfrac{\pi}{4}\right)} = \tfrac{\sqrt{2}}{2}\cos{\left(2\pi t\right)}
-    $$
+        So for this signal, we have:
 
-    For the **odd** component:
+        $$
+        \begin{align*}
+        f(t) &= \cos{\left(2\pi t - \frac{\pi}{4}\right)} \\
+            &= \cos{\left(2\pi t\right)}\cos{\left(\tfrac{\pi}{4}\right)} + \sin{\left(2\pi t\right)}\sin{\left(\tfrac{\pi}{4}\right)} \\
+            &=\frac{\sqrt{2}}{2}\cos{\left(2\pi t\right)} + \frac{\sqrt{2}}{2}\sin{\left(2\pi t\right)}
+        \end{align*}
+        $$
 
-    $$
-    \begin{align*}
-    f_{o}(t) &= \tfrac{1}{2}\left(f(t) - f(-t)\right) \\
-            &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} - \cos{\left(-2\pi t - \tfrac{\pi}{4}\right)}\right) \\
-            &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} - \cos{\left(2\pi t +\tfrac{\pi}{4}\right)}\right) \\
-    \end{align*}
-    $$
+        So clearly our even and odd components are:
+        
+        $$
+        \begin{cases}
+        f_{e}(t) &= \frac{\sqrt{2}}{2}\cos{\left(2\pi t\right)} \\
+        f_{o}(t) &= \frac{\sqrt{2}}{2}\sin{\left(2\pi t\right)} \\
+        \end{cases}
+        $$
 
-    Now using the trig identity:
+    #### Method B:
+    ??? example "Show solution"
 
-    $$
-    \sin{(a)}\sin{(b)} = \tfrac{1}{2}\left(\cos{(a - b)} - \cos{(a + b)}\right)
-    $$
+        The other method for this is to use the formlas directly
 
-    We get:
+        $$
+        f(t) = \cos{\left(2\pi t - \tfrac{\pi}{4}\right)}
+        $$
 
-    $$
-    f_{o}(t) = \sin{\left(2\pi t\right)}\sin{\left(\tfrac{\pi}{4}\right)} = \tfrac{\sqrt{2}}{2}\sin{\left(2\pi t\right)}
-    $$
+        For the **even** component:
+
+        $$
+        \begin{align*}
+        f_{e}(t) &= \tfrac{1}{2}\left(f(t) + f(-t)\right) \\
+                &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} + \cos{\left(-2\pi t - \tfrac{\pi}{4}\right)}\right) \\
+                &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} + \cos{\left(2\pi t +\tfrac{\pi}{4}\right)}\right) \\
+        \end{align*}
+        $$
+
+        Now using the trig identity:
+
+        $$
+        \cos{(a)}\cos{(b)} = \tfrac{1}{2}\left(\cos{(a - b)} + \cos{(a + b)}\right)
+        $$
+
+        We get:
+
+        $$
+        f_{e}(t) = \cos{\left(2\pi t\right)}\cos{\left(\tfrac{\pi}{4}\right)} = \tfrac{\sqrt{2}}{2}\cos{\left(2\pi t\right)}
+        $$
+
+        For the **odd** component:
+
+        $$
+        \begin{align*}
+        f_{o}(t) &= \tfrac{1}{2}\left(f(t) - f(-t)\right) \\
+                &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} - \cos{\left(-2\pi t - \tfrac{\pi}{4}\right)}\right) \\
+                &= \tfrac{1}{2}\left(\cos{\left(2\pi t - \tfrac{\pi}{4}\right)} - \cos{\left(2\pi t +\tfrac{\pi}{4}\right)}\right) \\
+        \end{align*}
+        $$
+
+        Now using the trig identity:
+
+        $$
+        \sin{(a)}\sin{(b)} = \tfrac{1}{2}\left(\cos{(a - b)} - \cos{(a + b)}\right)
+        $$
+
+        We get:
+
+        $$
+        f_{o}(t) = \sin{\left(2\pi t\right)}\sin{\left(\tfrac{\pi}{4}\right)} = \tfrac{\sqrt{2}}{2}\sin{\left(2\pi t\right)}
+        $$

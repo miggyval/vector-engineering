@@ -116,9 +116,14 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
     const timeImg = document.getElementById("time-plot-img");
     const freqImg = document.getElementById("freq-plot-img");
     const statusEl = document.getElementById("plot-status");
+    const API_BASE =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+        ? "http://127.0.0.1:8001"   // FastAPI dev server
+        : "";                       // production: same origin, Nginx handles /api
 
-    const TIME_URL = "/api/plot-func";
-    const FREQ_URL = "/api/plot-fourier";
+    const TIME_URL = `${API_BASE}/api/plot-func`;
+    const FREQ_URL = `${API_BASE}/api/plot-fourier`;
 
 
     let debounceId = null;
