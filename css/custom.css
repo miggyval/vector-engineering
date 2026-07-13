@@ -1,47 +1,47 @@
 /* ------------------------------------------------------------------ */
-/* UQ-ish theme base                                                  */
+/* Valencia Engineering theme base                                                  */
 /* ------------------------------------------------------------------ */
 
 /* Light mode overrides */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #b39ddb;
-  --md-primary-fg-color--light: #f4ecfb;
-  --md-primary-fg-color--dark: #341852;
-  --md-accent-fg-color: #f2a900;
+  --md-primary-fg-color: #9fa8da;
+  --md-primary-fg-color--light: #e8eaf6;
+  --md-primary-fg-color--dark: #1a237e;
+  --md-accent-fg-color: #ffb300;
 
-  --uq-purple: #b39ddb;
-  --uq-purple-light: #f4ecfb;
-  --uq-purple-lighter: #faf5ff;
-  --uq-purple-dark: #341852;
-  --uq-gold: #f2a900;
+  --ve-indigo: #9fa8da;
+  --ve-indigo-light: #e8eaf6;
+  --ve-indigo-lighter: #f3f5fd;
+  --ve-indigo-dark: #1a237e;
+  --ve-gold: #ffb300;
 }
 
 
 
 /* Dark mode overrides */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #b39ddb;          /* softer purple */
-  --md-primary-fg-color--light: #d1c4e9;
-  --md-primary-fg-color--dark: #311b92;
+  --md-primary-fg-color: #9fa8da;          /* softer purple */
+  --md-primary-fg-color--light: #c5cae9;
+  --md-primary-fg-color--dark: #1a237e;
   --md-accent-fg-color: #ffca28;
 
-  --uq-purple: #b39ddb;
-  --uq-purple-light: #21152f;
-  --uq-purple-lighter: #140b20;
-  --uq-purple-dark: #e0d7ff;
-  --uq-gold: #ffca28;
+  --ve-indigo: #9fa8da;
+  --ve-indigo-light: #181b2f;
+  --ve-indigo-lighter: #101223;
+  --ve-indigo-dark: #d6dbff;
+  --ve-gold: #ffca28;
 }
 
 
 /* Custom background / text colours per scheme */
 [data-md-color-scheme="default"] {
-  --uq-page-bg: #f7f3ff;   /* light lilac */
-  --uq-page-fg: #111827;   /* dark text */
+  --ve-page-bg: #f3f4fb;   /* light indigo tint */
+  --ve-page-fg: #111827;   /* dark text */
 }
 
 [data-md-color-scheme="slate"] {
-  --uq-page-bg: #05030a;   /* very dark purple-ish */
-  --uq-page-fg: #e5e7eb;   /* light text */
+  --ve-page-bg: #05060c;   /* very dark navy */
+  --ve-page-fg: #e5e7eb;   /* light text */
 }
 
 
@@ -52,23 +52,23 @@ mjx-container {
 
 
 :root {
-  --uq-theme-transition: background-color 0.35s ease,
+  --ve-theme-transition: background-color 0.35s ease,
                          color 0.35s ease,
                          border-color 0.35s ease;
 }
 
 /* Smooth theme transition for main surfaces */
 html[data-md-color-scheme] body {
-  background-color: var(--uq-page-bg);
-  color: var(--uq-page-fg);
-  transition: var(--uq-theme-transition);
+  background-color: var(--ve-page-bg);
+  color: var(--ve-page-fg);
+  transition: var(--ve-theme-transition);
 }
 
 /* Main content area */
 html[data-md-color-scheme] .md-main,
 html[data-md-color-scheme] .md-content,
 html[data-md-color-scheme] .md-sidebar {
-  background-color: var(--uq-page-bg);
+  background-color: var(--ve-page-bg);
   transition: background-color 0.5s ease;
 }
 
@@ -85,32 +85,32 @@ html[data-md-color-scheme] .md-header {
 
 .md-typeset .admonition {
   border-radius: 8px;
-  border-left: 4px solid var(--uq-purple);
-  background: var(--uq-purple-light);
+  border-left: 4px solid var(--ve-indigo);
+  background: var(--ve-indigo-light);
 }
 
 .md-typeset .admonition > .admonition-title {
   font-weight: 600;
-  color: var(--uq-purple-dark);
+  color: var(--ve-indigo-dark);
 }
 
 /* Admonition header + icon fully purple */
 .md-typeset .admonition,
 .md-typeset details {
-  border-left: 4px solid var(--uq-purple);
-  background: var(--uq-purple-light);
+  border-left: 4px solid var(--ve-indigo);
+  background: var(--ve-indigo-light);
 }
 
 .md-typeset .admonition > .admonition-title,
 .md-typeset details > summary {
-  background: rgba(81, 36, 122, 0.06);
-  color: var(--uq-purple-dark);
+  background: rgba(26, 35, 126, 0.06);
+  color: var(--ve-indigo-dark);
 }
 
 /* Icon color */
 .md-typeset .admonition > .admonition-title::before,
 .md-typeset details > summary::before {
-  color: var(--uq-purple);
+  color: var(--ve-indigo);
 }
 
 
@@ -122,8 +122,8 @@ html[data-md-color-scheme] .md-header {
   margin: 1.5rem 0;
   padding: 1rem 1.25rem;
   border-radius: 10px;
-  border: 1px solid rgba(81, 36, 122, 0.25);
-  background: var(--uq-purple-lighter);
+  border: 1px solid rgba(26, 35, 126, 0.25);
+  background: var(--ve-indigo-lighter);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -151,14 +151,14 @@ html[data-md-color-scheme] .md-header {
 
 /* Hover effect */
 .mcq li[data-option]:hover {
-  background: rgba(81, 36, 122, 0.06);
+  background: rgba(26, 35, 126, 0.06);
 }
 
 /* Selected option */
 .mcq li.selected,
 .mcq li.mcq-selected {
-  border-color: var(--uq-purple);
-  background: rgba(81, 36, 122, 0.12);
+  border-color: var(--ve-indigo);
+  background: rgba(26, 35, 126, 0.12);
   transform: translateY(-1px);
 }
 
@@ -211,8 +211,8 @@ html[data-md-color-scheme] .md-header {
   min-width: 220px;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  background: var(--uq-purple-lighter);
-  border: 1px solid rgba(81, 36, 122, 0.18);
+  background: var(--ve-indigo-lighter);
+  border: 1px solid rgba(26, 35, 126, 0.18);
 }
 
 .edge-demo label {
@@ -224,7 +224,7 @@ html[data-md-color-scheme] .md-header {
 /* Slider tweaks */
 .edge-demo input[type="range"] {
   width: 100%;
-  accent-color: var(--uq-purple);
+  accent-color: var(--ve-indigo);
 }
 
 .edge-demo .preview {
@@ -235,7 +235,7 @@ html[data-md-color-scheme] .md-header {
 .edge-demo #edge-image {
   max-width: 100%;
   border-radius: 10px;
-  border: 1px solid rgba(81, 36, 122, 0.25);
+  border: 1px solid rgba(26, 35, 126, 0.25);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: opacity 0.2s ease;
 }
@@ -252,7 +252,7 @@ html[data-md-color-scheme] .md-header {
   margin: 1rem 0 1.5rem;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-  border: 1px solid rgba(81, 36, 122, 0.3);
+  border: 1px solid rgba(26, 35, 126, 0.3);
 }
 
 .lesson-video iframe,
@@ -284,7 +284,7 @@ html[data-md-color-scheme] .md-header {
   font-size: 0.9rem;
   border-radius: 8px;
   padding: 0.75rem 0.9rem;
-  border: 1px solid rgba(81, 36, 122, 0.35);
+  border: 1px solid rgba(26, 35, 126, 0.35);
   background: #090b10;
   color: #e5e7eb;
 }
@@ -311,12 +311,12 @@ html[data-md-color-scheme] .md-header {
 .python-repl .repl-output-area h3 {
   margin-top: 0;
   margin-bottom: 0.25rem;
-  color: var(--uq-purple-dark);
+  color: var(--ve-indigo-dark);
 }
 
 /* Output / error panes */
 .python-repl .repl-output-area pre {
-  background: var(--uq-purple-dark);
+  background: var(--ve-indigo-dark);
   color: #f4f4ff;
   padding: 0.6rem 0.9rem;
   border-radius: 8px;
@@ -338,25 +338,25 @@ html[data-md-color-scheme] .md-header {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  background: var(--uq-purple);
+  background: var(--ve-indigo);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(81, 36, 122, 0.35);
+  box-shadow: 0 2px 6px rgba(26, 35, 126, 0.35);
   transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
 }
 
 .mcq .mcq-check:hover,
 #repl-run:hover,
 .edge-demo button:hover {
-  background: var(--uq-purple-dark);
+  background: var(--ve-indigo-dark);
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(81, 36, 122, 0.5);
+  box-shadow: 0 3px 10px rgba(26, 35, 126, 0.5);
 }
 
 .mcq .mcq-check:active,
 #repl-run:active,
 .edge-demo button:active {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(81, 36, 122, 0.25);
+  box-shadow: 0 1px 4px rgba(26, 35, 126, 0.25);
 }
 
 .circuit-figure {
@@ -456,9 +456,9 @@ html[data-md-color-scheme] .md-header {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  background: var(--uq-purple);
+  background: var(--ve-indigo);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(81, 36, 122, 0.35);
+  box-shadow: 0 2px 6px rgba(26, 35, 126, 0.35);
   transition: background 0.15s ease,
               transform 0.08s ease,
               box-shadow 0.15s ease,
@@ -466,14 +466,14 @@ html[data-md-color-scheme] .md-header {
 }
 
 #quiz-check-all:hover:not([disabled]) {
-  background: var(--uq-purple-dark);
+  background: var(--ve-indigo-dark);
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(81, 36, 122, 0.5);
+  box-shadow: 0 3px 10px rgba(26, 35, 126, 0.5);
 }
 
 #quiz-check-all:active:not([disabled]) {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(81, 36, 122, 0.25);
+  box-shadow: 0 1px 4px rgba(26, 35, 126, 0.25);
 }
 
 /* Disabled state */
@@ -514,7 +514,7 @@ html[data-md-color-scheme] .md-header {
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-  border: 2px solid var(--uq-purple);
+  border: 2px solid var(--ve-indigo);
   background: transparent;
   flex-shrink: 0;
 }
@@ -522,12 +522,12 @@ html[data-md-color-scheme] .md-header {
 /* Selected state – fill the circle + slightly stronger pill */
 .mcq.mcq-inline li.selected::before,
 .mcq.mcq-inline li.mcq-selected::before {
-  background: var(--uq-purple);
+  background: var(--ve-indigo);
 }
 
 .mcq.mcq-inline li.selected,
 .mcq.mcq-inline li.mcq-selected {
-  background: rgba(81, 36, 122, 0.10);
-  border-color: var(--uq-purple);
+  background: rgba(26, 35, 126, 0.10);
+  border-color: var(--ve-indigo);
   transform: none;    /* no jump for these tiny pills */
 }
