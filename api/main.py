@@ -335,13 +335,13 @@ def _fig_response(fig: Figure) -> Response:
 def _apply_plot_theme(ax, theme: str):
     """Match MkDocs Material schemes: 'default' (light) and 'slate' (dark)."""
     if theme == "slate":  # dark mode
-        fig_bg = "#05030a"   # your dark page bg
-        ax_bg = "#05030a"
+        fig_bg = "#05060c"   # your dark page bg
+        ax_bg = "#05060c"
         fg = "#e5e7eb"       # your light text
         grid = "#444444"
     else:  # "default" light
-        fig_bg = "#f7f3ff"   # your light page bg
-        ax_bg = "#f7f3ff"
+        fig_bg = "#f3f4fb"   # your light page bg
+        ax_bg = "#f3f4fb"
         fg = "#111827"       # your dark text
         grid = "#cccccc"
 

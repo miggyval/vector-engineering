@@ -1,4 +1,4 @@
-# Teaching Course
+# Valencia Engineering
 
 ## Installation Guide
 
@@ -18,8 +18,8 @@ brew install \
 ```zsh
 mkdir -p ~/web
 cd ~/web
-git clone https://github.com/miggyval/teaching-course.git
-cd teaching-course
+git clone https://github.com/miggyval/valencia-engineering.git
+cd valencia-engineering
 ```
 
 ```zsh

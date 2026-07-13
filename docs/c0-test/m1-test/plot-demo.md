@@ -82,7 +82,7 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
           max-width: 100%;
           width: 600px;
           border-radius: 10px;
-          border: 1px solid rgba(81, 36, 122, 0.25);
+          border: 1px solid rgba(26, 35, 126, 0.25);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         "
       />
@@ -99,7 +99,7 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
           max-width: 100%;
           width: 600px;
           border-radius: 10px;
-          border: 1px solid rgba(81, 36, 122, 0.25);
+          border: 1px solid rgba(26, 35, 126, 0.25);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         "
       />

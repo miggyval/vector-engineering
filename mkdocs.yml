@@ -1,5 +1,11 @@
-site_name: "Engineering Fundamentals"
-site_url: "https://miggyval.github.io/teaching-course/"
+site_name: "Valencia Engineering"
+site_url: "https://miggyval.github.io/valencia-engineering/"
+copyright: "&copy; 2026 Valencia Engineering"
+
+extra:
+  social:
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/@ValenciaEngineeringEducation
 
 docs_dir: docs
 
@@ -14,14 +20,14 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: deep purple
+      primary: indigo
       accent: amber
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: deep purple
+      primary: indigo
       accent: amber
       toggle:
         icon: material/white-balance-sunny
