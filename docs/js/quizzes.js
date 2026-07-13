@@ -1,170 +1,191 @@
+// MCQ quizzes.
+//
+// Markup contract (per quiz):
+//   <div class="mcq" data-answer="b" data-explanation="Optional, shown when correct.">
+//     <ul><li data-option="a">...</li> ...</ul>
+//     <button class="mcq-check">Check answer</button>   (per-question mode)
+//     <p class="mcq-feedback"></p>
+//   </div>
+//
+// Multi-answer questions use a comma list (data-answer="a,c"); an option with
+// data-option="f" acts as an exclusive "none of the above".
+//
+// Pages may instead provide one #quiz-check-all button and a #quiz-summary
+// element to grade every question at once.
+//
+// Selections and checked results persist in localStorage per page.
 document.addEventListener("DOMContentLoaded", () => {
-  const quizzes = document.querySelectorAll(".mcq");
+  const quizzes = Array.from(document.querySelectorAll(".mcq"));
   if (!quizzes.length) return;
 
-  quizzes.forEach((quiz) => {
-    const correct = quiz.dataset.answer;
-    const options = quiz.querySelectorAll("li[data-option]");
+  const checkAllBtn = document.getElementById("quiz-check-all");
+  const summaryEl = document.getElementById("quiz-summary");
+
+  const PAGE_KEY = "mcq:" + window.location.pathname;
+
+  function loadSaved(index) {
+    try {
+      const raw = localStorage.getItem(`${PAGE_KEY}:${index}`);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function save(index, state) {
+    try {
+      localStorage.setItem(`${PAGE_KEY}:${index}`, JSON.stringify(state));
+    } catch (e) {
+      // storage full/blocked: quiz still works, just doesn't persist
+    }
+  }
+
+  function normalize(answer) {
+    if (!answer) return "";
+    return answer
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean)
+      .sort()
+      .join(",");
+  }
+
+  const controllers = quizzes.map((quiz, index) => {
+    const answer = quiz.dataset.answer || "";
+    const explanation = quiz.dataset.explanation || "";
+    const options = Array.from(quiz.querySelectorAll("li[data-option]"));
     const feedback = quiz.querySelector(".mcq-feedback");
     const button = quiz.querySelector(".mcq-check");
-    const isMulti = typeof correct === "string" && correct.includes(",");
-    let selected = null;
+    const isMulti = answer.includes(",");
 
-    function normalize(answer) {
-      if (!answer) return "";
-      return answer
-        .split(",")
-        .map((s) => s.trim().toLowerCase())
-        .sort()
-        .join(",");
+    let selected = new Set();
+    let checked = false;
+
+    function selection() {
+      return Array.from(selected).sort().join(",");
     }
 
+    function renderSelection() {
+      options.forEach((o) =>
+        o.classList.toggle("selected", selected.has(o.dataset.option))
+      );
+    }
 
-    options.forEach((opt) => {
-      opt.addEventListener("click", () => {
-        const optVal = opt.dataset.option;
-        if (isMulti) {
-          // Toggle selection for multi-answer questions
-          if (optVal == "f") {
-            const isNowSelected = !opt.classList.contains("selected");
-            options.forEach((o) => o.classList.remove("selected"));
-            if (isNowSelected) {
-              opt.classList.add("selected");
-            }
-          } else {
-            const noneOpt = quiz.querySelector('li[data-option="f"]');
-            if (noneOpt) {
-              noneOpt.classList.remove("selected");
-            }
-            opt.classList.toggle("selected");
+    function clearGrading() {
+      options.forEach((o) => o.classList.remove("mcq-correct", "mcq-incorrect"));
+      if (feedback) {
+        feedback.textContent = "";
+        feedback.className = "mcq-feedback";
+      }
+    }
 
-            const selectedOptions = Array.from(options)
-              .filter((o) => o.classList.contains("selected"))
-              .map((o) => o.dataset.option)
-              .sort();
+    function persist() {
+      save(index, { sel: selection(), checked });
+    }
 
-            selected = selectedOptions.join(",");
-          }
-        } else {
-          // Single-answer: behave like radio buttons
-          options.forEach((o) => o.classList.remove("selected"));
-          opt.classList.add("selected");
-          selected = opt.dataset.option;
+    // revealAnswer: check-all pages show the correct letter on a miss;
+    // per-question mode just says "try again"
+    function grade(revealAnswer) {
+      const isCorrect = normalize(selection()) === normalize(answer);
+      checked = true;
+
+      options.forEach((o) => {
+        o.classList.remove("mcq-correct", "mcq-incorrect");
+        if (selected.has(o.dataset.option)) {
+          o.classList.add(isCorrect ? "mcq-correct" : "mcq-incorrect");
         }
       });
+
+      if (feedback) {
+        if (isCorrect) {
+          feedback.textContent = explanation
+            ? `✅ Correct! ${explanation}`
+            : "✅ Correct!";
+          feedback.className = "mcq-feedback mcq-feedback--correct";
+        } else {
+          feedback.textContent = revealAnswer
+            ? `❌ Incorrect (correct answer: ${answer.toUpperCase()})`
+            : "❌ Not quite. Try again.";
+          feedback.className = "mcq-feedback mcq-feedback--incorrect";
+        }
+      }
+
+      persist();
+      return isCorrect;
+    }
+
+    function select(optVal) {
+      if (isMulti) {
+        // "f" = none of the above, mutually exclusive with everything else
+        if (optVal === "f") {
+          const turningOn = !selected.has("f");
+          selected.clear();
+          if (turningOn) selected.add("f");
+        } else {
+          selected.delete("f");
+          if (selected.has(optVal)) {
+            selected.delete(optVal);
+          } else {
+            selected.add(optVal);
+          }
+        }
+      } else {
+        selected.clear();
+        selected.add(optVal);
+      }
+
+      // A changed answer invalidates the previous verdict
+      checked = false;
+      renderSelection();
+      clearGrading();
+      persist();
+
+      if (checkAllBtn) updateCheckAllState();
+    }
+
+    options.forEach((opt) => {
+      opt.addEventListener("click", () => select(opt.dataset.option));
     });
 
-    // Check the answer when button is clicked
     if (button) {
       button.addEventListener("click", () => {
-        if (!selected) {
+        if (!selected.size) {
           if (feedback) {
             feedback.textContent = "Please select an answer first.";
             feedback.className = "mcq-feedback mcq-feedback--warn";
           }
           return;
         }
-
-        const isCorrect = normalize(selected) === normalize(correct);
-
-        if (isCorrect) {
-          if (feedback) {
-            feedback.textContent = "✅ Correct!";
-            feedback.className = "mcq-feedback mcq-feedback--correct";
-          }
-        } else {
-          if (feedback) {
-            feedback.textContent = "❌ Not quite. Try again.";
-            feedback.className = "mcq-feedback mcq-feedback--incorrect";
-          }
-        }
+        grade(false);
       });
     }
 
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const mcqs = Array.from(document.querySelectorAll(".mcq"));
-  const checkAllBtn = document.getElementById("quiz-check-all");
-  const summaryEl = document.getElementById("quiz-summary");
-
-  if (!checkAllBtn || mcqs.length === 0) {
-    return;
-  }
-
-  // helper: check if all questions have a selected option
-  function allAnswered() {
-    return mcqs.every(q => q.dataset.selected);
-  }
-
-  // update button enabled/disabled state
-  function updateButtonState() {
-    checkAllBtn.disabled = !allAnswered();
-  }
-
-  // attach click handlers to options
-  mcqs.forEach(mcq => {
-    const options = Array.from(mcq.querySelectorAll("li[data-option]"));
-
-    options.forEach(opt => {
-      opt.addEventListener("click", () => {
-        // clear previous selection
-        options.forEach(o => o.classList.remove("mcq-selected"));
-        // mark new selection
-        opt.classList.add("mcq-selected");
-        mcq.dataset.selected = opt.dataset.option;
-
-        updateButtonState();
-      });
-    });
-  });
-
-  // grading logic when "Check all answers" is clicked
-  checkAllBtn.addEventListener("click", () => {
-    if (!allAnswered()) {
-      // safety guard – should be disabled anyway
-      summaryEl.textContent = "Please answer all questions first.";
-      return;
+    // Restore persisted state
+    const saved = loadSaved(index);
+    if (saved && saved.sel) {
+      saved.sel.split(",").filter(Boolean).forEach((v) => selected.add(v));
+      renderSelection();
+      if (saved.checked) grade(!!checkAllBtn);
     }
 
-    let correct = 0;
+    return { selection, grade };
+  });
 
-    mcqs.forEach(mcq => {
-      const answer = mcq.dataset.answer;
-      const chosen = mcq.dataset.selected;
-      const feedback = mcq.querySelector(".mcq-feedback");
-      const options = Array.from(mcq.querySelectorAll("li[data-option]"));
+  function updateCheckAllState() {
+    if (!checkAllBtn) return;
+    checkAllBtn.disabled = !controllers.every((c) => c.selection());
+  }
 
-      // clear old state
-      options.forEach(o => {
-        o.classList.remove("mcq-correct", "mcq-incorrect");
+  if (checkAllBtn) {
+    checkAllBtn.addEventListener("click", () => {
+      let correct = 0;
+      controllers.forEach((c) => {
+        if (c.grade(true)) correct += 1;
       });
-
-      const chosenEl = options.find(o => o.dataset.option === chosen);
-
-      if (chosen === answer) {
-        correct += 1;
-        if (chosenEl) chosenEl.classList.add("mcq-correct");
-        if (feedback) {
-          feedback.textContent = "Correct ✅";
-          feedback.classList.remove("mcq-feedback--incorrect");
-          feedback.classList.add("mcq-feedback--correct");
-        }
-      } else {
-        if (chosenEl) chosenEl.classList.add("mcq-incorrect");
-        if (feedback) {
-          feedback.textContent = `Incorrect ❌ (correct answer: ${answer.toUpperCase()})`;
-          feedback.classList.remove("mcq-feedback--correct");
-          feedback.classList.add("mcq-feedback--incorrect");
-        }
+      if (summaryEl) {
+        summaryEl.textContent = `You got ${correct} / ${controllers.length} correct.`;
       }
-
     });
-
-    summaryEl.textContent = `You got ${correct} / ${mcqs.length} correct.`;
-  });
-
-  // initial state
-  updateButtonState();
+    updateCheckAllState();
+  }
 });

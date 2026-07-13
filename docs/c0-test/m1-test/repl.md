@@ -2,9 +2,9 @@
 
 Use this mini Python shell to experiment with small code snippets.
 
-- You can use basic Python (numbers, lists, `for` loops, `if` statements).
-- Available builtins include: `print`, `range`, `len`, `abs`, `min`, `max`, `sum`.
-- This is a sandboxed environment – no file access, no imports.
+- Full Python 3 is available, including `import` — try `import numpy as np`.
+- Your code runs entirely in your own browser (via [Pyodide](https://pyodide.org)); nothing is sent to a server.
+- The first run downloads the Python runtime (~10 MB), so it takes a moment. After that, runs are instant.
 
 ```python
 # Try this:

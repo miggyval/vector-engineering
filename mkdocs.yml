@@ -85,6 +85,8 @@ nav:
       - Overview: c3-robotics/m2-rotations-and-transformations/overview.md
     - Module 3.3 - Configuration Space:
       - Overview: c3-robotics/m3-configuration-space/overview.md
+    - Module 3.4 - Screws and Twists:
+      - Overview: c3-robotics/m4-screws-twists/overview.md
 
 
 markdown_extensions:
@@ -98,7 +100,6 @@ markdown_extensions:
 
 extra_javascript:
   - js/mathjax-config.js              # your existing config for equations
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
 
   # ONE MathJax bundle is enough:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
@@ -108,13 +109,9 @@ extra_javascript:
   - js/opencv-demos.js
   - js/repl.js
 
-  # TikZJax (after everything else is fine)
-  - https://tikzjax.com/v1/tikzjax.js
-
 
 extra_css:
   - css/custom.css
-  - https://tikzjax.com/v1/fonts.css   # <-- add this
 
   
 plugins:

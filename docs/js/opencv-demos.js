@@ -11,81 +11,59 @@ document.addEventListener("DOMContentLoaded", () => {
   const th2Val = document.getElementById("edge-th2-val");
   const img = document.getElementById("edge-image");
 
-  // Same-origin backend (nginx will proxy /api → FastAPI)
-  const API_BASE = "";
+  // Dev: mkdocs serve on :8000, FastAPI on :8001.
+  // Production: same origin, nginx proxies /api → FastAPI.
+  const API_BASE =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+      ? "http://127.0.0.1:8001"
+      : "";
+
+  const DEBOUNCE_MS = 120;
+
+  let debounceId = null;
+  let controller = null;
+  let lastObjectUrl = null;
 
   async function updateImage() {
-    const t1 = th1.value;
-    const t2 = th2.value;
+    // Abort any in-flight request so a slow old response can't
+    // overwrite a newer image (last-write-wins race)
+    if (controller) controller.abort();
+    controller = new AbortController();
 
-    th1Val.textContent = t1;
-    th2Val.textContent = t2;
-
-    // Temporary "loading" visual
     img.style.opacity = 0.5;
 
-    // cache-busting _=timestamp so new images always load
-    const url = `${API_BASE}/api/edge-demo?t1=${t1}&t2=${t2}&_=${Date.now()}`;
-    img.src = url;
+    const url = `${API_BASE}/api/edge-demo?t1=${th1.value}&t2=${th2.value}`;
 
-    img.onload = () => {
-      img.style.opacity = 1;
-    };
-    img.onerror = () => {
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+
+      if (lastObjectUrl) URL.revokeObjectURL(lastObjectUrl);
+      lastObjectUrl = URL.createObjectURL(blob);
+      img.src = lastObjectUrl;
+      img.onload = () => {
+        img.style.opacity = 1;
+      };
+    } catch (err) {
+      if (err.name === "AbortError") return;
       img.style.opacity = 1;
       img.alt = "Failed to load edge demo image.";
-    };
+    }
   }
 
-  th1.addEventListener("input", updateImage);
-  th2.addEventListener("input", updateImage);
+  function onSliderInput() {
+    // Labels update instantly; the fetch is debounced
+    th1Val.textContent = th1.value;
+    th2Val.textContent = th2.value;
+
+    if (debounceId !== null) clearTimeout(debounceId);
+    debounceId = setTimeout(updateImage, DEBOUNCE_MS);
+  }
+
+  th1.addEventListener("input", onSliderInput);
+  th2.addEventListener("input", onSliderInput);
 
   updateImage();
-});
-
-// ------------------------------------------------------------
-// PLOT DEMO
-// ------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("expr-input");
-  const plotImg = document.getElementById("plot-img");
-  if (!input || !plotImg) return;
-
-  const API_BASE = "";
-
-  function updatePlot() {
-    const expr = encodeURIComponent(input.value);
-    plotImg.src = `${API_BASE}/api/plot-func?expr=${expr}&t_min=-10&t_max=10&_=${Date.now()}`;
-  }
-
-  input.addEventListener("change", updatePlot);
-  input.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") updatePlot();
-  });
-
-  updatePlot();
-});
-
-// ------------------------------------------------------------
-// FOURIER PLOT DEMO
-// ------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("expr-input-fourier");
-  const fourierImg = document.getElementById("fourier-plot-img");
-  if (!input || !fourierImg) return;
-
-  const API_BASE = "";
-
-  function updateFourier() {
-    const expr = encodeURIComponent(input.value);
-    fourierImg.src =
-      `${API_BASE}/api/plot-fourier?expr=${expr}&t_min=-10&t_max=10&n=400&theme=default&_=${Date.now()}`;
-  }
-
-  input.addEventListener("change", updateFourier);
-  input.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") updateFourier();
-  });
-
-  updateFourier();
 });

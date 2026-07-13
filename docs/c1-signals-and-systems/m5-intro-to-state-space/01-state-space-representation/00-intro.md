@@ -47,7 +47,7 @@ We can solve this in two ways – firstly let's do the traditional approach usin
     e^{-at}x(t) - e^{0}x(0) &= \int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
     e^{-at}x(t) &= x(0) + \int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
     x(t) &= e^{at}x(0) + e^{at}\int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
-    &= e^{at}x(0) + \int_{0}^{t}e^{-a(t-\tau)}bu(\tau)\,\mathrm{d}\tau
+    &= e^{at}x(0) + \int_{0}^{t}e^{a(t-\tau)}bu(\tau)\,\mathrm{d}\tau
     \end{align*}
     $$
 
@@ -80,8 +80,8 @@ Since we've all discovered the magic of Laplace transforms, let's try to use the
 
     $$
     \begin{align*}
-    x(t) &= e^{at}x(0) + (bu*e^{at})(t) \\
-    &= e^{at}x(0) + \int_{0}^{t}bu(\tau)e^{-a(t-\tau)}\,\mathrm{d}\tau
+    x(t) &= e^{at}x(0) + (e^{at}*bu)(t) \\
+    &= e^{at}x(0) + \int_{0}^{t}e^{a(t-\tau)}bu(\tau)\,\mathrm{d}\tau
     \end{align*}
     $$
 
@@ -220,7 +220,7 @@ $$
     x(t) = x(0)e^{-\alpha t}\cos{(\omega_{d}t)} + \frac{\alpha x(0) + \dot{x}(0)}{\omega_{d}}e^{-\alpha t}\sin{(\omega_{d}t)} + \frac{1}{m\omega_{d}}\left(e^{-\alpha t}\sin{(\omega_{d}t)} * f(t)\right)
     $$
 
-    As you can probably tell, this process is quite long, even with the help of the magical Laplace transform. Now imagine how much longer this would take for a 3th order system, or even an 6th order system.
+    As you can probably tell, this process is quite long, even with the help of the magical Laplace transform. Now imagine how much longer this would take for a 3rd order system, or even an 6th order system.
 
     We'll need something more powerful to help us.
 
@@ -231,32 +231,34 @@ Introducing state space.
 
 What if we could turn our 2nd order differential equation into two 1st order differential equations.
 
-Let's define some new variables.
+??? example "Show solution"
 
-$$
-x_{1}(t) = x(t),\quad x_{2}(t) = \dot{x}(t)
-$$
+    Let's define some new variables.
 
-Now, we want to create two first order differential equations from this.
-The most obvious one is:
+    $$
+    x_{1}(t) = x(t),\quad x_{2}(t) = \dot{x}(t)
+    $$
 
-$$
-\dot{x}_{1}(t) = \dot{x}(t) = x_{2}(t)
-$$
+    Now, we want to create two first order differential equations from this.
+    The most obvious one is:
 
-Now, let's try to find $\dot{x}_{2}(t)$.
+    $$
+    \dot{x}_{1}(t) = \dot{x}(t) = x_{2}(t)
+    $$
 
-Using our original ODE, letting the input be $u(t) = f(t)$, and substituting in our variables, we get.
+    Now, let's try to find $\dot{x}_{2}(t)$.
 
-$$
-m\dot{x}_{2}(t) + cx_{2}(t) + kx_{1}(t) = u(t)
-$$
+    Using our original ODE, letting the input be $u(t) = f(t)$, and substituting in our variables, we get.
 
-We can rearrange this to get:
+    $$
+    m\dot{x}_{2}(t) + cx_{2}(t) + kx_{1}(t) = u(t)
+    $$
 
-$$
-\dot{x}_{2}(t) = -\frac{k}{m}x_{1}(t) - \frac{c}{m}x_{2}(t) + \frac{1}{m}u(t)
-$$
+    We can rearrange this to get:
+
+    $$
+    \dot{x}_{2}(t) = -\frac{k}{m}x_{1}(t) - \frac{c}{m}x_{2}(t) + \frac{1}{m}u(t)
+    $$
 
 So, the two equations are:
 
@@ -295,136 +297,357 @@ This time, we'll need to take care with the non-commutativity of the matrices.
 
 We'll solve it first using integrating factors, then again, using Laplace.
 
-$$
-\dot{x}(t) = Ax(t) + Bu(t)
-$$
+??? example "Show solution"
 
-$$
-\dot{x}(t) - Ax(t) = Bu(t)
-$$
+    $$
+    \dot{x}(t) = Ax(t) + Bu(t)
+    $$
 
-The integrating factor isn't a simple scalar, so we'll need to take care with this.
+    $$
+    \dot{x}(t) - Ax(t) = Bu(t)
+    $$
 
-We want a matrix-valued integrating factor $M(t)$ that satisfies:
+    The integrating factor isn't a simple scalar, so we'll need to take care with this.
 
-$$
-\dot{M}(t) = -AM(t)
-$$
+    We want a matrix-valued integrating factor $M(t)$ that satisfies:
 
-Perhaps we can redefine a *matrix* exponential to be the same Taylor/McLaurin/power series, but with matrix multiplication.
+    $$
+    \dot{M}(t) = -AM(t)
+    $$
 
-$$
-M(t) = \exp{(-At)} \triangleq \sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
-$$
+    Perhaps we can redefine a *matrix* exponential to be the same Taylor/McLaurin/power series, but with matrix multiplication.
 
-Now, if we differentiate it we get:
+    $$
+    M(t) = \exp{(-At)} \triangleq \sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
+    $$
 
-$$
-\begin{align*}
-\dot{M}(t) &= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}\right) \\
-&= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!}\right) \\
-&= \sum_{k=0}^{\infty}\frac{(-A)^{k}\frac{d}{dt}\left(t^{k}\right)}{k!} \\
-&= \sum_{k=0}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
-\end{align*}
-$$
+    Now, if we differentiate it we get:
 
-The $k=0$ term vanishes since it's a constant, so we have:
+    $$
+    \begin{align*}
+    \dot{M}(t) &= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}\right) \\
+    &= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!}\right) \\
+    &= \sum_{k=0}^{\infty}\frac{(-A)^{k}\frac{d}{dt}\left(t^{k}\right)}{k!} \\
+    &= \sum_{k=0}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
+    \end{align*}
+    $$
 
-$$
-\dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
-$$
+    The $k=0$ term vanishes since it's a constant, so we have:
 
-Then since $\frac{k}{k!} = \frac{1}{(k-1)!}$:
+    $$
+    \dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
+    $$
 
-$$
-\dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}t^{k-1}}{(k - 1)!} \\
-$$
+    Then since $\frac{k}{k!} = \frac{1}{(k-1)!}$:
 
-Now we can re-index the sum using $k\to k + 1$
+    $$
+    \dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}t^{k-1}}{(k - 1)!} \\
+    $$
 
-$$
-\dot{M}(t) = \sum_{k=0}^{\infty}\frac{(-A)^{k+1}t^{k}}{k!} \\
-$$
+    Now we can re-index the sum using $k\to k + 1$
 
-Finally, we can factor out $(-A)$.
+    $$
+    \dot{M}(t) = \sum_{k=0}^{\infty}\frac{(-A)^{k+1}t^{k}}{k!} \\
+    $$
 
-$$
-\begin{align*}
-\dot{M}(t) &= -A\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!} \\
-&= -A\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
-\end{align*}
-$$
+    Finally, we can factor out $(-A)$.
 
-Now we have out original series for $M(t)$.
+    $$
+    \begin{align*}
+    \dot{M}(t) &= -A\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!} \\
+    &= -A\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
+    \end{align*}
+    $$
 
-$$
-\Rightarrow \dot{M}(t) = -AM(t)
-$$
+    Now we have out original series for $M(t)$.
 
-So our integrating factor is:
+    $$
+    \Rightarrow \dot{M}(t) = -AM(t)
+    $$
 
-$$
-M(t) = \exp{\left(-At\right)} = \sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!} \\
-= -A\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
-$$
+    So our integrating factor is:
 
-We can also write this using the power notation:
+    $$
+    M(t) = \exp{\left(-At\right)} = \sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!}
+    $$
 
-$$
-M(t) = e^{-At}
-$$
+    We can also write this using the power notation:
 
-Obviously we can't take a scalar to a matrix power, instead it's just defined as the matrix power series.
+    $$
+    M(t) = e^{-At}
+    $$
 
-So pre-multiplying our equation from earlier.
+    Obviously we can't take a scalar to a matrix power, instead it's just defined as the matrix power series.
 
-$$
-e^{-At}\dot{x}(t) - e^{-At}Ax(t) = e^{-At}Bu(t)
-$$
+    So pre-multiplying our equation from earlier.
 
-Then using the product rule:
+    $$
+    e^{-At}\dot{x}(t) - e^{-At}Ax(t) = e^{-At}Bu(t)
+    $$
 
-$$
-\frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}\dot{x}(t) - e^{-At}Ax(t)
-$$
+    Then using the product rule:
 
-We can simplify the LHS to be:
+    $$
+    \frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}\dot{x}(t) - e^{-At}Ax(t)
+    $$
 
-$$
-\frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}Bu(t)
-$$
+    We can simplify the LHS to be:
 
-Then integrating from $\tau=0$ to $\tau=t$, we get:
+    $$
+    \frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}Bu(t)
+    $$
 
+    Then integrating from $\tau=0$ to $\tau=t$, we get:
 
-$$
-\begin{align*}
-\int_{0}^{t}\frac{d}{d\tau}e^{-A\tau}x(\tau)\,\mathrm{d}\tau &= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
-e^{-At}x(t) - e^{A\cdot 0}x(0) &= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
-e^{-At}x(t) &= x(0) + \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
-x(t) &= e^{At}x(0) + e^{At}\int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
-&= e^{At}x(0) + \int_{0}^{t}e^{-A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
-\end{align*}
-$$
+    $$
+    \begin{align*}
+    \int_{0}^{t}\frac{d}{d\tau}e^{-A\tau}x(\tau)\,\mathrm{d}\tau &= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+    e^{-At}x(t) - e^{A\cdot 0}x(0) &= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+    e^{-At}x(t) &= x(0) + \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+    x(t) &= e^{At}x(0) + e^{At}\int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+    &= e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+    \end{align*}
+    $$
 
-Note that exponentiating the zero matrix gives you the identity matrix.
+    Note that exponentiating the zero matrix gives you the identity matrix.
 
-$$
-e^{A\cdot 0} = I
-$$
+    $$
+    e^{A\cdot 0} = I
+    $$
 
-Additionally, for matrix exponentials, we have the following properties:
+    Additionally, for matrix exponentials, we have the following properties:
 
-$$
-\begin{align*}
-e^{At_{1}}e^{At_{2}} &= e^{A(t_{1} + t_{2})} \\
-\left(e^{At}\right)^{-1} = e^{-At}
-Ae^{At} = e^{At}A
-\end{align*}
-$$
+    $$
+    \begin{align*}
+    e^{At_{1}}e^{At_{2}} &= e^{A(t_{1} + t_{2})} \\
+    \left(e^{At}\right)^{-1} = e^{-At}
+    Ae^{At} = e^{At}A
+    \end{align*}
+    $$
 
-So the final result we get is:
+    So the final result we get is:
 
-$$
-x(t) = e^{At}x(0) + \int_{0}^{t}e^{-A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
-$$
+    $$
+    x(t) = e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+    $$
+
+Now, let's do the Laplace transform approach.
+
+??? example "Show solution"
+
+    $$
+    \dot{x}(t) = Ax(t) + Bu(t)
+    $$
+
+    Taking the Laplace transform gives:
+
+    $$
+    sX(s) - x(0) = AX(s) + BU(s)
+    $$
+
+    where
+
+    $$
+    X(s) =
+    \begin{bmatrix}
+    X_{1}(s) \\
+    X_{2}(s)
+    \end{bmatrix},\quad
+    x(0) =
+    \begin{bmatrix}
+    x_{1}(0) \\
+    x_{2}(0)
+    \end{bmatrix}
+    $$
+
+    Now, we can rearrange the equation:
+
+    $$
+    \begin{align*}
+    sX(s) - x(0) &= AX(s) + BU(s) \\
+    sX(s) - AX(s) = x(0) + BU(s) \\
+    (sI - A)X(s) = x(0) + BU(s) \\
+    \end{align*}
+    $$
+
+    Then by premultiplying by $(sI - A)^{-1}$, assuming it exists, we get:
+
+    $$
+    X(s) = (sI - A)^{-1}x(0) + (sI - A)^{-1}BU(s)
+    $$
+
+    Then taking the Inverse Laplace transform:
+
+    $$
+    \begin{align*}
+    x(t) &= \mathcal{L}^{-1}\left\{(sI - A)^{-1}x(0)\right\} + \mathcal{L}^{-1}\left\{(sI - A)^{-1}BU(s)\right\} \\
+    = \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}x(0) + \left(\mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\} * Bu(t)\right) \\
+    \end{align*}
+    $$
+
+    We have the same factor again, which for simplicity, we'll denote as:
+
+    $$
+    \Phi(s) = (sI - A)^{-1},\quad \phi(t) = \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}
+    $$
+
+    Now, calculating it will be quite difficult, but we can predict what it's going to be, based on the previous method of integrating factors.
+
+    Let's go through the derivation.
+
+    $$
+    \begin{align*}
+    \Phi(s) &= \left(sI - A\right)^{-1} \\
+    \Phi(s) &= \frac{1}{s}\left(I - \frac{A}{s}\right)^{-1}
+    \end{align*}
+    $$
+
+    We can actually use a geometric series here:
+
+    $$
+    \sum_{n=0}^{\infty}T^{n} = \lim_{n\to \infty} S_{n} =  (I - T)^{-1}
+    $$
+
+    A simple proof for this is stated below:
+
+    $$
+    S_{n} = (I + T + T^{2} + \cdots T^{n})
+    $$
+
+    $$
+    \begin{align*}
+    (I - T)S_{n} = (I - T)(I + T + T^{2} + \cdots T^{n}) \\
+    &= I\left(I + T + T^{2} + \cdots + T^{n}\right) - T\left(I + T + T^{2} + \cdots +  T^{n}\right) \\
+    &= \left(I + T + T^{2} + \cdots + T^{n}\right) - \left(T + T^{2} + T{3} + \cdots + T^{n + 1}\right) \\
+    &= I + T + T^{2} + \cdots + T_{n} - T - T^{2} - \cdots - T^{n+1} \\
+    &= I - T^{n+1}
+    \end{align*}
+    $$
+
+    So, if we take the limit of this as $n\to\infty$, we get:
+
+    $$
+    \lim_{n\to\infty}(I - T)S_{n} = I - \lim_{n\to\infty}T^{n+1}
+    $$
+
+    So, we actually need the condition that:
+
+    $$
+    \lim_{n\to\infty}T^{n} = 0
+    $$
+
+    This is true if and only if for all eigenvalues of $T$, denoted as $\lambda_{i}(T)$:
+
+    $$
+    |\lambda_{i}(T)| < 1,\quad \forall \lambda_{i}(T)
+    $$
+
+    where:
+    $$
+    \mathrm{det}\left(\lambda_{i}(T)I - T\right) = 0
+    $$
+
+    For our case, we have:
+
+    $$
+    T = \frac{A}{s}
+    $$
+
+    We can show that the eigenvalues of $A$ are the eigenvalues of $T = \frac{A}{s}$, but scaled by $\frac{1}{s}$.
+
+    The eigenvalues of $A$, denoted as $\lambda(A)$ satisfy:
+
+    $$
+    \mathrm{det}\left(\lambda(A) I - A\right) = 0
+    $$
+
+    If we divide this by $s^{n}$:
+    $$
+    \frac{1}{s^{n}}\mathrm{det}\left(\lambda(A) I - A\right) = 0
+    $$
+
+    Then we can factor it into the determinant as:
+    $$
+    \mathrm{det}\left(\frac{\lambda(A)}{s} I - \frac{A}{s}\right)
+    $$
+
+    Then we can see that $\frac{\lambda(A)}{s}$ is an eigenvalue of $\frac{A}{s}$.
+
+    So, in order for the series to converge, we need:
+
+    $$
+    |\frac{\lambda(A)}{s}| < 1
+    $$
+
+    To solve this, we pick the smallest $s$ required, which will be when:
+
+    $$
+    |s| > \max_{i}|\lambda_{i}|
+    $$
+
+    Let's assume that this is true, and we'll continue to compute the inverse Laplace.
+
+    $$
+    \begin{align*}
+    \Phi(s) &= \frac{1}{s}\left(I - \frac{A}{s}\right)^{-1} \\
+    &= \frac{1}{s}\left(\sum_{n=0}^{\infty}\left(\frac{A}{s}\right)^{n}\right)
+    &= \frac{1}{s}\left(\sum_{n=0}^{\infty}\frac{A^{n}}{s^{n}}\right)
+    \end{align*}
+    $$
+
+    Now, if we remember that the Laplace transform of a power is:
+
+    $$
+    \mathcal{L}\left\{t^{n}\right\} = \frac{n!}{s^{n+1}},\quad t\geq 0
+    $$
+
+    Then we can rearrange our expression as:
+
+    $$
+    \begin{align*}
+    \Phi(s) &= \frac{1}{s}\left(\sum_{n=0}^{\infty}\frac{A^{n}}{s^{n}}\right) \\
+    &= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}\frac{n!}{s^{n+1}}
+    \end{align*}
+    $$
+
+    Now, taking the inverse Laplace transform:
+
+    $$
+    \begin{align*}
+    \phi(t) &= \mathcal{L}^{-1}\left\{\Phi(s)\right\} \\
+    &= \mathcal{L}^{-1}\left\{\sum_{n=0}^{\infty}\frac{A^{n}}{n!}\frac{n!}{s^{n+1}}\right\} \\
+    &= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}\mathcal{L}^{-1}\left\{\frac{n!}{s^{n+1}}\right\} \\
+    &= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}t^{n} \\
+    &= \sum_{n=0}^{\infty}\frac{(At)^{n}}{n!} \\
+    \end{align*}
+    $$
+
+    This is the same matrix exponential from before.
+
+    $$
+    \phi(t) = \exp{\left(At\right)} = e^{At} = \sum_{n=0}^{\infty}\frac{(At)^{n}}{n!}
+    $$
+
+    This gives us a very key relationship:
+
+    $$
+    \mathcal{L}\left\{e^{At}\right\} = \left(sI - A\right)^{-1}
+    $$
+
+    If you remember from before, this is essentially the matrix version of:
+
+    $$
+    \mathcal{L}\left\{e^{at}\right\} = \frac{1}{s - a}
+    $$
+
+    Now, we can finally solve the equation:
+
+    $$
+    \begin{align*}
+    x(t) &= \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}x(0) + \left(\mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\} * Bu(t)\right) \\
+    &= \phi(t)x(0) + \left(\phi * Bu\right)(t) \\
+    &= e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+    \end{align*}
+    $$
+
+    As expected, this gives the same result as from convolution, but we've now connected it to the Laplace domain.

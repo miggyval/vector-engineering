@@ -148,7 +148,7 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
 
     function currentScheme() {
       const raw =
-        document.documentElement.getAttribute("data-md-color-scheme") ||
+        document.body.getAttribute("data-md-color-scheme") ||
         "default";
       return raw === "slate" ? "slate" : "default";
     }
@@ -221,7 +221,7 @@ Type a function of `t` (use `**` for powers, e.g. `t**2`):
         }
       }
     });
-    themeObserver.observe(document.documentElement, { attributes: true });
+    themeObserver.observe(document.body, { attributes: true });
 
     exprInput.addEventListener("input", scheduleUpdate);
     tminInput.addEventListener("input", scheduleUpdate);

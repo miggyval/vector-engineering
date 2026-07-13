@@ -1,14 +1,26 @@
-from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
-import cv2
-import numpy as np
+"""FastAPI backend for the interactive course demos.
+
+Run from the repo root with:  uvicorn api.main:app --host 0.0.0.0 --port 8000
+
+Configuration (environment variables):
+  ALLOWED_ORIGINS  comma-separated CORS origins
+                   (default: http://127.0.0.1:8000,http://localhost:8000)
+  REPL_TIMEOUT_S   wall-clock limit for student REPL code (default: 5)
+"""
+
+import ast
+import io
+import multiprocessing
+import os
+import re
 from pathlib import Path
 
+import cv2
+import numpy as np
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from pydantic import BaseModel
-import io
-import contextlib
-import traceback
 
 import matplotlib
 
@@ -18,109 +30,107 @@ matplotlib.rcParams.update({
     "font.family": "STIXGeneral",
 })
 
+from matplotlib.backends.backend_svg import FigureCanvasSVG
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-import re
 
-PLOT_WIDTH_IN = 6      # inches
-PLOT_HEIGHT_IN = 3.5   # inches
-PLOT_DPI = 200         # increase for higher resolution
+from .sandbox import run_student_code
 
+PLOT_WIDTH_IN = 6
+PLOT_HEIGHT_IN = 3.5
+PLOT_DPI = 200
 
-def _new_figure() -> Figure:
-    """
-    Create a new high-DPI Matplotlib figure for plots.
-    """
-    return Figure(figsize=(PLOT_WIDTH_IN, PLOT_HEIGHT_IN), dpi=PLOT_DPI)
+REPL_TIMEOUT_S = float(os.environ.get("REPL_TIMEOUT_S", "5"))
 
-
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "ALLOWED_ORIGINS", "http://127.0.0.1:8000,http://localhost:8000"
+    ).split(",")
+    if origin.strip()
+]
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/api/health")
+def health():
+    return {"status": "ok"}
+
+
+# ------------------------
+# PYTHON REPL
+# ------------------------
+
+# spawn (not fork) so the child doesn't inherit the whole server state,
+# and so behaviour matches across macOS and Linux
+_mp = multiprocessing.get_context("spawn")
 
 
 class CodeRequest(BaseModel):
     code: str
-    
-    
 
 
 @app.post("/api/python-repl")
 def python_repl(req: CodeRequest):
     """
-    Very simple Python REPL endpoint for student code.
+    Run student code in a throwaway subprocess with a wall-clock limit.
 
-    WARNING: This is not a fully secure sandbox. Only expose it in
-    trusted environments (e.g. local, lab network).
+    Process isolation means an infinite loop or crash can't take the
+    server down — the child is simply terminated. See api.sandbox for
+    the (deliberately small) builtins the code gets.
     """
-    # Restrict builtins: only allow a small safe subset
-    allowed_builtins = {
-        "abs": abs,
-        "min": min,
-        "max": max,
-        "range": range,
-        "len": len,
-        "sum": sum,
-        "print": print,
-    }
+    queue = _mp.Queue()
+    proc = _mp.Process(target=run_student_code, args=(req.code, queue), daemon=True)
+    proc.start()
+    proc.join(REPL_TIMEOUT_S)
 
-    # Global and local namespaces
-    global_env = {
-        "__builtins__": allowed_builtins,
-    }
-    local_env = {}
-
-    stdout = io.StringIO()
-    stderr = io.StringIO()
+    if proc.is_alive():
+        proc.terminate()
+        proc.join()
+        return {
+            "stdout": "",
+            "stderr": "",
+            "error": f"Execution timed out after {REPL_TIMEOUT_S:g} seconds.",
+        }
 
     try:
-        # Compile the code first to catch syntax errors
-        compiled = compile(req.code, "<student>", "exec")
-
-        # Capture stdout/stderr while running the code
-        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
-            exec(compiled, global_env, local_env)
-
-        return {
-            "stdout": stdout.getvalue(),
-            "stderr": stderr.getvalue(),
-            "error": None,
-        }
-
+        return queue.get(timeout=1.0)
     except Exception:
-        # Return the full traceback as error
-        error_text = traceback.format_exc()
         return {
-            "stdout": stdout.getvalue(),
-            "stderr": stderr.getvalue(),
-            "error": error_text,
+            "stdout": "",
+            "stderr": "",
+            "error": f"Execution failed (process exited with code {proc.exitcode}).",
         }
-
-
-# Allow MkDocs dev server (localhost:8000) to talk to this API (localhost:8001)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 # ------------------------
 # CANNY EDGE DEMO
 # ------------------------
 
-# Load a base image once at startup
 DATA_DIR = Path(__file__).parent / "data"
 IMG_PATH = DATA_DIR / "input.jpg"
 
-if not IMG_PATH.exists():
-    raise RuntimeError(f"Input image not found at {IMG_PATH}")
+_base_img: np.ndarray | None = None
 
-# Read as grayscale for Canny
-BASE_IMG = cv2.imread(str(IMG_PATH), cv2.IMREAD_GRAYSCALE)
-if BASE_IMG is None:
-    raise RuntimeError(f"Failed to load image: {IMG_PATH}")
+
+def _get_base_img() -> np.ndarray:
+    global _base_img
+    if _base_img is None:
+        img = cv2.imread(str(IMG_PATH), cv2.IMREAD_GRAYSCALE)
+        if img is None:
+            raise HTTPException(
+                status_code=503,
+                detail=f"Edge-demo source image not found at {IMG_PATH}",
+            )
+        _base_img = img
+    return _base_img
 
 
 @app.get("/api/edge-demo")
@@ -135,73 +145,116 @@ def edge_demo(
       - t1: lower threshold
       - t2: upper threshold
     """
-    # Run Canny on the base image
-    edges = cv2.Canny(BASE_IMG, t1, t2)
+    edges = cv2.Canny(_get_base_img(), t1, t2)
 
     # Convert to 3-channel so browsers show it nicely
     edges_color = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
 
-    # Encode as PNG in memory
     success, buf = cv2.imencode(".png", edges_color)
     if not success:
         return Response(status_code=500)
 
     return Response(content=buf.tobytes(), media_type="image/png")
 
+
 # ------------------------
-# GRAPH PLOTTING DEMO
+# EXPRESSION EVALUATION
 # ------------------------
 
-import re
 
-# High-res figure settings (same visual size, more pixels)
-PLOT_WIDTH_IN = 6
-PLOT_HEIGHT_IN = 3.5
-PLOT_DPI = 200
+def _u(x):
+    """Unit step: u(t) = 0 for t < 0, 1 for t >= 0."""
+    return np.where(x >= 0, 1.0, 0.0)
 
-def _numeric_fourier(t: np.ndarray, y: np.ndarray):
+
+_EXPR_FUNCS = {
+    "sin": np.sin,
+    "cos": np.cos,
+    "tan": np.tan,
+    "arcsin": np.arcsin,
+    "arccos": np.arccos,
+    "arctan": np.arctan,
+    "sinh": np.sinh,
+    "cosh": np.cosh,
+    "tanh": np.tanh,
+    "exp": np.exp,
+    "log": np.log,
+    "log10": np.log10,
+    "sqrt": np.sqrt,
+    "abs": np.abs,
+    "u": _u,
+}
+
+_EXPR_CONSTS = {
+    "pi": np.pi,
+    "e": np.e,
+}
+
+_ALLOWED_NODES = (
+    ast.Expression,
+    ast.Constant,
+    ast.Name,
+    ast.Load,
+    ast.Call,
+    ast.BinOp,
+    ast.UnaryOp,
+    ast.Compare,
+    ast.IfExp,
+    ast.Add,
+    ast.Sub,
+    ast.Mult,
+    ast.Div,
+    ast.FloorDiv,
+    ast.Mod,
+    ast.Pow,
+    ast.UAdd,
+    ast.USub,
+    ast.Lt,
+    ast.LtE,
+    ast.Gt,
+    ast.GtE,
+    ast.Eq,
+    ast.NotEq,
+)
+
+
+def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
     """
-    Compute a numerical approximation of the continuous-time Fourier transform
+    Evaluate a math expression of t against an AST whitelist.
 
-        F(ω) = ∫ f(t) e^{-j ω t} dt
+    Allowed: the variable t, arithmetic/comparison operators, conditional
+    expressions, numeric constants, pi, e, and the functions in
+    _EXPR_FUNCS (including u(t), the unit step).
 
-    using an FFT over the finite interval [t_min, t_max].
+    Unlike a bare eval(), no attribute access or subscripting is possible,
+    so there is no escape route via object attribute chains.
 
-    Returns:
-        omega : array of angular frequencies (rad/s), centered at 0
-        F     : complex spectrum F(ω)
+    NOTE: Use ** for powers, not ^.
     """
-    if t.size < 2:
-        raise ValueError("Need at least 2 samples to compute Fourier transform")
+    tree = ast.parse(expr, mode="eval")
 
-    dt = t[1] - t[0]  # assume uniform sampling
+    for node in ast.walk(tree):
+        if not isinstance(node, _ALLOWED_NODES):
+            raise ValueError(f"Disallowed syntax: {type(node).__name__}")
+        if isinstance(node, ast.Call):
+            if not isinstance(node.func, ast.Name) or node.func.id not in _EXPR_FUNCS:
+                raise ValueError("Only the whitelisted functions may be called")
+            if node.keywords:
+                raise ValueError("Keyword arguments are not allowed")
+        if isinstance(node, ast.Name):
+            if node.id != "t" and node.id not in _EXPR_FUNCS and node.id not in _EXPR_CONSTS:
+                raise ValueError(f"Unknown name: {node.id}")
+        if isinstance(node, ast.Constant) and not isinstance(node.value, (int, float)):
+            raise ValueError("Only numeric constants are allowed")
 
-    # FFT frequencies in Hz, then convert to rad/s
-    freqs = np.fft.fftfreq(t.size, d=dt)     # cycles per second
-    omega = 2 * np.pi * freqs                # rad/s
+    env = {**_EXPR_FUNCS, **_EXPR_CONSTS, "t": t}
+    y = eval(compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env)
 
-    # FFT with shift so ω=0 is in the middle
-    F = np.fft.fft(y) * dt                   # dt factor ≈ continuous integral
-    F = np.fft.fftshift(F)
-    omega = np.fft.fftshift(omega)
-
-    return omega, F
-
-
-
-def _new_figure() -> Figure:
-    return Figure(figsize=(PLOT_WIDTH_IN, PLOT_HEIGHT_IN), dpi=PLOT_DPI)
-
-
-def _fig_to_png_bytes(fig: Figure) -> bytes:
-    """
-    Render a Matplotlib Figure to PNG bytes using the Agg canvas.
-    """
-    buf = io.BytesIO()
-    canvas = FigureCanvas(fig)
-    canvas.print_png(buf)
-    buf.seek(0)
-    return buf.getvalue()
+    # Broadcast so constant expressions like "1" still plot as a line
+    y = np.asarray(y, dtype=float)
+    if y.shape != t.shape:
+        y = np.broadcast_to(y, t.shape)
+    return y
 
 
 def _expr_to_math(expr: str) -> str:
@@ -263,6 +316,22 @@ def _expr_to_math(expr: str) -> str:
     return s
 
 
+# ------------------------
+# PLOTTING
+# ------------------------
+
+
+def _new_figure() -> Figure:
+    return Figure(figsize=(PLOT_WIDTH_IN, PLOT_HEIGHT_IN), dpi=PLOT_DPI)
+
+
+def _fig_response(fig: Figure) -> Response:
+    """Render a figure as SVG: resolution-independent and ~10x smaller than PNG."""
+    buf = io.BytesIO()
+    FigureCanvasSVG(fig).print_svg(buf)
+    return Response(content=buf.getvalue(), media_type="image/svg+xml")
+
+
 def _apply_plot_theme(ax, theme: str):
     """Match MkDocs Material schemes: 'default' (light) and 'slate' (dark)."""
     if theme == "slate":  # dark mode
@@ -306,58 +375,73 @@ def _empty_plot(expr: str, t_min: float, t_max: float, theme: str) -> Figure:
     ax.set_xlabel(r"$t$")
     ax.set_ylabel(r"$f(t)$")
     ax.set_title(r"$f(t) = " + expr_math + r"$")
-    
 
     _apply_plot_theme(ax, theme)
     return fig
 
 
-def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
+def _numeric_fourier(t: np.ndarray, y: np.ndarray):
     """
-    Safely evaluate a math expression of t using NumPy.
+    Compute a numerical approximation of the continuous-time Fourier transform
 
-    Allowed:
-      - variable: t
-      - functions: sin, cos, tan, exp, log, sqrt, abs, arctan, etc.
-      - custom: u(t) = unit step (1 for t >= 0, 0 for t < 0)
-      - constants: pi, e
+        F(ω) = ∫ f(t) e^{-j ω t} dt
 
-    NOTE: Use ** for powers, not ^.
+    using an FFT over the finite interval [t_min, t_max].
+
+    Returns:
+        omega : array of angular frequencies (rad/s), centered at 0
+        F     : complex spectrum F(ω)
     """
+    if t.size < 2:
+        raise ValueError("Need at least 2 samples to compute Fourier transform")
 
-    # Custom unit step: u(t) = 0 for t < 0, 1 for t >= 0
-    def u(x):
-        return np.where(x >= 0, 1.0, 0.0)
+    dt = t[1] - t[0]  # assume uniform sampling
 
-    allowed_funcs = {
-        "sin": np.sin,
-        "cos": np.cos,
-        "tan": np.tan,
-        "arcsin": np.arcsin,
-        "arccos": np.arccos,
-        "arctan": np.arctan,
-        "sinh": np.sinh,
-        "cosh": np.cosh,
-        "tanh": np.tanh,
-        "exp": np.exp,
-        "log": np.log,
-        "log10": np.log10,
-        "sqrt": np.sqrt,
-        "abs": np.abs,
-        "u": u,
-    }
-    allowed_consts = {
-        "pi": np.pi,
-        "e": np.e,
-    }
+    # FFT frequencies in Hz, then convert to rad/s
+    freqs = np.fft.fftfreq(t.size, d=dt)     # cycles per second
+    omega = 2 * np.pi * freqs                # rad/s
 
-    env = {}
-    env.update(allowed_funcs)
-    env.update(allowed_consts)
-    env["t"] = t
+    # FFT with shift so ω=0 is in the middle
+    F = np.fft.fft(y) * dt                   # dt factor ≈ continuous integral
+    F = np.fft.fftshift(F)
+    omega = np.fft.fftshift(omega)
 
-    # No builtins, just our env
-    return eval(expr, {"__builtins__": {}}, env)
+    return omega, F
+
+
+@app.get("/api/plot-func")
+def plot_func(
+    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 't**2'"),
+    t_min: float = Query(-10.0, description="Left end of domain"),
+    t_max: float = Query(10.0, description="Right end of domain"),
+    n: int = Query(400, ge=10, le=5000, description="Number of sample points"),
+    theme: str = Query("default", description="Color scheme: 'default' or 'slate'"),
+):
+    """
+    Plot a 1D function f(t) specified by 'expr' and return a PNG.
+    """
+    if t_min >= t_max:
+        return _fig_response(_empty_plot(expr, t_min, t_max, theme))
+
+    t = np.linspace(t_min, t_max, n)
+
+    try:
+        y = _eval_expr(expr, t)
+    except Exception:
+        # Invalid expression → empty plot (no curve)
+        return _fig_response(_empty_plot(expr, t_min, t_max, theme))
+
+    fig = _new_figure()
+    ax = fig.add_subplot(111)
+
+    expr_math = _expr_to_math(expr)
+    ax.plot(t, y)
+    ax.set_xlabel(r"$t$")
+    ax.set_ylabel(r"$f(t)$")
+    ax.set_title(r"$f(t) = " + expr_math + r"$")
+
+    _apply_plot_theme(ax, theme)
+    return _fig_response(fig)
 
 
 @app.get("/api/plot-fourier")
@@ -374,98 +458,30 @@ def plot_fourier(
 
     Uses the convention: F(ω) = ∫ f(t) e^{-j ω t} dt.
     """
-
-    # If range is invalid, just make an empty plot with axes
     if t_min >= t_max:
-        fig = _empty_plot(expr, t_min, t_max, theme)
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
+        return _fig_response(_empty_plot(expr, t_min, t_max, theme))
 
     t = np.linspace(t_min, t_max, n)
+    expr_math = _expr_to_math(expr)
+
+    fig = _new_figure()
+    ax = fig.add_subplot(111)
+    ax.set_xlabel(r"$\omega$")
+    ax.set_ylabel(r"$|F(\omega)|$")
 
     try:
-        # Evaluate f(t)
         y = _eval_expr(expr, t)
-
-        # Numerical Fourier transform
         omega, F = _numeric_fourier(t, y)
 
-        fig = _new_figure()
-        ax = fig.add_subplot(111)
-
-        expr_math = _expr_to_math(expr)
-
-        # Plot magnitude |F(ω)|
         ax.plot(omega, np.abs(F))
-        ax.set_xlabel(r"$\omega$")
-        ax.set_ylabel(r"$|F(\omega)|$")
         ax.set_title(r"$\mathcal{F}\{f(t)\},\quad f(t) = " + expr_math + r"$")
-
-        _apply_plot_theme(ax, theme)
-
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
-
     except Exception:
-        # On failure (bad expr, etc.), just show an empty axes with a note
-        fig = _new_figure()
-        ax = fig.add_subplot(111)
-
-        expr_math = _expr_to_math(expr)
-        ax.set_xlabel(r"$\omega$")
-        ax.set_ylabel(r"$|F(\omega)|$")
+        # On failure (bad expr, etc.), just show empty axes with a note
         ax.set_title(
             r"Could not evaluate $\mathcal{F}\{f(t)\}$ for $f(t) = "
             + expr_math
             + r"$"
         )
 
-        _apply_plot_theme(ax, theme)
-
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
-
-
-@app.get("/api/plot-func")
-def plot_func(
-    expr: str = Query("sin(t)", description="Function of t, e.g. 'sin(t)' or 't**2'"),
-    t_min: float = Query(-10.0, description="Left end of domain"),
-    t_max: float = Query(10.0, description="Right end of domain"),
-    n: int = Query(400, ge=10, le=5000, description="Number of sample points"),
-    theme: str = Query("default", description="Color scheme: 'default' or 'slate'"),
-):
-    """
-    Plot a 1D function f(t) specified by 'expr' and return a PNG.
-    """
-
-    # If range is invalid, just return an empty plot too
-    if t_min >= t_max:
-        fig = _empty_plot(expr, t_min, t_max, theme)
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
-
-    t = np.linspace(t_min, t_max, n)
-
-    try:
-        y = _eval_expr(expr, t)
-
-        fig = _new_figure()
-        ax = fig.add_subplot(111)
-
-        expr_math = _expr_to_math(expr)
-        ax.plot(t, y)
-        ax.set_xlabel(r"$t$")
-        ax.set_ylabel(r"$f(t)$")
-        ax.set_title(r"$f(t) = " + expr_math + r"$")
-
-
-        _apply_plot_theme(ax, theme)
-
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
-
-    except Exception:
-        # Invalid expression → empty plot (no curve)
-        fig = _empty_plot(expr, t_min, t_max, theme)
-        png = _fig_to_png_bytes(fig)
-        return Response(content=png, media_type="image/png")
+    _apply_plot_theme(ax, theme)
+    return _fig_response(fig)
