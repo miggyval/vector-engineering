@@ -1,0 +1,3528 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://miggyval.github.io/teaching-course/c1-signals-and-systems/m5-intro-to-state-space/01-state-space-representation/00-intro/">
+      
+      
+        <link rel="prev" href="../../../m4-non-linear-systems/overview/">
+      
+      
+        <link rel="next" href="../../../../c2-control/m1-intro-to-control/overview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Overview - Engineering Fundamentals</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../css/custom.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script src="../../../../assets/javascripts/toggle-sidebar.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-state-space" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Engineering Fundamentals" class="md-header__button md-logo" aria-label="Engineering Fundamentals" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Engineering Fundamentals
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m3.55 19.09 1.41 1.41 1.8-1.79-1.42-1.42M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6c0-3.32-2.69-6-6-6m8 7h3v-2h-3m-2.76 7.71 1.8 1.79 1.41-1.41-1.79-1.8M20.45 5l-1.41-1.4-1.8 1.79 1.42 1.42M13 1h-2v3h2M6.76 5.39 4.96 3.6 3.55 5l1.79 1.81zM1 13h3v-2H1m12 9h-2v3h2"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Engineering Fundamentals" class="md-nav__button md-logo" aria-label="Engineering Fundamentals" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Engineering Fundamentals
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Test
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 0.1 - Test
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 0.1 - Test
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quiz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/plot-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plotting Demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c0-test/m1-test/repl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Signals and Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Signals and Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.1 - Intro to Signals and Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.1 - Intro to Signals and Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 - What is a Signal?
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 1 - What is a Signal?
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/01-what-is-a-signal/00-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/01-what-is-a-signal/01-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Types of Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/01-what-is-a-signal/02-quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quiz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_3" id="__nav_3_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 2 - Signal Properties
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 2 - Signal Properties
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/00-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/01-periodicity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Periodicity: Definition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/02-periodicity-we01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Periodicity: WE1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/03-periodicity-we02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Periodicity: WE2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/04-periodicity-quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Periodicity: Quiz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/05-symmetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetry: Definition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/06-symmetry-we01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetry: WE1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/07-symmetry-we02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetry: WE2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/08-symmetry-we03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetry: WE3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/09-symmetry-quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetry: Quiz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/02-signal-properties/10-sidedness-causality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sidedness & Causality
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/03-energy-and-power/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 3 - Energy and Power
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m1-intro-to-signals-and-systems/04-what-is-a-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4 - What is a System?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.2 - LTI Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.2 - LTI Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m2-lti-systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.2 - Frequency Domain Analysis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.2 - Frequency Domain Analysis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m3-frequency-domain-analysis/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.4 - Non-linear Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.4 - Non-linear Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../m4-non-linear-systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.5 - Intro to State-Space
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.5 - Intro to State-Space
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 1 - State Space Representation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 1 - State Space Representation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-warm-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A warm-up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A warm-up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-integrating-factors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method A: Integrating Factors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-laplace-transform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method B: Laplace Transform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-1-alpha-omega_0-overdamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 1: \(\alpha &gt; \omega_{0}\): Overdamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-2-alpha-omega_0-underdamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 2: \(\alpha &lt; \omega_{0}\): Underdamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-3-alpha-omega_0-critically-damped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 3: \(\alpha = \omega_{0}\): Critically-damped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-4-alpha-0-undamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 4: \(\alpha = 0\): Undamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.1 - Intro to Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.1 - Intro to Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c2-control/m1-intro-to-control/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.2 - Open Loop Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.2 - Open Loop Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c2-control/m2-open-loop-systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.3 - Closed Loop Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.3 - Closed Loop Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c2-control/m3-closed-loop-systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.4 - PID Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.4 - PID Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c2-control/m4-pid-control/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.5 - State Space Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.5 - State Space Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c2-control/m5-state-space-control/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Robotics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Robotics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 3.1 - Intro to Robotics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 3.1 - Intro to Robotics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c3-robotics/m1-intro-to-robotics/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 3.2 - Rotations and Transformations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 3.2 - Rotations and Transformations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c3-robotics/m2-rotations-and-transformations/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 3.3 - Configuration Space
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 3.3 - Configuration Space
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c3-robotics/m3-configuration-space/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 3.4 - Screws and Twists
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 3.4 - Screws and Twists
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../c3-robotics/m4-screws-twists/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-warm-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A warm-up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A warm-up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-integrating-factors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method A: Integrating Factors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-laplace-transform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method B: Laplace Transform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-1-alpha-omega_0-overdamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 1: \(\alpha &gt; \omega_{0}\): Overdamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-2-alpha-omega_0-underdamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 2: \(\alpha &lt; \omega_{0}\): Underdamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-3-alpha-omega_0-critically-damped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 3: \(\alpha = \omega_{0}\): Critically-damped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#case-4-alpha-0-undamped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Case 4: \(\alpha = 0\): Undamped
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="what-is-state-space">What is state-space?<a class="headerlink" href="#what-is-state-space" title="Permanent link">&para;</a></h1>
+<h2 id="a-warm-up">A warm-up<a class="headerlink" href="#a-warm-up" title="Permanent link">&para;</a></h2>
+<p>Let's solve a simple first order differential equation.</p>
+<div class="arithmatex">\[
+\dot{x}(t) = ax(t) + bu(t)
+\]</div>
+<p>We can solve this in two ways – firstly let's do the traditional approach using integrating factors.</p>
+<h4 id="method-a-integrating-factors">Method A: Integrating Factors<a class="headerlink" href="#method-a-integrating-factors" title="Permanent link">&para;</a></h4>
+<details class="example">
+<summary>Show solution</summary>
+<div class="arithmatex">\[
+\begin{align*}
+\dot{x}(t) &amp;= ax(t) + bu(t) \\
+\dot{x}(t) - ax(t) &amp;= bu(t)
+\end{align*}
+\]</div>
+<p>At this point, we can see that the integrating factor is:</p>
+<div class="arithmatex">\[
+I(t) = e^{\int -a\,\mathrm{d}t} = e^{-at}
+\]</div>
+<p>So multiplying both sides, and factoring we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+e^{-at}\dot{x}(t) - ae^{-at}x(t) &amp;= e^{-at}bu(t) \\
+\frac{d}{dt}\left(e^{-at}x(t)\right) &amp;= e^{-at}bu(t)
+\end{align*}
+\]</div>
+<p>Now, we can integrate both sides, and use the fundamental theorem of calculus:</p>
+<div class="arithmatex">\[
+\int_{a}^{b}\frac{df}{d\tau} \,\mathrm{d}\tau = f(b) - f(a)
+\]</div>
+<p>So if we integrate from <span class="arithmatex">\(\tau=0\)</span> to <span class="arithmatex">\(\tau=t\)</span>, we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\int_{0}^{t}\frac{d}{d\tau}e^{-a\tau}x(\tau)\,\mathrm{d}\tau &amp;= \int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
+e^{-at}x(t) - e^{0}x(0) &amp;= \int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
+e^{-at}x(t) &amp;= x(0) + \int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
+x(t) &amp;= e^{at}x(0) + e^{at}\int_{0}^{t}e^{-a\tau}bu(\tau)\,\mathrm{d}\tau \\
+&amp;= e^{at}x(0) + \int_{0}^{t}e^{a(t-\tau)}bu(\tau)\,\mathrm{d}\tau
+\end{align*}
+\]</div>
+</details>
+<p>Since we've all discovered the magic of Laplace transforms, let's try to use them to solve this now.</p>
+<h4 id="method-b-laplace-transform">Method B: Laplace Transform<a class="headerlink" href="#method-b-laplace-transform" title="Permanent link">&para;</a></h4>
+<details class="example">
+<summary>Show solution</summary>
+<div class="arithmatex">\[
+\begin{align*}
+\dot{x}(t) &amp;= ax(t) + bu(t) \\
+sX(s) - x(0) &amp;= aX(s) + bU(s) \\
+(s - a)X(s) &amp;= x(0) + bU(s) \\
+X(s) &amp;= \frac{x(0)}{s - a} + \frac{bU(s)}{s - a} \\
+\end{align*}
+\]</div>
+<p>Now, we can easily take the inverse Laplace transform to get the time-domain solution. We will need to use the convolution theorem for the input.</p>
+<div class="arithmatex">\[
+x(t) = \mathcal{L}^{-1}\left\{\frac{x(0)}{s - a}\right\} + \mathcal{L}^{-1}\left\{\frac{bU(s)}{s - a}\right\}
+\]</div>
+<p>For both terms, we have a common factor:</p>
+<div class="arithmatex">\[
+\mathcal{L}^{-1}\left\{\frac{1}{s - a}\right\} = e^{at}
+\]</div>
+<p>So, we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+x(t) &amp;= e^{at}x(0) + (e^{at}*bu)(t) \\
+&amp;= e^{at}x(0) + \int_{0}^{t}e^{a(t-\tau)}bu(\tau)\,\mathrm{d}\tau
+\end{align*}
+\]</div>
+</details>
+<p>Let's try and solve a 2nd order ODE now, maybe we can use a mass-spring-damper system.</p>
+<div class="arithmatex">\[
+m\ddot{x}(t) + c\dot{x}(t) + kx(t) = f(t)
+\]</div>
+<details class="example">
+<summary>Show solution</summary>
+<p>Unfortunately, we can no longer use a simple integrating factor to solve this. We can try the method of undetermined coefficients.</p>
+<p>Let's start off by defining the homogeneous equation, and deriving the characteristic equation.</p>
+<div class="arithmatex">\[
+m\ddot{x}_{h}(t) + c\dot{x}_{h}(t) + kx_{h}(t) = 0
+\]</div>
+<div class="arithmatex">\[
+\Rightarrow ms^{2} + cs + k = 0
+\]</div>
+<p>We can divide out by the mass <span class="arithmatex">\(m\)</span>.</p>
+<div class="arithmatex">\[
+\Rightarrow s^{2} + \frac{c}{m}s + \frac{k}{m} = 0
+\]</div>
+<p>By matching it to the standard form:</p>
+<div class="arithmatex">\[
+s^{2} + 2\alpha s + \omega_{0}^{2} = 0
+\]</div>
+<p>We get:</p>
+<div class="arithmatex">\[
+\alpha = \frac{c}{2m},\quad \omega_{0} = \sqrt{\frac{k}{m}}
+\]</div>
+<p>Now, splitting it into four cases:</p>
+<h3 id="case-1-alpha-omega_0-overdamped">Case 1: <span class="arithmatex">\(\alpha &gt; \omega_{0}\)</span>: Overdamped<a class="headerlink" href="#case-1-alpha-omega_0-overdamped" title="Permanent link">&para;</a></h3>
+<p>If we define:</p>
+<div class="arithmatex">\[
+\beta = \sqrt{\alpha^{2} - \omega_{0}^{2}}
+\]</div>
+<div class="arithmatex">\[
+x_{h}(t) = A_{1}e^{-(\alpha + \beta) t} + A_{2}e^{-(\alpha - \beta)t}
+\]</div>
+<h3 id="case-2-alpha-omega_0-underdamped">Case 2: <span class="arithmatex">\(\alpha &lt; \omega_{0}\)</span>: Underdamped<a class="headerlink" href="#case-2-alpha-omega_0-underdamped" title="Permanent link">&para;</a></h3>
+<p>If we define:</p>
+<div class="arithmatex">\[
+\omega_{d} = \sqrt{\omega_{0}^{2} - \alpha^{2}}
+\]</div>
+<div class="arithmatex">\[
+x_{h}(t) = B_{1}e^{-\alpha t}\cos{(\omega_{d}t)} + B_{2}e^{-\alpha t}\sin{(\omega_{d}t)}
+\]</div>
+<h3 id="case-3-alpha-omega_0-critically-damped">Case 3: <span class="arithmatex">\(\alpha = \omega_{0}\)</span>: Critically-damped<a class="headerlink" href="#case-3-alpha-omega_0-critically-damped" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+x_{h}(t) = C_{1}e^{-\alpha t} + C_{2}te^{-\alpha t}
+\]</div>
+<h3 id="case-4-alpha-0-undamped">Case 4: <span class="arithmatex">\(\alpha = 0\)</span>: Undamped<a class="headerlink" href="#case-4-alpha-0-undamped" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+x_{h}(t) = D_{1}\cos{(\omega_{0}t)} + D_{2}\sin{(\omega_{0}t)}
+\]</div>
+<p>Now that we've solved for the general homogeneous equation, we can then solve for a particular solution <span class="arithmatex">\(x_{p}(t)\)</span> that satisfies:</p>
+<div class="arithmatex">\[
+m\ddot{x}_{p}(t) + c\dot{x}_{p}(t) + kx_{p}(t) = f(t)
+\]</div>
+<p>It seems as if we're at a dead-end here if we don't know what <span class="arithmatex">\(f(t)\)</span> is, so let's try using Laplace transforms.</p>
+</details>
+<details class="example">
+<summary>Show solution</summary>
+<div class="arithmatex">\[
+m\ddot{x}(t) + c\dot{x}(t) + kx(t) = f(t)
+\]</div>
+<p>We can now take the Laplace transform to get:</p>
+<div class="arithmatex">\[
+ms^{2}X(s) - msx(0) - m\dot{x}(0) + csX(s) - cx(0) + kX(s) = F(s)
+\]</div>
+<p>Then rearranging it to make <span class="arithmatex">\(X(s)\)</span> the subject, we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+X(s)\left(ms^{2} + cs + k\right) &amp;= m\dot{x}(0) + msx(0) + cx(0) + F(s) \\
+X(s) &amp;= \frac{m\dot{x}(0) + msx(0) + cx(0) + F(s)}{ms^{2} + cs + k} \\
+&amp;= \frac{\dot{x}(0) + sx(0) + \frac{c}{m}x(0) + \frac{1}{m}F(s)}{s^{2} + \frac{c}{m}s + \frac{k}{m}}
+\end{align*}
+\]</div>
+<p>Then if we let:</p>
+<div class="arithmatex">\[
+\alpha = \frac{c}{2m},\quad \omega_{0} = \sqrt{\frac{k}{m}},\quad \omega_{d} = \sqrt{\omega_{0}^{2} - \alpha^{2}}
+\]</div>
+<div class="arithmatex">\[
+\begin{align*}
+X(s) &amp;= \frac{\dot{x}(0) + sx(0) + 2\alpha x(0) + \frac{1}{m}F(s)}{s^{2} + 2\alpha s + \omega_{0}^{2}} \\
+&amp;= x(0)\frac{s + \alpha}{(s + \alpha)^{2} + \omega_{d}^{2}}
++ \frac{\alpha x(0) + \dot{x}(0)}{\omega_{d}}\frac{\omega_{d}}{(s + \alpha)^{2} + \omega_{d}^{2}} + \frac{F(s)}{m\omega_{d}}\frac{\omega_{d}}{(s + \alpha)^{2} + \omega_{d}^{2}} \\
+\end{align*}
+\]</div>
+<p>Now we can take the Inverse Laplace transform, since we know:</p>
+<div class="arithmatex">\[
+\mathcal{L}^{-1}\left\{\frac{s + \alpha}{(s + \alpha)^{2} + \omega_{d}^{2}}\right\} = e^{-\alpha t}\cos{(\omega_{d} t)}
+\]</div>
+<div class="arithmatex">\[
+\mathcal{L}^{-1}\left\{\frac{\omega_{d}}{(s + \alpha)^{2} + \omega_{d}^{2}}\right\} = e^{-\alpha t}\sin{(\omega_{d} t)}
+\]</div>
+<div class="arithmatex">\[
+x(t) = x(0)e^{-\alpha t}\cos{(\omega_{d}t)} + \frac{\alpha x(0) + \dot{x}(0)}{\omega_{d}}e^{-\alpha t}\sin{(\omega_{d}t)} + \frac{1}{m\omega_{d}}\left(e^{-\alpha t}\sin{(\omega_{d}t)} * f(t)\right)
+\]</div>
+<p>As you can probably tell, this process is quite long, even with the help of the magical Laplace transform. Now imagine how much longer this would take for a 3rd order system, or even an 6th order system.</p>
+<p>We'll need something more powerful to help us.</p>
+</details>
+<h1 id="a-new-challenger-approaching">A new challenger approaching<a class="headerlink" href="#a-new-challenger-approaching" title="Permanent link">&para;</a></h1>
+<p>Introducing state space.</p>
+<p>What if we could turn our 2nd order differential equation into two 1st order differential equations.</p>
+<details class="example">
+<summary>Show solution</summary>
+<p>Let's define some new variables.</p>
+<div class="arithmatex">\[
+x_{1}(t) = x(t),\quad x_{2}(t) = \dot{x}(t)
+\]</div>
+<p>Now, we want to create two first order differential equations from this.
+The most obvious one is:</p>
+<div class="arithmatex">\[
+\dot{x}_{1}(t) = \dot{x}(t) = x_{2}(t)
+\]</div>
+<p>Now, let's try to find <span class="arithmatex">\(\dot{x}_{2}(t)\)</span>.</p>
+<p>Using our original ODE, letting the input be <span class="arithmatex">\(u(t) = f(t)\)</span>, and substituting in our variables, we get.</p>
+<div class="arithmatex">\[
+m\dot{x}_{2}(t) + cx_{2}(t) + kx_{1}(t) = u(t)
+\]</div>
+<p>We can rearrange this to get:</p>
+<div class="arithmatex">\[
+\dot{x}_{2}(t) = -\frac{k}{m}x_{1}(t) - \frac{c}{m}x_{2}(t) + \frac{1}{m}u(t)
+\]</div>
+</details>
+<p>So, the two equations are:</p>
+<div class="arithmatex">\[
+\begin{cases}
+\dot{x}_{1}(t) = x_{2}(t) \\
+\dot{x}_{2}(t) = -\frac{k}{m}x_{1}(t) - \frac{c}{m}x_{2}(t) + \frac{1}{m}u(t)
+\end{cases}
+\]</div>
+<p>Notice that this can actually be turned into a matrix-vector equation.</p>
+<div class="arithmatex">\[
+\begin{bmatrix}\dot{x}_{1}(t) \\ \dot{x}_{2}(t)\end{bmatrix} = \begin{bmatrix}0 &amp; 1 \\ -\frac{k}{m} &amp; -\frac{c}{m}\end{bmatrix}\begin{bmatrix}x_{1}(t) \\ x_{2}(t)\end{bmatrix} + \begin{bmatrix}0 \\ \frac{1}{m}\end{bmatrix}u(t)
+\]</div>
+<p>So if we define these matrices as:</p>
+<div class="arithmatex">\[
+A = \begin{bmatrix}0 &amp; 1 \\ -\frac{k}{m} &amp; -\frac{c}{m}\end{bmatrix},\quad B = \begin{bmatrix}0 \\ \frac{1}{m}\end{bmatrix}
+\]</div>
+<p>We get a single matrix-vector equation:</p>
+<div class="arithmatex">\[
+\dot{x}(t) = Ax(t) + Bu(t)
+\]</div>
+<p>Hang on, isn't this familiar?</p>
+<p>Didn't we already solve something like this at the start?</p>
+<p>Let's solve it again, anyway.</p>
+<p>This time, we'll need to take care with the non-commutativity of the matrices.</p>
+<p>We'll solve it first using integrating factors, then again, using Laplace.</p>
+<details class="example">
+<summary>Show solution</summary>
+<div class="arithmatex">\[
+\dot{x}(t) = Ax(t) + Bu(t)
+\]</div>
+<div class="arithmatex">\[
+\dot{x}(t) - Ax(t) = Bu(t)
+\]</div>
+<p>The integrating factor isn't a simple scalar, so we'll need to take care with this.</p>
+<p>We want a matrix-valued integrating factor <span class="arithmatex">\(M(t)\)</span> that satisfies:</p>
+<div class="arithmatex">\[
+\dot{M}(t) = -AM(t)
+\]</div>
+<p>Perhaps we can redefine a <em>matrix</em> exponential to be the same Taylor/McLaurin/power series, but with matrix multiplication.</p>
+<div class="arithmatex">\[
+M(t) = \exp{(-At)} \triangleq \sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
+\]</div>
+<p>Now, if we differentiate it we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\dot{M}(t) &amp;= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}\right) \\
+&amp;= \frac{d}{dt}\left(\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!}\right) \\
+&amp;= \sum_{k=0}^{\infty}\frac{(-A)^{k}\frac{d}{dt}\left(t^{k}\right)}{k!} \\
+&amp;= \sum_{k=0}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
+\end{align*}
+\]</div>
+<p>The <span class="arithmatex">\(k=0\)</span> term vanishes since it's a constant, so we have:</p>
+<div class="arithmatex">\[
+\dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}kt^{k-1}}{k!} \\
+\]</div>
+<p>Then since <span class="arithmatex">\(\frac{k}{k!} = \frac{1}{(k-1)!}\)</span>:</p>
+<div class="arithmatex">\[
+\dot{M}(t) = \sum_{k=1}^{\infty}\frac{(-A)^{k}t^{k-1}}{(k - 1)!} \\
+\]</div>
+<p>Now we can re-index the sum using <span class="arithmatex">\(k\to k + 1\)</span></p>
+<div class="arithmatex">\[
+\dot{M}(t) = \sum_{k=0}^{\infty}\frac{(-A)^{k+1}t^{k}}{k!} \\
+\]</div>
+<p>Finally, we can factor out <span class="arithmatex">\((-A)\)</span>.</p>
+<div class="arithmatex">\[
+\begin{align*}
+\dot{M}(t) &amp;= -A\sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!} \\
+&amp;= -A\sum_{k=0}^{\infty}\frac{(-At)^{k}}{k!}
+\end{align*}
+\]</div>
+<p>Now we have out original series for <span class="arithmatex">\(M(t)\)</span>.</p>
+<div class="arithmatex">\[
+\Rightarrow \dot{M}(t) = -AM(t)
+\]</div>
+<p>So our integrating factor is:</p>
+<div class="arithmatex">\[
+M(t) = \exp{\left(-At\right)} = \sum_{k=0}^{\infty}\frac{(-A)^{k}t^{k}}{k!}
+\]</div>
+<p>We can also write this using the power notation:</p>
+<div class="arithmatex">\[
+M(t) = e^{-At}
+\]</div>
+<p>Obviously we can't take a scalar to a matrix power, instead it's just defined as the matrix power series.</p>
+<p>So pre-multiplying our equation from earlier.</p>
+<div class="arithmatex">\[
+e^{-At}\dot{x}(t) - e^{-At}Ax(t) = e^{-At}Bu(t)
+\]</div>
+<p>Then using the product rule:</p>
+<div class="arithmatex">\[
+\frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}\dot{x}(t) - e^{-At}Ax(t)
+\]</div>
+<p>We can simplify the LHS to be:</p>
+<div class="arithmatex">\[
+\frac{d}{dt}\left(e^{-At}x(t)\right) = e^{-At}Bu(t)
+\]</div>
+<p>Then integrating from <span class="arithmatex">\(\tau=0\)</span> to <span class="arithmatex">\(\tau=t\)</span>, we get:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\int_{0}^{t}\frac{d}{d\tau}e^{-A\tau}x(\tau)\,\mathrm{d}\tau &amp;= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+e^{-At}x(t) - e^{A\cdot 0}x(0) &amp;= \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+e^{-At}x(t) &amp;= x(0) + \int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+x(t) &amp;= e^{At}x(0) + e^{At}\int_{0}^{t}e^{-A\tau}Bu(\tau)\,\mathrm{d}\tau \\
+&amp;= e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+\end{align*}
+\]</div>
+<p>Note that exponentiating the zero matrix gives you the identity matrix.</p>
+<div class="arithmatex">\[
+e^{A\cdot 0} = I
+\]</div>
+<p>Additionally, for matrix exponentials, we have the following properties:</p>
+<div class="arithmatex">\[
+\begin{align*}
+e^{At_{1}}e^{At_{2}} &amp;= e^{A(t_{1} + t_{2})} \\
+\left(e^{At}\right)^{-1} = e^{-At}
+Ae^{At} = e^{At}A
+\end{align*}
+\]</div>
+<p>So the final result we get is:</p>
+<div class="arithmatex">\[
+x(t) = e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+\]</div>
+</details>
+<p>Now, let's do the Laplace transform approach.</p>
+<details class="example">
+<summary>Show solution</summary>
+<div class="arithmatex">\[
+\dot{x}(t) = Ax(t) + Bu(t)
+\]</div>
+<p>Taking the Laplace transform gives:</p>
+<div class="arithmatex">\[
+sX(s) - x(0) = AX(s) + BU(s)
+\]</div>
+<p>where</p>
+<div class="arithmatex">\[
+X(s) =
+\begin{bmatrix}
+X_{1}(s) \\
+X_{2}(s)
+\end{bmatrix},\quad
+x(0) =
+\begin{bmatrix}
+x_{1}(0) \\
+x_{2}(0)
+\end{bmatrix}
+\]</div>
+<p>Now, we can rearrange the equation:</p>
+<div class="arithmatex">\[
+\begin{align*}
+sX(s) - x(0) &amp;= AX(s) + BU(s) \\
+sX(s) - AX(s) = x(0) + BU(s) \\
+(sI - A)X(s) = x(0) + BU(s) \\
+\end{align*}
+\]</div>
+<p>Then by premultiplying by <span class="arithmatex">\((sI - A)^{-1}\)</span>, assuming it exists, we get:</p>
+<div class="arithmatex">\[
+X(s) = (sI - A)^{-1}x(0) + (sI - A)^{-1}BU(s)
+\]</div>
+<p>Then taking the Inverse Laplace transform:</p>
+<div class="arithmatex">\[
+\begin{align*}
+x(t) &amp;= \mathcal{L}^{-1}\left\{(sI - A)^{-1}x(0)\right\} + \mathcal{L}^{-1}\left\{(sI - A)^{-1}BU(s)\right\} \\
+= \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}x(0) + \left(\mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\} * Bu(t)\right) \\
+\end{align*}
+\]</div>
+<p>We have the same factor again, which for simplicity, we'll denote as:</p>
+<div class="arithmatex">\[
+\Phi(s) = (sI - A)^{-1},\quad \phi(t) = \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}
+\]</div>
+<p>Now, calculating it will be quite difficult, but we can predict what it's going to be, based on the previous method of integrating factors.</p>
+<p>Let's go through the derivation.</p>
+<div class="arithmatex">\[
+\begin{align*}
+\Phi(s) &amp;= \left(sI - A\right)^{-1} \\
+\Phi(s) &amp;= \frac{1}{s}\left(I - \frac{A}{s}\right)^{-1}
+\end{align*}
+\]</div>
+<p>We can actually use a geometric series here:</p>
+<div class="arithmatex">\[
+\sum_{n=0}^{\infty}T^{n} = \lim_{n\to \infty} S_{n} =  (I - T)^{-1}
+\]</div>
+<p>A simple proof for this is stated below:</p>
+<div class="arithmatex">\[
+S_{n} = (I + T + T^{2} + \cdots T^{n})
+\]</div>
+<div class="arithmatex">\[
+\begin{align*}
+(I - T)S_{n} = (I - T)(I + T + T^{2} + \cdots T^{n}) \\
+&amp;= I\left(I + T + T^{2} + \cdots + T^{n}\right) - T\left(I + T + T^{2} + \cdots +  T^{n}\right) \\
+&amp;= \left(I + T + T^{2} + \cdots + T^{n}\right) - \left(T + T^{2} + T{3} + \cdots + T^{n + 1}\right) \\
+&amp;= I + T + T^{2} + \cdots + T_{n} - T - T^{2} - \cdots - T^{n+1} \\
+&amp;= I - T^{n+1}
+\end{align*}
+\]</div>
+<p>So, if we take the limit of this as <span class="arithmatex">\(n\to\infty\)</span>, we get:</p>
+<div class="arithmatex">\[
+\lim_{n\to\infty}(I - T)S_{n} = I - \lim_{n\to\infty}T^{n+1}
+\]</div>
+<p>So, we actually need the condition that:</p>
+<div class="arithmatex">\[
+\lim_{n\to\infty}T^{n} = 0
+\]</div>
+<p>This is true if and only if for all eigenvalues of <span class="arithmatex">\(T\)</span>, denoted as <span class="arithmatex">\(\lambda_{i}(T)\)</span>:</p>
+<div class="arithmatex">\[
+|\lambda_{i}(T)| &lt; 1,\quad \forall \lambda_{i}(T)
+\]</div>
+<p>where:
+$$
+\mathrm{det}\left(\lambda_{i}(T)I - T\right) = 0
+$$</p>
+<p>For our case, we have:</p>
+<div class="arithmatex">\[
+T = \frac{A}{s}
+\]</div>
+<p>We can show that the eigenvalues of <span class="arithmatex">\(A\)</span> are the eigenvalues of <span class="arithmatex">\(T = \frac{A}{s}\)</span>, but scaled by <span class="arithmatex">\(\frac{1}{s}\)</span>.</p>
+<p>The eigenvalues of <span class="arithmatex">\(A\)</span>, denoted as <span class="arithmatex">\(\lambda(A)\)</span> satisfy:</p>
+<div class="arithmatex">\[
+\mathrm{det}\left(\lambda(A) I - A\right) = 0
+\]</div>
+<p>If we divide this by <span class="arithmatex">\(s^{n}\)</span>:
+$$
+\frac{1}{s^{n}}\mathrm{det}\left(\lambda(A) I - A\right) = 0
+$$</p>
+<p>Then we can factor it into the determinant as:
+$$
+\mathrm{det}\left(\frac{\lambda(A)}{s} I - \frac{A}{s}\right)
+$$</p>
+<p>Then we can see that <span class="arithmatex">\(\frac{\lambda(A)}{s}\)</span> is an eigenvalue of <span class="arithmatex">\(\frac{A}{s}\)</span>.</p>
+<p>So, in order for the series to converge, we need:</p>
+<div class="arithmatex">\[
+|\frac{\lambda(A)}{s}| &lt; 1
+\]</div>
+<p>To solve this, we pick the smallest <span class="arithmatex">\(s\)</span> required, which will be when:</p>
+<div class="arithmatex">\[
+|s| &gt; \max_{i}|\lambda_{i}|
+\]</div>
+<p>Let's assume that this is true, and we'll continue to compute the inverse Laplace.</p>
+<div class="arithmatex">\[
+\begin{align*}
+\Phi(s) &amp;= \frac{1}{s}\left(I - \frac{A}{s}\right)^{-1} \\
+&amp;= \frac{1}{s}\left(\sum_{n=0}^{\infty}\left(\frac{A}{s}\right)^{n}\right)
+&amp;= \frac{1}{s}\left(\sum_{n=0}^{\infty}\frac{A^{n}}{s^{n}}\right)
+\end{align*}
+\]</div>
+<p>Now, if we remember that the Laplace transform of a power is:</p>
+<div class="arithmatex">\[
+\mathcal{L}\left\{t^{n}\right\} = \frac{n!}{s^{n+1}},\quad t\geq 0
+\]</div>
+<p>Then we can rearrange our expression as:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\Phi(s) &amp;= \frac{1}{s}\left(\sum_{n=0}^{\infty}\frac{A^{n}}{s^{n}}\right) \\
+&amp;= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}\frac{n!}{s^{n+1}}
+\end{align*}
+\]</div>
+<p>Now, taking the inverse Laplace transform:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\phi(t) &amp;= \mathcal{L}^{-1}\left\{\Phi(s)\right\} \\
+&amp;= \mathcal{L}^{-1}\left\{\sum_{n=0}^{\infty}\frac{A^{n}}{n!}\frac{n!}{s^{n+1}}\right\} \\
+&amp;= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}\mathcal{L}^{-1}\left\{\frac{n!}{s^{n+1}}\right\} \\
+&amp;= \sum_{n=0}^{\infty}\frac{A^{n}}{n!}t^{n} \\
+&amp;= \sum_{n=0}^{\infty}\frac{(At)^{n}}{n!} \\
+\end{align*}
+\]</div>
+<p>This is the same matrix exponential from before.</p>
+<div class="arithmatex">\[
+\phi(t) = \exp{\left(At\right)} = e^{At} = \sum_{n=0}^{\infty}\frac{(At)^{n}}{n!}
+\]</div>
+<p>This gives us a very key relationship:</p>
+<div class="arithmatex">\[
+\mathcal{L}\left\{e^{At}\right\} = \left(sI - A\right)^{-1}
+\]</div>
+<p>If you remember from before, this is essentially the matrix version of:</p>
+<div class="arithmatex">\[
+\mathcal{L}\left\{e^{at}\right\} = \frac{1}{s - a}
+\]</div>
+<p>Now, we can finally solve the equation:</p>
+<div class="arithmatex">\[
+\begin{align*}
+x(t) &amp;= \mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\}x(0) + \left(\mathcal{L}^{-1}\left\{(sI - A)^{-1}\right\} * Bu(t)\right) \\
+&amp;= \phi(t)x(0) + \left(\phi * Bu\right)(t) \\
+&amp;= e^{At}x(0) + \int_{0}^{t}e^{A(t-\tau)}Bu(\tau)\,\mathrm{d}\tau
+\end{align*}
+\]</div>
+<p>As expected, this gives the same result as from convolution, but we've now connected it to the Laplace domain.</p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../m4-non-linear-systems/overview/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../../c2-control/m1-intro-to-control/overview/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "content.tabs.link", "navigation.footer"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../js/mathjax-config.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../../js/quizzes.js"></script>
+      
+        <script src="../../../../js/opencv-demos.js"></script>
+      
+        <script src="../../../../js/repl.js"></script>
+      
+    
+  </body>
+</html>
