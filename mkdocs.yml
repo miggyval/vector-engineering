@@ -1,6 +1,6 @@
-site_name: "Valencia Engineering"
-site_url: "https://miggyval.github.io/valencia-engineering/"
-copyright: "&copy; 2026 Valencia Engineering"
+site_name: "Vector Engineering"
+site_url: "https://miggyval.github.io/vector-engineering/"
+copyright: "&copy; 2026 Vector Engineering"
 
 extra:
   social:
@@ -11,6 +11,8 @@ docs_dir: docs
 
 theme:
   name: "material"
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
   features:
     - navigation.sections
     - navigation.indexes

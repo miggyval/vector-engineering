@@ -1,4 +1,4 @@
-# Valencia Engineering
+# Vector Engineering
 
 Interactive engineering course notes — signals & systems, control, and robotics — with:
 
@@ -7,7 +7,7 @@ Interactive engineering course notes — signals & systems, control, and robotic
 - Multiple choice quizzes
 - Interactive OpenCV demos (via Python)
 
-Companion videos live on the [Valencia Engineering YouTube channel](https://www.youtube.com/@ValenciaEngineeringEducation).
+Companion videos live on the [YouTube channel](https://www.youtube.com/@ValenciaEngineeringEducation).
 
 !!! info "Work in progress"
     This is a prototype site. More modules and content will appear over time.

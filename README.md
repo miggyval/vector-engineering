@@ -1,4 +1,4 @@
-# Valencia Engineering
+# Vector Engineering
 
 ## Installation Guide
 
@@ -18,8 +18,8 @@ brew install \
 ```zsh
 mkdir -p ~/web
 cd ~/web
-git clone https://github.com/miggyval/valencia-engineering.git
-cd valencia-engineering
+git clone https://github.com/miggyval/vector-engineering.git
+cd vector-engineering
 ```
 
 ```zsh
