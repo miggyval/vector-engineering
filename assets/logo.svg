@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-120 -120 240 240">
+  <g fill="#46587a">
+    <rect x="-14" y="-106" width="28" height="32" rx="4"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(45)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(90)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(135)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(180)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(225)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(270)"/>
+    <rect x="-14" y="-106" width="28" height="32" rx="4" transform="rotate(315)"/>
+    <circle r="82"/>
+  </g>
+  <circle r="57" fill="#e8eaf6"/>
+  <polygon points="-36,-39.6 -20.2,-39.6 0,13 20.2,-39.6 36,-39.6 10.1,39.6 -10.1,39.6" fill="#303f9f"/>
+  <line x1="4" y1="10" x2="72" y2="-58" stroke="#ffb300" stroke-width="9" stroke-linecap="round"/>
+  <polygon points="88,-74 79.8,-50.2 64.2,-65.8" fill="#ffb300"/>
+</svg>
