@@ -9,6 +9,8 @@ Interactive engineering course notes — signals & systems, control, and robotic
 
 Companion videos live on the [YouTube channel](https://www.youtube.com/@ValenciaEngineeringEducation).
 
+<div id="ve-progress-panel"></div>
+
 !!! info "Work in progress"
     This is a prototype site. More modules and content will appear over time.
 

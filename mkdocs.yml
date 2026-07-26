@@ -114,6 +114,7 @@ extra_javascript:
 
   # Your own JS
   - js/quizzes.js
+  - js/progress.js
   - js/opencv-demos.js
   - js/repl.js
 
