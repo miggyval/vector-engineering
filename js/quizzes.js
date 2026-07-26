@@ -111,6 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       persist();
+
+      // Contract for progress.js: data-correct on the quiz, plus an event
+      quiz.dataset.correct = isCorrect ? "true" : "false";
+      document.dispatchEvent(new CustomEvent("ve:quiz-graded"));
+
       return isCorrect;
     }
 
@@ -136,9 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // A changed answer invalidates the previous verdict
       checked = false;
+      delete quiz.dataset.correct;
       renderSelection();
       clearGrading();
       persist();
+      document.dispatchEvent(new CustomEvent("ve:quiz-graded"));
 
       if (checkAllBtn) updateCheckAllState();
     }

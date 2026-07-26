@@ -531,3 +531,166 @@ html[data-md-color-scheme] .md-header {
   border-color: var(--ve-indigo);
   transform: none;    /* no jump for these tiny pills */
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Progress tracking (progress.js)                                    */
+/* ------------------------------------------------------------------ */
+
+/* Thin course-wide bar pinned to the bottom edge of the header */
+.ve-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.ve-progress__fill {
+  height: 100%;
+  width: 0;
+  background: var(--ve-gold);
+  transition: width 0.4s ease;
+}
+
+/* Completed pages get a tick in the nav */
+.md-nav__link.ve-done > .md-ellipsis::after {
+  content: "✓";
+  margin-left: 0.4em;
+  color: var(--ve-gold);
+  font-weight: 500;
+}
+
+/* Per-page status card at the foot of the content */
+.ve-status {
+  margin: 2.5rem 0 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--ve-indigo);
+  background: var(--ve-indigo-light);
+  color: var(--ve-page-fg);
+  font-size: 0.8rem;
+}
+
+.ve-status--done {
+  border-color: var(--ve-gold);
+  font-weight: 500;
+}
+
+.ve-status--done::before {
+  content: "✓ ";
+  color: var(--ve-gold);
+}
+
+/* Progress panel (homepage) */
+.ve-panel {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ve-indigo);
+  border-radius: 12px;
+  background: var(--ve-indigo-light);
+}
+
+.ve-panel__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.ve-panel__head span {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.ve-panel__bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.ve-panel__bar > div {
+  height: 100%;
+  background: var(--ve-gold);
+  transition: width 0.4s ease;
+}
+
+.ve-panel__rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.ve-panel__row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ve-panel__meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.ve-panel__meta strong {
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.ve-panel__meta span {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.ve-ring {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+
+.ve-ring__track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.15);
+  stroke-width: 5;
+}
+
+.ve-ring__fill {
+  fill: none;
+  stroke: var(--ve-gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.ve-panel__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.ve-panel__reset {
+  background: none;
+  border: 1px solid var(--ve-indigo);
+  color: inherit;
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.ve-panel__reset:hover {
+  border-color: var(--ve-gold);
+  color: var(--ve-gold);
+}
