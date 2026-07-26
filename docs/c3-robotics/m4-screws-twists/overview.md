@@ -1,5 +1,7 @@
 # Module 1: Overview
 
+<div id="ve-module-progress"></div>
+
 <!doctype html>
 <html lang="en">
 <head>

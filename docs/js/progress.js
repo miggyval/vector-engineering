@@ -151,6 +151,65 @@
     );
   }
 
+  // Modules are the second nav level: sections hold modules, modules hold
+  // pages (sometimes via a chapter level, which pageLinks flattens)
+  function moduleItems() {
+    return Array.from(
+      document.querySelectorAll(
+        '.md-nav--primary nav[data-md-level="1"] > .md-nav__list > .md-nav__item'
+      )
+    );
+  }
+
+  function modulePanel() {
+    const host = document.getElementById("ve-module-progress");
+    if (!host) return;
+
+    const key = pageKey();
+    const li = moduleItems().find((item) =>
+      pageLinks(item).some((a) => pageKey(a.getAttribute("href")) === key)
+    );
+    if (!li) {
+      host.hidden = true;
+      return;
+    }
+
+    const own = li.querySelector(":scope > .md-nav__link");
+    const title = own ? own.textContent.trim() : "This module";
+    const links = pageLinks(li);
+    const done = links.filter((a) => {
+      const entry = store[pageKey(a.getAttribute("href"))];
+      return entry && entry.done;
+    }).length;
+    const pct = Math.round((done / links.length) * 100);
+
+    const items = links
+      .map((a) => {
+        const href = pageKey(a.getAttribute("href"));
+        const entry = store[href];
+        const cls =
+          (entry && entry.done ? "ve-module__item--done" : "") +
+          (href === key ? " ve-module__item--current" : "");
+        return (
+          '<li class="' + cls.trim() + '"><a href="' + a.href + '">' +
+          a.textContent.trim() + "</a></li>"
+        );
+      })
+      .join("");
+
+    // A long module would otherwise push the page's own content off-screen
+    const open = links.length <= 6 ? " open" : "";
+
+    host.className = "ve-module";
+    host.innerHTML =
+      '<div class="ve-module__head">' + ring(pct) +
+      '<div class="ve-module__meta"><strong>' + title + "</strong>" +
+      "<span>" + done + " of " + links.length + " pages complete</span></div></div>" +
+      "<details class=\"ve-module__details\"" + open + ">" +
+      "<summary>Pages in this module</summary>" +
+      '<ol class="ve-module__list">' + items + "</ol></details>";
+  }
+
   function panel() {
     const host = document.getElementById("ve-progress-panel");
     if (!host) return;
@@ -234,6 +293,7 @@
     if (state.done !== wasDone) {
       navTicks();
       panel();
+      modulePanel();
     }
   }
 
@@ -243,6 +303,7 @@
     bumpStreak();
     navTicks();
     panel();
+    modulePanel();
     refresh();
 
     window.addEventListener("scroll", refresh, { passive: true });

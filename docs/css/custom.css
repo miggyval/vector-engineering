@@ -694,3 +694,67 @@ html[data-md-color-scheme] .md-header {
   border-color: var(--ve-gold);
   color: var(--ve-gold);
 }
+
+/* Module progress card (overview pages) */
+.ve-module {
+  margin: 1.25rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--ve-indigo);
+  border-radius: 12px;
+  background: var(--ve-indigo-light);
+}
+
+.ve-module__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ve-module__meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.ve-module__meta strong {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.ve-module__meta span {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.ve-module__list {
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+}
+
+.ve-module__list li {
+  margin: 0.2rem 0;
+}
+
+.ve-module__item--done > a::after {
+  content: " ✓";
+  color: var(--ve-gold);
+}
+
+.ve-module__item--current > a {
+  font-weight: 500;
+}
+
+.ve-module__details {
+  margin-top: 0.8rem;
+}
+
+.ve-module__details > summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.ve-module__details > summary:hover {
+  color: var(--ve-gold);
+}

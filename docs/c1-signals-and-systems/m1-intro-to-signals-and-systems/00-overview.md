@@ -1,4 +1,7 @@
 # Module 1.1 - Intro to Signals and System: Overview
+
+<div id="ve-module-progress"></div>
+
 ## Learning Outcomes
 By the end of the module, you should be able to:
 - Describe what a signal is

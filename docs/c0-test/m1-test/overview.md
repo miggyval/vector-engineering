@@ -1,5 +1,7 @@
 # Module 1: Overview
 
+<div id="ve-module-progress"></div>
+
 This module introduces the core ideas we'll explore:
 
 - Differential Equations

@@ -12,4 +12,3 @@ For the signal $x(t) = u(t-2)$, what does the shift do?
   <button class="mcq-check">Check answer</button>
   <p class="mcq-feedback"></p>
 </div>
-Z

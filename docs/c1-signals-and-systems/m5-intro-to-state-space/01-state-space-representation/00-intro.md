@@ -1,5 +1,7 @@
 # What is state-space?
 
+<div id="ve-module-progress"></div>
+
 ## A warm-up
 Let's solve a simple first order differential equation.
 
