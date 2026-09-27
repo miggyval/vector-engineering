@@ -1,4 +1,7 @@
 ---
+ve_id: page-0de694e11f1a5012
+ve_kind: fixture
+ve_legacy_path: c0-test/m1-test/theory/
 search:
   exclude: true
 ---

@@ -1,3 +1,9 @@
+---
+ve_id: page-164666d18ac65f6e
+ve_kind: landing
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/00-overview/
+---
+
 # Module 1.1 - Intro to Signals and System: Overview
 
 <div id="ve-module-progress"></div>

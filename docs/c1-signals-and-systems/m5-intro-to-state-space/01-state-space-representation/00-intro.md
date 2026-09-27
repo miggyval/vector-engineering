@@ -1,3 +1,9 @@
+---
+ve_id: page-ecc61329820d5c41
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m5-intro-to-state-space/01-state-space-representation/00-intro/
+---
+
 # What is state-space?
 
 <div id="ve-module-progress"></div>

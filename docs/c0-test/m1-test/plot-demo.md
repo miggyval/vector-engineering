@@ -1,3 +1,9 @@
+---
+ve_id: page-3e319d402b3e552b
+ve_kind: practice
+ve_legacy_path: c0-test/m1-test/plot-demo/
+---
+
 ## Time & Frequency Plotter
 
 Type a function of `t` (use `**` for powers, e.g. `t**2`):

@@ -1,3 +1,9 @@
+---
+ve_id: page-f120aa4dbc1550a6
+ve_kind: practice
+ve_legacy_path: c0-test/m1-test/demo/
+---
+
 # Module 1: Demo
 
 This page will eventually host an interactive OpenCV demo.

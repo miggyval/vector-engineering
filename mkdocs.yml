@@ -114,6 +114,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
   # Your own JS
+  - js/learning-store.js
   - js/quizzes.js
   - js/progress.js
   - js/plotter.js

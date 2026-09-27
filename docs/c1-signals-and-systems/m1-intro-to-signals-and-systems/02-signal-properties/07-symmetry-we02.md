@@ -1,3 +1,9 @@
+---
+ve_id: page-ffc731ef1a54594d
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/07-symmetry-we02/
+---
+
 # Chapter 2 - Signal Properties
 
 ## Symmetry

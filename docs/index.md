@@ -1,3 +1,9 @@
+---
+ve_id: page-4e609387282e5744
+ve_kind: landing
+ve_legacy_path: 
+---
+
 # Vector Engineering
 
 Interactive engineering course notes — signals & systems, control, and robotics — with:

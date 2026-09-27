@@ -1,3 +1,9 @@
+---
+ve_id: page-c6b8fadc41635df8
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/01-what-is-a-signal/00-intro/
+---
+
 # Chapter 1 - What is a signal?
 ## Introduction
 A *signal* is a quantity that varies depending on another independent quantity, typically one that is time-like, or space-like.

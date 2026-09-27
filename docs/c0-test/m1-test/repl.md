@@ -1,3 +1,9 @@
+---
+ve_id: page-20be1b98e2fc5fac
+ve_kind: practice
+ve_legacy_path: c0-test/m1-test/repl/
+---
+
 # Python Practice Shell
 
 Use this mini Python shell to experiment with small code snippets.

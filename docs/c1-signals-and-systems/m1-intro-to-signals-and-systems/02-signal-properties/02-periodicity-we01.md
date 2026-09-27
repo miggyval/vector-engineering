@@ -1,3 +1,9 @@
+---
+ve_id: page-507880bf03ec5e3d
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/02-periodicity-we01/
+---
+
 # Chapter 2 - Signal Properties
 
 ## Periodicity

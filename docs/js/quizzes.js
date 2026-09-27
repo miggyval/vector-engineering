@@ -22,24 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const summaryEl = document.getElementById("quiz-summary");
   if (summaryEl) summaryEl.setAttribute("role", "status");
 
-  const PAGE_KEY = "mcq:" + window.location.pathname;
-
-  function loadSaved(index) {
-    try {
-      const raw = localStorage.getItem(`${PAGE_KEY}:${index}`);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function save(index, state) {
-    try {
-      localStorage.setItem(`${PAGE_KEY}:${index}`, JSON.stringify(state));
-    } catch (e) {
-      // storage full/blocked: quiz still works, just doesn't persist
-    }
-  }
+  const learning = window.VELearning;
+  function loadSaved(index) { return learning?.quiz(quizzes[index].dataset.questionId); }
+  function save(index, state) { learning?.saveQuiz(quizzes[index].dataset.questionId, state); }
 
   function normalize(answer) {
     if (!answer) return "";
@@ -107,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // revealAnswer: check-all pages show the correct letter on a miss;
     // per-question mode just says "try again"
-    function grade(revealAnswer) {
+    function grade(revealAnswer, restored = false) {
       const isCorrect = normalize(selection()) === normalize(answer);
       checked = true;
 
@@ -133,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       persist();
+      if (!restored) learning?.activity();
 
       // Contract for progress.js: data-correct on the quiz, plus an event
       quiz.dataset.correct = isCorrect ? "true" : "false";
@@ -192,9 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Restore persisted state
     const saved = loadSaved(index);
     if (saved && saved.sel) {
-      saved.sel.split(",").filter(Boolean).forEach((v) => selected.add(v));
+      saved.sel.split(",").filter(v => options.some(o => o.dataset.option === v)).forEach((v) => selected.add(v));
       renderSelection();
-      if (saved.checked) grade(!!checkAllBtn);
+      if (saved.checked) grade(!!checkAllBtn, true);
     }
 
     return { selection, grade };

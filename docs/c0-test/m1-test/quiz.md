@@ -1,4 +1,7 @@
 ---
+ve_id: page-f49c9ed9197053c1
+ve_kind: fixture
+ve_legacy_path: c0-test/m1-test/quiz/
 search:
   exclude: true
 ---
@@ -7,7 +10,7 @@ search:
 
 For the signal $x(t) = u(t-2)$, what does the shift do?
 
-<div class="mcq" data-answer="b">
+<div class="mcq" data-answer="b" data-question-id="q-a5a92e83acda596b" data-legacy-index="0">
   <ul>
     <li data-option="a">Shifts the unit step 2 units to the left.</li>
     <li data-option="b">Shifts the unit step 2 units to the right.</li>

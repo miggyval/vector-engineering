@@ -1,3 +1,9 @@
+---
+ve_id: page-b1ddc90b6d7355cf
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m5-intro-to-state-space/01-state-space-representation/01-definition/
+---
+
 # Definition: State-Space
 
 Now, we can finally define the state-space representation.

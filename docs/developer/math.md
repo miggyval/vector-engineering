@@ -1,4 +1,7 @@
 ---
+ve_id: page-ad79cd30651a5e13
+ve_kind: fixture
+ve_legacy_path: developer/math/
 search:
   exclude: true
 ---

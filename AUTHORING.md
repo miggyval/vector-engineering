@@ -40,3 +40,13 @@ supported per page. Use relative links for assets so GitHub Pages subpaths work.
 
 Required publication assets live in `docs/media/`; generated intermediates stay
 outside that directory. Never substitute invented diagrams for missing assets.
+
+## Stable progress metadata
+
+Each page has a permanent `ve_id`, `ve_kind` (`lesson`, `landing`, `practice`, or
+`fixture`), and frozen `ve_legacy_path`. Each quiz has a permanent
+`data-question-id` and frozen `data-legacy-index`. Do not change these identifiers
+when moving pages or reordering questions. New questions need unique IDs and a
+new unused legacy index. New pages need unique IDs; choose the appropriate kind.
+The build rejects missing/duplicate IDs. Only navigated lesson pages count toward
+course completion. The catalogue and landing-page links are generated at build time.

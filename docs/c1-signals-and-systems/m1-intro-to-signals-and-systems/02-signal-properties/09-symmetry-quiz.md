@@ -1,3 +1,9 @@
+---
+ve_id: page-11ea866010eb5bea
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/09-symmetry-quiz/
+---
+
 # Chapter 2 - Signal Properties
 ## Symmetry - Quiz
 
@@ -10,7 +16,7 @@ Select all that apply.
 **Hint:** $f(t) = f(-t),\ \forall\,t\ \Longleftrightarrow\ f(t) \text{ is even symmetric}$
 
 
-<div class="mcq mcq" data-answer="a,c,d">
+<div class="mcq mcq" data-answer="a,c,d" data-question-id="q-df3597c341275a68" data-legacy-index="0">
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad f_{1}(t) = \cos{(3t)}$</li>
     <li data-option="b" class="mathjax_process">B. $\quad f_{2}(t) = te^{-t}$</li>
@@ -31,7 +37,7 @@ Select all that apply.
 
 **Hint:** $f(t) = -f(-t),\ \forall\,t\ \Longleftrightarrow\ f(t) \text{ is odd symmetric}$
 
-<div class="mcq mcq" data-answer="b,c,d,e">
+<div class="mcq mcq" data-answer="b,c,d,e" data-question-id="q-f555f3320d45597e" data-legacy-index="1">
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad f_{1}(t) = \cos{(3t)}$</li>
     <li data-option="b" class="mathjax_process">B. $\quad f_{2}(t) = te^{-t^{2}}$</li>
@@ -50,7 +56,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### a) $f(t) = t(t^{2} - 1)e^{-t^{2}}$
 
-<div class="mcq mcq-inline" data-answer="b">
+<div class="mcq mcq-inline" data-answer="b" data-question-id="q-ead6bb51be2752d6" data-legacy-index="2">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -63,7 +69,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### b) $f(t) = \cos{(t)} + t^{2}$
 
-<div class="mcq mcq-inline" data-answer="a">
+<div class="mcq mcq-inline" data-answer="a" data-question-id="q-92a9872fe11f56d6" data-legacy-index="3">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -77,7 +83,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### c) $f(t) = \sin{(|t|)}$
 
-<div class="mcq mcq-inline" data-answer="a">
+<div class="mcq mcq-inline" data-answer="a" data-question-id="q-06267115e2e95c7a" data-legacy-index="4">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -91,7 +97,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### d) $f(t) = u(t)$
 
-<div class="mcq mcq-inline" data-answer="c">
+<div class="mcq mcq-inline" data-answer="c" data-question-id="q-969aa881b8505986" data-legacy-index="5">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -103,7 +109,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### e) $f(t) = \frac{t}{t^{2}+1}$
 
-<div class="mcq mcq-inline" data-answer="b">
+<div class="mcq mcq-inline" data-answer="b" data-question-id="q-77119570cad95a9f" data-legacy-index="6">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -116,7 +122,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### f) $f(t) = \begin{cases}\frac{\sin{(t)}}{t},\quad &t\neq 0\\ 1,\quad &t=0\end{cases}$
 
-<div class="mcq mcq-inline" data-answer="a">
+<div class="mcq mcq-inline" data-answer="a" data-question-id="q-2ba661e257355ff2" data-legacy-index="7">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -129,7 +135,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### g) $f(t) = \begin{cases}\frac{1 - \cos{(t)}}{t},\quad &t\neq 0\\ 0,\quad &t=0\end{cases}$
 
-<div class="mcq mcq-inline" data-answer="b">
+<div class="mcq mcq-inline" data-answer="b" data-question-id="q-a901b54fbfab514c" data-legacy-index="8">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -142,7 +148,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### h) $f(t) = \begin{cases}\frac{t\cos{t} - \sin{(t)}}{t^{2}},\quad &t\neq 0\\ 0,\quad &t=0\end{cases}$
 
-<div class="mcq mcq-inline" data-answer="b">
+<div class="mcq mcq-inline" data-answer="b" data-question-id="q-68106316ce465910" data-legacy-index="9">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -155,7 +161,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### i) $f(t) = u(t + a) - u(t - a),\quad a>0$
 
-<div class="mcq mcq-inline" data-answer="a">
+<div class="mcq mcq-inline" data-answer="a" data-question-id="q-eae41602520456e8" data-legacy-index="10">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -168,7 +174,7 @@ For the following signals, determine if they are even, odd, or neither.
 
 #### j) $f(t) = \mathrm{sgn}(t)t^{2}$
 
-<div class="mcq mcq-inline" data-answer="b">
+<div class="mcq mcq-inline" data-answer="b" data-question-id="q-fecb542bf9435fe0" data-legacy-index="11">
   <ul>
     <li data-option="a" class="mathjax_process">Even</li>
     <li data-option="b" class="mathjax_process">Odd</li>
@@ -187,7 +193,7 @@ Select all that apply.
 **Note:** You may assume that all signals are differentiable and integrable, where needed.
 
 
-<div class="mcq" data-answer="c,d,e">
+<div class="mcq" data-answer="c,d,e" data-question-id="q-a232aec3bdb554fb" data-legacy-index="12">
   <ul>
     <li data-option="a" class="mathjax_process">A. If $x(t)$ is even, and $y(t)$ is odd, then $x(t) + y(t)$ is odd.</li>
     <li data-option="b" class="mathjax_process">B. If $x(t)$ is odd, and $y(t)$ is odd, then $x(t)y(t)$ is odd.</li>
@@ -206,7 +212,7 @@ Which of the following is a valid graphical/visual statement about odd symmetry?
 
 Select all that apply.
 
-<div class="mcq" data-answer="a,d,e">
+<div class="mcq" data-answer="a,d,e" data-question-id="q-da43a6b051c15644" data-legacy-index="13">
   <ul>
     <li data-option="a" class="mathjax_process">A. An odd symmetric signal must pass through the origin (0, 0)</li>
     <li data-option="b" class="mathjax_process">B. An odd symmetric signal remains unchanged when you flip horizontally.</li>

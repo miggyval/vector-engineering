@@ -1,3 +1,9 @@
+---
+ve_id: page-455d8e8eee6b51a8
+ve_kind: lesson
+ve_legacy_path: c1-signals-and-systems/m1-intro-to-signals-and-systems/02-signal-properties/04-periodicity-quiz/
+---
+
 # Chapter 2 - Signal Properties
 ## Periodicity - Quiz
 
@@ -7,7 +13,7 @@ Which of the following signals is **periodic**?
 
 Select all that apply.
 
-<div class="mcq" data-answer="a,b,d">
+<div class="mcq" data-answer="a,b,d" data-question-id="q-9148d928b7bd5398" data-legacy-index="0">
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad f_{1}(t) = \sin(2\pi t)$</li>
     <li data-option="b" class="mathjax_process">B. $\quad f_{2}(t) = \lvert\cos(2\pi t)\rvert$</li>
@@ -282,7 +288,7 @@ Which of the following signals is **non-periodic**?
 
 Select all that apply.
 
-<div class="mcq" data-answer="b,e">
+<div class="mcq" data-answer="b,e" data-question-id="q-ea3435cfa71652a4" data-legacy-index="1">
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad g_{1}(t) = \sin{(2\pi t)} + \sin{(4\pi t)}$</li>
     <li data-option="b" class="mathjax_process">B. $\quad g_{2}(t) = \sin{(t)} + \sin{(\sqrt{2}t)}$</li>
@@ -302,7 +308,7 @@ Which of the following *discrete-time signals* is **periodic**?
 
 Select all that apply.
 
-<div class="mcq" data-answer="a,b,c,e">
+<div class="mcq" data-answer="a,b,c,e" data-question-id="q-1a60cceb70805848" data-legacy-index="2">
   <ul>
     <li data-option="a" class="mathjax_process">A. $\quad h_{1}[n] = (-1)^{n}$</li>
     <li data-option="b" class="mathjax_process">B. $\quad h_{2}[n] = \sin{\left(\frac{\pi n}{2}\right)}$</li>
