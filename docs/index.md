@@ -14,12 +14,7 @@ Companion videos live on the [YouTube channel](https://www.youtube.com/@Valencia
 !!! info "Work in progress"
     This is a prototype site. More modules and content will appear over time.
 
-Here is a quick math rendering test:
 
-Inline example: $e^{j\omega t}$.
+<div id="ve-continue"></div>
 
-Display example:
-
-$$
-\frac{d^2 x(t)}{dt^2} + 2 \zeta \omega_0 \frac{dx(t)}{dt} + \omega_0^2 x(t) = u(t)
-$$
+<!-- Course cards are generated from navigation. -->

@@ -16,13 +16,14 @@ for i in range(5):
 
 <div id="python-repl" class="python-repl">
   <div class="repl-input-area">
+    <label for="repl-input">Python code</label>
     <textarea id="repl-input" spellcheck="false">for i in range(5):
     print(i**2)</textarea>
   </div>
 
   <div class="repl-controls">
     <button id="repl-run">Run</button>
-    <span id="repl-status"></span>
+    <span id="repl-status" role="status"></span>
   </div>
 
   <div class="repl-output-area">

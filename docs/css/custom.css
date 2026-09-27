@@ -758,3 +758,46 @@ html[data-md-color-scheme] .md-header {
 .ve-module__details > summary:hover {
   color: var(--ve-gold);
 }
+
+/* Shared accessible surfaces and responsive learning components. */
+:root { --ve-radius: .6rem; --ve-action-bg: #39478b; --ve-action-fg: #fff; }
+[data-md-color-scheme="slate"] { --ve-action-bg: #b9c2ff; --ve-action-fg: #111827; }
+.md-typeset { line-height: 1.7; }
+.md-content, .md-content__inner, .md-typeset, .repl-output-area > div { min-width: 0; }
+.md-typeset mjx-container[display="true"], .md-typeset pre { max-width: 100%; overflow-x: auto; }
+.md-typeset img, .md-typeset video { max-width: 100%; }
+.ve-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.ve-course-card { display: flex; flex-direction: column; gap: .6rem; border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius); padding: 1rem; background: var(--ve-indigo-lighter); }
+.ve-course-card strong { color: var(--ve-indigo-dark); }
+.ve-course-card span { font-size: .8rem; }
+.md-typeset button, .md-typeset .ve-button { background: var(--ve-action-bg); color: var(--ve-action-fg); border-radius: var(--ve-radius); padding: .5rem .85rem; cursor: pointer; font: inherit; }
+.md-typeset button:disabled { opacity: .6; cursor: not-allowed; }
+.md-typeset button:hover:not(:disabled), .md-typeset .ve-button:hover { filter: brightness(.93); background: var(--ve-action-bg); color: var(--ve-action-fg); }
+:focus-visible { outline: 3px solid var(--ve-gold); outline-offset: 3px; }
+.mcq li[data-option] { padding: 0; }
+.mcq li[data-option] label { display: flex; align-items: baseline; gap: .6rem; padding: .5rem .65rem; cursor: pointer; min-height: 44px; }
+.mcq li[data-option] input { flex-shrink: 0; accent-color: var(--ve-action-bg); }
+.mcq.mcq-inline li[data-option]::before { display: none; }
+.mcq-feedback { border-radius: .4rem; }
+[data-md-color-scheme="slate"] .mcq-feedback--correct { color: #a5d6a7; }
+[data-md-color-scheme="slate"] .mcq-feedback--incorrect { color: #ffb4ab; }
+[data-md-color-scheme="slate"] .mcq-feedback--warn { color: #ffda84; }
+.python-repl .repl-output-area pre { background: #111827; color: #f4f4ff; min-height: 3rem; }
+.repl-controls, .plot-controls, .ve-progress-actions { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+.plot-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+#plotter input { max-width: 100%; border: 1px solid var(--ve-indigo); border-radius: .3rem; padding: .3rem; }
+#plotter input[type="number"] { width: 6rem; }
+#plotter input[type="text"] { width: 16rem; }
+#plot-status, #repl-status { opacity: 1 !important; }
+.ve-status { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary { width: 12.1rem; left: auto; }
+  .md-nav--primary .md-nav__list { width: auto; }
+}
+@media screen and (max-width: 50em) {
+  .ve-course-grid, .plot-results, .python-repl .repl-output-area { grid-template-columns: minmax(0, 1fr); }
+  .edge-demo .controls, .edge-demo .preview { min-width: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}

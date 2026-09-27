@@ -1,3 +1,8 @@
+---
+search:
+  exclude: true
+---
+
 ### Q1. Time shifting of a unit step
 
 For the signal $x(t) = u(t-2)$, what does the shift do?

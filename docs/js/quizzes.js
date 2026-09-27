@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const checkAllBtn = document.getElementById("quiz-check-all");
   const summaryEl = document.getElementById("quiz-summary");
+  if (summaryEl) summaryEl.setAttribute("role", "status");
 
   const PAGE_KEY = "mcq:" + window.location.pathname;
 
@@ -58,6 +59,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const button = quiz.querySelector(".mcq-check");
     const isMulti = answer.includes(",");
 
+    if (feedback) feedback.setAttribute("role", "status");
+    const group = quiz.querySelector("ul");
+    group.setAttribute("role", "group");
+    const question = quiz.querySelector("p");
+    if (question) {
+      question.id ||= `quiz-question-${index}`;
+      group.setAttribute("aria-labelledby", question.id);
+    } else group.setAttribute("aria-label", `Question ${index + 1}`);
+    options.forEach((opt) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = isMulti ? "checkbox" : "radio";
+      input.name = `quiz-${index}`;
+      input.value = opt.dataset.option;
+      const text = document.createElement("span");
+      while (opt.firstChild) text.appendChild(opt.firstChild);
+      label.append(input, text);
+      opt.append(label);
+    });
     let selected = new Set();
     let checked = false;
 
@@ -66,9 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderSelection() {
-      options.forEach((o) =>
-        o.classList.toggle("selected", selected.has(o.dataset.option))
-      );
+      options.forEach((o) => {
+        const active = selected.has(o.dataset.option);
+        o.classList.toggle("selected", active);
+        o.querySelector("input").checked = active;
+      });
     }
 
     function clearGrading() {
@@ -151,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     options.forEach((opt) => {
-      opt.addEventListener("click", () => select(opt.dataset.option));
+      opt.querySelector("input").addEventListener("change", () => select(opt.dataset.option));
     });
 
     if (button) {

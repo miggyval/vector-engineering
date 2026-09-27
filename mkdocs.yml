@@ -37,15 +37,8 @@ theme:
 
 nav:
   - Home: index.md
-  - Test:
-    - Module 0.1 - Test:
-      - Overview: c0-test/m1-test/overview.md
-      - Theory: c0-test/m1-test/theory.md
-      - Quiz: c0-test/m1-test/quiz.md
-      - Demo: c0-test/m1-test/demo.md
-      - Plotting Demo: c0-test/m1-test/plot-demo.md
-      - Python Shell: c0-test/m1-test/repl.md
   - Signals and Systems:
+    - Overview: c1-signals-and-systems/index.md
     - Module 1.1 - Intro to Signals and Systems:
       - Overview: c1-signals-and-systems/m1-intro-to-signals-and-systems/00-overview.md
       - Chapter 1 - What is a Signal?:
@@ -68,7 +61,7 @@ nav:
       - Chapter 4 - What is a System?: c1-signals-and-systems/m1-intro-to-signals-and-systems/04-what-is-a-system.md
     - Module 1.2 - LTI Systems:
       - Overview: c1-signals-and-systems/m2-lti-systems/overview.md
-    - Module 1.2 - Frequency Domain Analysis:
+    - Module 1.3 - Frequency Domain Analysis:
       - Overview: c1-signals-and-systems/m3-frequency-domain-analysis/overview.md
     - Module 1.4 - Non-linear Systems:
       - Overview: c1-signals-and-systems/m4-non-linear-systems/overview.md
@@ -76,6 +69,7 @@ nav:
       - Chapter 1 - State Space Representation:
         - "Overview": c1-signals-and-systems/m5-intro-to-state-space/01-state-space-representation/00-intro.md
   - Control:
+    - Overview: c2-control/index.md
     - Module 2.1 - Intro to Control:
       - Overview: c2-control/m1-intro-to-control/overview.md
     - Module 2.2 - Open Loop Systems:
@@ -87,6 +81,7 @@ nav:
     - Module 2.5 - State Space Control:
       - Overview: c2-control/m5-state-space-control/overview.md
   - Robotics:
+    - Overview: c3-robotics/index.md
     - Module 3.1 - Intro to Robotics:
       - Overview: c3-robotics/m1-intro-to-robotics/overview.md
     - Module 3.2 - Rotations and Transformations:
@@ -95,6 +90,12 @@ nav:
       - Overview: c3-robotics/m3-configuration-space/overview.md
     - Module 3.4 - Screws and Twists:
       - Overview: c3-robotics/m4-screws-twists/overview.md
+
+  - Practice:
+    - Overview: practice/index.md
+    - Python Shell: c0-test/m1-test/repl.md
+    - Time & Frequency Plotter: c0-test/m1-test/plot-demo.md
+    - Edge Demo: c0-test/m1-test/demo.md
 
 
 markdown_extensions:
@@ -115,6 +116,7 @@ extra_javascript:
   # Your own JS
   - js/quizzes.js
   - js/progress.js
+  - js/plotter.js
   - js/opencv-demos.js
   - js/repl.js
 
@@ -135,3 +137,13 @@ plugins:
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path>
         </svg>
+
+hooks:
+  - hooks/site.py
+
+not_in_nav: |
+  /c0-test/m1-test/overview.md
+  /c0-test/m1-test/theory.md
+  /c0-test/m1-test/quiz.md
+  /developer/**
+  /c1-signals-and-systems/m5-intro-to-state-space/01-state-space-representation/01-definition.md
