@@ -117,6 +117,7 @@ extra_javascript:
   - js/learning-store.js
   - js/quizzes.js
   - js/progress.js
+  - js/demo-client.js
   - js/plotter.js
   - js/opencv-demos.js
   - js/repl.js

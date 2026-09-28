@@ -1,4 +1,3 @@
-docs/media/*
 .DS_Store
 
 
@@ -52,7 +51,7 @@ site/
 # -----------------------------
 # Manim writes to a top-level media/ directory by default.
 # We still keep docs/media/, so this is safe.
-media/
+/media/
 
 # -----------------------------
 # LaTeX artifacts
@@ -79,4 +78,7 @@ circuits/*.svg
 node_modules/
 npm-debug.log*
 yarn-error.log*
-pnpm-lock.yaml
+
+# Browser test reports
+playwright-report/
+test-results/

@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (feedback) feedback.setAttribute("role", "status");
     const group = quiz.querySelector("ul");
-    group.setAttribute("role", "group");
+    quiz.setAttribute("role", "group");
     const question = quiz.querySelector("p");
     if (question) {
       question.id ||= `quiz-question-${index}`;
-      group.setAttribute("aria-labelledby", question.id);
-    } else group.setAttribute("aria-label", `Question ${index + 1}`);
+      quiz.setAttribute("aria-labelledby", question.id);
+    } else quiz.setAttribute("aria-label", `Question ${index + 1}`);
     options.forEach((opt) => {
       const label = document.createElement("label");
       const input = document.createElement("input");

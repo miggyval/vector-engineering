@@ -26,7 +26,7 @@ def on_page_markdown(markdown, page, config, files):
         section = next(item[title] for item in config.nav if title in item)
         for item in section[1:]:
             for name, children in item.items():
-                url = get_relative_url(files.get_file_from_path(first_path(children)).url, page.url)
+                url = get_relative_url(first_path(children), page.file.src_uri)
                 markdown += f'\n- [{name}]({url})\n'
     return markdown
 

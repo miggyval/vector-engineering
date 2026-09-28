@@ -33,7 +33,7 @@ We'll add a video and proper content here later.
 
 <div class="lesson-video">
   <video controls>
-    <source src="/media/videos/01-intro/2160p60/FourierTransformDefinition.mp4" type="video/mp4">
+    <source src="../../../media/videos/01-intro/2160p60/FourierTransformDefinition.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>

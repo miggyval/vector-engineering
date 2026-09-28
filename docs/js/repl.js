@@ -14,6 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js";
   const RUN_TIMEOUT_MS = 20_000;
+  const LOAD_TIMEOUT_MS = 60_000;
+  const stopBtn = document.createElement("button"); stopBtn.type = "button"; stopBtn.textContent = "Stop"; stopBtn.disabled = true;
+  const resetBtn = document.createElement("button"); resetBtn.type = "button"; resetBtn.textContent = "Reset Python";
+  runBtn.after(stopBtn, resetBtn);
 
   // Built as a Blob so the worker needs no extra file and works under any
   // site base path
@@ -31,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let stdout = "";
       let stderr = "";
-      py.setStdout({ batched: (line) => { stdout += line + "\\n"; } });
-      py.setStderr({ batched: (line) => { stderr += line + "\\n"; } });
+      py.setStdout({ batched: (line) => { stdout = (stdout + line + "\\n").slice(0, 20000); } });
+      py.setStderr({ batched: (line) => { stderr = (stderr + line + "\\n").slice(0, 20000); } });
 
       try {
         await py.loadPackagesFromImports(code);
@@ -48,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   let worker = null;
+  let workerUrl = null;
   let workerReady = false;
   let runId = 0;
   let timeoutId = null;
@@ -59,11 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setRunning(running) {
     runBtn.disabled = running;
+    stopBtn.disabled = !running;
   }
 
   function destroyWorker() {
     if (worker) worker.terminate();
     worker = null;
+    if (workerUrl) URL.revokeObjectURL(workerUrl);
+    workerUrl = null;
     workerReady = false;
   }
 
@@ -72,28 +80,26 @@ document.addEventListener("DOMContentLoaded", () => {
     outEl.textContent = data.stdout || "";
     errEl.textContent = (data.stderr || "") + (data.error || "");
     setRunning(false);
-    setStatus("Done.");
-    setTimeout(() => {
-      status.style.opacity = 0.5;
-    }, 1000);
+    setStatus(data.error ? "Execution failed." : "Done. Output is limited to 20,000 characters per pane.");
   }
 
-  function armTimeout(id) {
+  function armTimeout(id, duration = RUN_TIMEOUT_MS) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       if (id !== runId) return;
       destroyWorker(); // runtime reloads on the next run
-      errEl.textContent = `Execution timed out after ${RUN_TIMEOUT_MS / 1000} seconds.`;
+      errEl.textContent = duration === LOAD_TIMEOUT_MS ? "Python runtime loading timed out. Check your connection and retry." : `Execution timed out after ${duration / 1000} seconds.`;
       setRunning(false);
       setStatus("Timed out.");
-    }, RUN_TIMEOUT_MS);
+    }, duration);
   }
 
   function ensureWorker() {
     if (worker) return worker;
 
     const blob = new Blob([WORKER_SOURCE], { type: "application/javascript" });
-    worker = new Worker(URL.createObjectURL(blob));
+    workerUrl = URL.createObjectURL(blob);
+    worker = new Worker(workerUrl);
 
     worker.onmessage = (event) => {
       const data = event.data;
@@ -138,10 +144,17 @@ document.addEventListener("DOMContentLoaded", () => {
       armTimeout(id);
     } else {
       setStatus("Loading Python runtime (~10 MB, first run only)...");
+      armTimeout(id, LOAD_TIMEOUT_MS);
     }
     w.postMessage({ id, code: textarea.value });
   }
 
+  function stop(message) {
+    ++runId; clearTimeout(timeoutId); destroyWorker(); setRunning(false); setStatus(message);
+  }
+  stopBtn.addEventListener("click", () => stop("Stopped. Python will reload on the next run."));
+  resetBtn.addEventListener("click", () => { stop("Python reset."); outEl.textContent = ""; errEl.textContent = ""; });
+  window.addEventListener("pagehide", () => { clearTimeout(timeoutId); destroyWorker(); });
   runBtn.addEventListener("click", runCode);
 
   // Ctrl+Enter / Cmd+Enter to run

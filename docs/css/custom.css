@@ -58,22 +58,22 @@ mjx-container {
 }
 
 /* Smooth theme transition for main surfaces */
-html[data-md-color-scheme] body {
+body[data-md-color-scheme] {
   background-color: var(--ve-page-bg);
   color: var(--ve-page-fg);
   transition: var(--ve-theme-transition);
 }
 
 /* Main content area */
-html[data-md-color-scheme] .md-main,
-html[data-md-color-scheme] .md-content,
-html[data-md-color-scheme] .md-sidebar {
+[data-md-color-scheme] .md-main,
+[data-md-color-scheme] .md-content,
+[data-md-color-scheme] .md-sidebar {
   background-color: var(--ve-page-bg);
   transition: background-color 0.5s ease;
 }
 
 /* Header – keep whatever colour you like, but make it animate too */
-html[data-md-color-scheme] .md-header {
+[data-md-color-scheme] .md-header {
   background-color: var(--md-primary-fg-color);
   transition: background-color 0.5s ease;
 }
@@ -801,3 +801,11 @@ html[data-md-color-scheme] .md-header {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+[data-md-color-scheme="default"] { --md-primary-fg-color: #39478b; }
+.md-typeset .mcq .mcq-check, .md-typeset #quiz-check-all, .md-typeset #repl-run,
+.md-typeset .edge-demo button { background: var(--ve-action-bg); color: var(--ve-action-fg); }
+.ve-course-card, .ve-button { overflow-wrap: anywhere; }
+/* Links remain identifiable without relying on colour alone. */
+.md-typeset p a:not(.ve-button) { text-decoration: underline; text-underline-offset: .15em; }
+[data-md-color-scheme="slate"] .md-header { background-color: #39478b; color: #fff; }
