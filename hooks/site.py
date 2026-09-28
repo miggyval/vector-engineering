@@ -18,8 +18,8 @@ def on_page_markdown(markdown, page, config, files):
         cards = []
         for title, folder in COURSES.items():
             url = get_relative_url(files.get_file_from_path(folder + '/index.md').url, page.url)
-            cards.append(f'<a class="ve-course-card" href="{escape(url)}"><strong>{escape(title)}</strong><span>View modules →</span></a>')
-        markdown += '\n<div class="ve-course-grid">' + ''.join(cards) + '</div>\n'
+            cards.append(f'<a class="ve-course-card" href="{escape(url)}"><strong>{escape(title)}</strong><span>View modules →</span><span data-course-progress="{escape(title)}"></span></a>')
+        markdown = markdown.replace('<!-- Course cards are generated from navigation. -->', '<div class="ve-course-grid">' + ''.join(cards) + '</div>')
     for title, folder in COURSES.items():
         if path != folder + '/index.md':
             continue
@@ -73,7 +73,7 @@ def on_files(files, config):
         _catalogue.append({'id': pid, 'url': file.url, 'title': heading[1] if heading else (trail[-1] if trail else file.src_uri),
                            'kind': meta.get('ve_kind', 'lesson'), 'course': trail[0] if trail else '',
                            'module': trail[1] if len(trail) > 2 else '', 'questions': questions,
-                           'legacyPath': meta.get('ve_legacy_path', file.url), 'order': list(locations).index(file.src_uri) if file.src_uri in locations else 100000})
+                           'legacyPath': meta.get('ve_legacy_path') or file.url, 'order': list(locations).index(file.src_uri) if file.src_uri in locations else 100000})
     _catalogue.sort(key=lambda e: e['order'])
     return files
 

@@ -27,11 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const pyodideReady = loadPyodide().then((py) => {
       self.postMessage({ type: "ready" });
       return py;
+    }).catch(() => {
+      self.postMessage({ type: "load-error" });
+      return null;
     });
 
     self.onmessage = async (event) => {
       const { id, code } = event.data;
       const py = await pyodideReady;
+      if (!py) return;
 
       let stdout = "";
       let stderr = "";
@@ -45,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (err) {
         self.postMessage({
           type: "result", id, stdout, stderr,
-          error: String((err && err.message) || err),
+          error: String((err && err.message) || err).slice(0, 20000),
         });
       }
     };
@@ -78,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function finishRun(data) {
     clearTimeout(timeoutId);
     outEl.textContent = data.stdout || "";
-    errEl.textContent = (data.stderr || "") + (data.error || "");
+    errEl.textContent = ((data.stderr || "") + (data.error || "")).slice(0, 20000);
     setRunning(false);
     setStatus(data.error ? "Execution failed." : "Done. Output is limited to 20,000 characters per pane.");
   }
@@ -103,6 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     worker.onmessage = (event) => {
       const data = event.data;
+      if (data.type === "load-error") {
+        clearTimeout(timeoutId); destroyWorker(); setRunning(false);
+        errEl.textContent = "Failed to load Python. Check your connection and retry.";
+        setStatus("Error."); return;
+      }
       if (data.type === "ready") {
         workerReady = true;
         // The pending run is already queued in the worker; start its clock

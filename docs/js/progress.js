@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = learning.lessons.find(p => learning.url(p) === a.href);
       a.classList.toggle('ve-done', !!p && learning.done(p.id));
     });
+    document.querySelectorAll('[data-course-progress]').forEach(el => {
+      const pages = learning.lessons.filter(p => p.course === el.dataset.courseProgress);
+      el.textContent = pages.length ? `${pages.filter(p => learning.done(p.id)).length} of ${pages.length} lessons complete` : 'Module overviews available';
+    });
     const resume = document.getElementById('ve-continue');
     if (resume) {
       const next = learning.next(); resume.replaceChildren(create('h2','Continue learning'));
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rows.replaceChildren();
       for (const course of ['Signals and Systems','Control','Robotics']) {
         const pages = learning.lessons.filter(p => p.course === course);
-        rows.append(create('p',`${course}: ${pages.filter(p => learning.done(p.id)).length} of ${pages.length} lessons complete`));
+        rows.append(create('p',pages.length ? `${course}: ${pages.filter(p => learning.done(p.id)).length} of ${pages.length} lessons complete` : `${course}: module overviews available`));
       }
       const st = learning.streak(); streak.textContent = `Current streak: ${st.days} days · Best: ${st.best} days`;
       storageStatus.textContent = learning.storageAvailable ? 'Progress is saved on this device only.' : 'Browser storage is unavailable. Progress will last only for this page; you can export it.';

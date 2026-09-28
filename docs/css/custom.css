@@ -1,811 +1,175 @@
-/* ------------------------------------------------------------------ */
-/* Vector Engineering theme base                                                  */
-/* ------------------------------------------------------------------ */
-
-/* Light mode overrides */
+/* Vector Engineering: shared colours, surfaces and interactive components. */
+:root {
+  --ve-radius: .6rem;
+  --ve-transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #9fa8da;
+  --md-primary-fg-color: #39478b;
   --md-primary-fg-color--light: #e8eaf6;
   --md-primary-fg-color--dark: #1a237e;
-  --md-accent-fg-color: #ffb300;
-
+  --md-accent-fg-color: #705300;
   --ve-indigo: #9fa8da;
   --ve-indigo-light: #e8eaf6;
   --ve-indigo-lighter: #f3f5fd;
   --ve-indigo-dark: #1a237e;
-  --ve-gold: #ffb300;
+  --ve-gold: #a36b00;
+  --ve-page-bg: #f3f4fb;
+  --ve-page-fg: #111827;
+  --ve-action-bg: #39478b;
+  --ve-action-fg: #fff;
+  --ve-correct: #236328;
+  --ve-incorrect: #a61c1c;
+  --ve-warning: #745300;
 }
-
-
-
-/* Dark mode overrides */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #9fa8da;          /* softer purple */
+  --md-primary-fg-color: #b9c2ff;
   --md-primary-fg-color--light: #c5cae9;
   --md-primary-fg-color--dark: #1a237e;
   --md-accent-fg-color: #ffca28;
-
   --ve-indigo: #9fa8da;
   --ve-indigo-light: #181b2f;
   --ve-indigo-lighter: #101223;
   --ve-indigo-dark: #d6dbff;
   --ve-gold: #ffca28;
+  --ve-page-bg: #05060c;
+  --ve-page-fg: #e5e7eb;
+  --ve-action-bg: #b9c2ff;
+  --ve-action-fg: #111827;
+  --ve-correct: #a5d6a7;
+  --ve-incorrect: #ffb4ab;
+  --ve-warning: #ffda84;
 }
-
-
-/* Custom background / text colours per scheme */
-[data-md-color-scheme="default"] {
-  --ve-page-bg: #f3f4fb;   /* light indigo tint */
-  --ve-page-fg: #111827;   /* dark text */
-}
-
-[data-md-color-scheme="slate"] {
-  --ve-page-bg: #05060c;   /* very dark navy */
-  --ve-page-fg: #e5e7eb;   /* light text */
-}
-
-
-/* Make math a little nicer spaced */
-mjx-container {
-  margin: 0.5em 0;
-}
-
-
-:root {
-  --ve-theme-transition: background-color 0.35s ease,
-                         color 0.35s ease,
-                         border-color 0.35s ease;
-}
-
-/* Smooth theme transition for main surfaces */
-body[data-md-color-scheme] {
-  background-color: var(--ve-page-bg);
+body[data-md-color-scheme], [data-md-color-scheme] .md-main,
+[data-md-color-scheme] .md-content, [data-md-color-scheme] .md-sidebar {
+  background: var(--ve-page-bg);
   color: var(--ve-page-fg);
-  transition: var(--ve-theme-transition);
+  transition: var(--ve-transition);
 }
-
-/* Main content area */
-[data-md-color-scheme] .md-main,
-[data-md-color-scheme] .md-content,
-[data-md-color-scheme] .md-sidebar {
-  background-color: var(--ve-page-bg);
-  transition: background-color 0.5s ease;
-}
-
-/* Header – keep whatever colour you like, but make it animate too */
-[data-md-color-scheme] .md-header {
-  background-color: var(--md-primary-fg-color);
-  transition: background-color 0.5s ease;
-}
-
-
-/* ------------------------------------------------------------------ */
-/* Admonitions                                                        */
-/* ------------------------------------------------------------------ */
-
-.md-typeset .admonition {
-  border-radius: 8px;
-  border-left: 4px solid var(--ve-indigo);
-  background: var(--ve-indigo-light);
-}
-
-.md-typeset .admonition > .admonition-title {
-  font-weight: 600;
-  color: var(--ve-indigo-dark);
-}
-
-/* Admonition header + icon fully purple */
-.md-typeset .admonition,
-.md-typeset details {
-  border-left: 4px solid var(--ve-indigo);
-  background: var(--ve-indigo-light);
-}
-
-.md-typeset .admonition > .admonition-title,
-.md-typeset details > summary {
-  background: rgba(26, 35, 126, 0.06);
-  color: var(--ve-indigo-dark);
-}
-
-/* Icon color */
-.md-typeset .admonition > .admonition-title::before,
-.md-typeset details > summary::before {
-  color: var(--ve-indigo);
-}
-
-
-/* ------------------------------------------------------------------ */
-/* Multiple-choice quizzes                                            */
-/* ------------------------------------------------------------------ */
-
-.mcq {
-  margin: 1.5rem 0;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid rgba(26, 35, 126, 0.25);
-  background: var(--ve-indigo-lighter);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-/* Question text */
-.mcq > p {
-  margin-top: 0;
-}
-
-/* Options list */
-.mcq ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.75rem 0;
-}
-
-/* Individual option */
-.mcq li[data-option] {
-  padding: 0.4rem 0.6rem;
-  margin-bottom: 0.25rem;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
-}
-
-/* Hover effect */
-.mcq li[data-option]:hover {
-  background: rgba(26, 35, 126, 0.06);
-}
-
-/* Selected option */
-.mcq li.selected,
-.mcq li.mcq-selected {
-  border-color: var(--ve-indigo);
-  background: rgba(26, 35, 126, 0.12);
-  transform: translateY(-1px);
-}
-
-/* Check button */
-.mcq .mcq-check {
-  margin-top: 0.5rem;
-}
-
-/* Feedback text */
-.mcq-feedback {
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* Feedback states */
-.mcq-feedback-correct {
-  color: #2e7d32;
-}
-
-.mcq-feedback-wrong {
-  color: #c62828;
-}
-
-.mcq-feedback-warn {
-  color: #ff8f00;
-}
-
-
-/* When there's no feedback text, don't show the pill at all */
-.mcq-feedback:empty {
-  display: none;
-  margin-top: 0;
-  padding: 0;
-}
-
-/* ------------------------------------------------------------------ */
-/* Edge demo layout                                                   */
-/* ------------------------------------------------------------------ */
-
-#edge-demo,
-.edge-demo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: flex-start;
-  margin-top: 1rem;
-}
-
-.edge-demo .controls {
-  min-width: 220px;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  background: var(--ve-indigo-lighter);
-  border: 1px solid rgba(26, 35, 126, 0.18);
-}
-
-.edge-demo label {
-  display: block;
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-}
-
-/* Slider tweaks */
-.edge-demo input[type="range"] {
-  width: 100%;
-  accent-color: var(--ve-indigo);
-}
-
-.edge-demo .preview {
-  flex: 1;
-  min-width: 260px;
-}
-
-.edge-demo #edge-image {
-  max-width: 100%;
-  border-radius: 10px;
-  border: 1px solid rgba(26, 35, 126, 0.25);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: opacity 0.2s ease;
-}
-
-/* ------------------------------------------------------------------ */
-/* Responsive video wrapper                                           */
-/* ------------------------------------------------------------------ */
-
-.lesson-video {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  height: 0;
-  overflow: hidden;
-  margin: 1rem 0 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-  border: 1px solid rgba(26, 35, 126, 0.3);
-}
-
-.lesson-video iframe,
-.lesson-video video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 12px;
-}
-
-/* ------------------------------------------------------------------ */
-/* Python REPL                                                        */
-/* ------------------------------------------------------------------ */
-
-.python-repl {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.python-repl .repl-input-area textarea {
-  width: 100%;
-  min-height: 180px;
-  font-family: var(--md-code-font, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-  font-size: 0.9rem;
-  border-radius: 8px;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid rgba(26, 35, 126, 0.35);
-  background: #090b10;
-  color: #e5e7eb;
-}
-
-/* REPL controls */
-.python-repl .repl-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.python-repl #repl-status {
-  font-size: 0.9rem;
-  opacity: 0.75;
-}
-
-/* REPL output layout */
-.python-repl .repl-output-area {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
-}
-
-.python-repl .repl-output-area h3 {
-  margin-top: 0;
-  margin-bottom: 0.25rem;
-  color: var(--ve-indigo-dark);
-}
-
-/* Output / error panes */
-.python-repl .repl-output-area pre {
-  background: var(--ve-indigo-dark);
-  color: #f4f4ff;
-  padding: 0.6rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  overflow-x: auto;
-  border: 1px solid rgba(242, 169, 0, 0.3);
-}
-
-/* ------------------------------------------------------------------ */
-/* Buttons (used in quizzes, REPL, etc.)                              */
-/* ------------------------------------------------------------------ */
-
-.mcq .mcq-check,
-#repl-run,
-.edge-demo button {
-  border: none;
-  border-radius: 999px;
-  padding: 0.45rem 1.1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--ve-indigo);
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(26, 35, 126, 0.35);
-  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
-}
-
-.mcq .mcq-check:hover,
-#repl-run:hover,
-.edge-demo button:hover {
-  background: var(--ve-indigo-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(26, 35, 126, 0.5);
-}
-
-.mcq .mcq-check:active,
-#repl-run:active,
-.edge-demo button:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(26, 35, 126, 0.25);
-}
-
-.circuit-figure {
-  /* keep it narrow and centered */
-  max-width: 260px;            /* tweak to taste */
-  margin: 1.5rem auto;
-  text-align: center;
-}
-
-.circuit-figure img {
-  display: block;
-  width: 100%;                 /* fill the small figure width */
-  height: auto;
-}
-
-/* Figure captions – light mode */
-[data-md-color-scheme="default"] .circuit-figure figcaption {
-  margin-top: 0.3rem;
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.7);
-  font-style: italic;
-}
-
-/* Figure captions – dark mode */
-[data-md-color-scheme="slate"] .circuit-figure figcaption {
-  margin-top: 0.3rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-}
-
-
-/* Circuit figure color handling */
-
-/* Light mode: normal, no filter */
-[data-md-color-scheme="default"] .circuit-figure img {
-  filter: none;
-}
-
-/* Dark mode: invert so black lines become light */
-[data-md-color-scheme="slate"] .circuit-figure img {
-  filter: invert(0.9) brightness(1.1) contrast(1.05);
-}
-
-/* Wider primary sidebar on desktop */
-@media screen and (min-width: 76.25em) {
-  /* Width of the nav column */
-  .md-nav--primary .md-nav__list {
-    width: 16rem;
-  }
-
-  /* Actual sidebar element (comes in/out from the left) */
-  .md-sidebar--primary {
-    width: 17rem;
-    left: -17rem;
-  }
-}
-/* Base feedback area: always reserved space, even before answering */
-.mcq-feedback {
-  margin-top: 0.5rem;
-  min-height: 1.5rem;
-  font-size: 0.85rem;
-  border-radius: 999px;
-  padding: 0.25rem 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background-color: transparent;
-  color: inherit;
-}
-
-/* Correct answer */
-.mcq-feedback--correct {
-  background-color: rgba(76, 175, 80, 0.12); /* green-ish */
-  color: #2e7d32;
-}
-
-/* Incorrect answer */
-.mcq-feedback--incorrect {
-  background-color: rgba(244, 67, 54, 0.12); /* red-ish */
-  color: #c62828;
-}
-
-/* Incorrect answer */
-.mcq-feedback--warn {
-  background-color: rgba(244, 146, 54, 0.12); /* red-ish */
-  color: #c6a428;
-}
-
-/* Global "Check all answers" button */
-#quiz-check-all {
-  display: block;
-  margin: 1.5rem auto 0;           /* centre it under the quiz */
-  border: none;
-  border-radius: 999px;
-  padding: 0.5rem 1.5rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--ve-indigo);
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(26, 35, 126, 0.35);
-  transition: background 0.15s ease,
-              transform 0.08s ease,
-              box-shadow 0.15s ease,
-              opacity 0.15s ease;
-}
-
-#quiz-check-all:hover:not([disabled]) {
-  background: var(--ve-indigo-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(26, 35, 126, 0.5);
-}
-
-#quiz-check-all:active:not([disabled]) {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(26, 35, 126, 0.25);
-}
-
-/* Disabled state */
-#quiz-check-all[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-
-/* ------------------------------------------------------------------ */
-/* Inline "Even / Odd / Neither" MCQs                                 */
-/* ------------------------------------------------------------------ */
-
-.mcq.mcq-inline ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  padding-left: 0;
-  margin: 0.5rem 0;
-}
-
-/* Make the options look like compact radio chips */
-.mcq.mcq-inline li[data-option] {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-bottom: 0;                 /* remove vertical stacking spacing */
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;             /* pill shape */
-  font-size: 0.9rem;
-}
-
-/* Little circle in front to give 'radio button' vibes */
-.mcq.mcq-inline li[data-option]::before {
-  content: "";
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 50%;
-  border: 2px solid var(--ve-indigo);
-  background: transparent;
-  flex-shrink: 0;
-}
-
-/* Selected state – fill the circle + slightly stronger pill */
-.mcq.mcq-inline li.selected::before,
-.mcq.mcq-inline li.mcq-selected::before {
-  background: var(--ve-indigo);
-}
-
-.mcq.mcq-inline li.selected,
-.mcq.mcq-inline li.mcq-selected {
-  background: rgba(26, 35, 126, 0.10);
-  border-color: var(--ve-indigo);
-  transform: none;    /* no jump for these tiny pills */
-}
-
-
-/* ------------------------------------------------------------------ */
-/* Progress tracking (progress.js)                                    */
-/* ------------------------------------------------------------------ */
-
-/* Thin course-wide bar pinned to the bottom edge of the header */
-.ve-progress {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  background: rgba(0, 0, 0, 0.18);
-}
-
-.ve-progress__fill {
-  height: 100%;
-  width: 0;
-  background: var(--ve-gold);
-  transition: width 0.4s ease;
-}
-
-/* Completed pages get a tick in the nav */
-.md-nav__link.ve-done > .md-ellipsis::after {
-  content: "✓";
-  margin-left: 0.4em;
-  color: var(--ve-gold);
-  font-weight: 500;
-}
-
-/* Per-page status card at the foot of the content */
-.ve-status {
-  margin: 2.5rem 0 1rem;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  border: 1px solid var(--ve-indigo);
-  background: var(--ve-indigo-light);
-  color: var(--ve-page-fg);
-  font-size: 0.8rem;
-}
-
-.ve-status--done {
-  border-color: var(--ve-gold);
-  font-weight: 500;
-}
-
-.ve-status--done::before {
-  content: "✓ ";
-  color: var(--ve-gold);
-}
-
-/* Progress panel (homepage) */
-.ve-panel {
-  margin: 1.5rem 0;
-  padding: 1.1rem 1.25rem;
-  border: 1px solid var(--ve-indigo);
-  border-radius: 12px;
-  background: var(--ve-indigo-light);
-}
-
-.ve-panel__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.6rem;
-}
-
-.ve-panel__head span {
-  font-size: 0.78rem;
-  opacity: 0.85;
-}
-
-.ve-panel__bar {
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-}
-
-.ve-panel__bar > div {
-  height: 100%;
-  background: var(--ve-gold);
-  transition: width 0.4s ease;
-}
-
-.ve-panel__rows {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.ve-panel__row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.ve-panel__meta {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.3;
-}
-
-.ve-panel__meta strong {
-  font-size: 0.82rem;
-  font-weight: 500;
-}
-
-.ve-panel__meta span {
-  font-size: 0.75rem;
-  opacity: 0.8;
-}
-
-.ve-ring {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  transform: rotate(-90deg);
-}
-
-.ve-ring__track {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.15);
-  stroke-width: 5;
-}
-
-.ve-ring__fill {
-  fill: none;
-  stroke: var(--ve-gold);
-  stroke-width: 5;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.4s ease;
-}
-
-.ve-panel__foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-  font-size: 0.75rem;
-  opacity: 0.9;
-}
-
-.ve-panel__reset {
-  background: none;
-  border: 1px solid var(--ve-indigo);
-  color: inherit;
-  border-radius: 6px;
-  padding: 0.25rem 0.6rem;
-  font-size: 0.72rem;
-  cursor: pointer;
-}
-
-.ve-panel__reset:hover {
-  border-color: var(--ve-gold);
-  color: var(--ve-gold);
-}
-
-/* Module progress card (overview pages) */
-.ve-module {
-  margin: 1.25rem 0 2rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--ve-indigo);
-  border-radius: 12px;
-  background: var(--ve-indigo-light);
-}
-
-.ve-module__head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.ve-module__meta {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.3;
-}
-
-.ve-module__meta strong {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.ve-module__meta span {
-  font-size: 0.75rem;
-  opacity: 0.8;
-}
-
-.ve-module__list {
-  margin: 0.9rem 0 0;
-  padding-left: 1.1rem;
-  font-size: 0.82rem;
-}
-
-.ve-module__list li {
-  margin: 0.2rem 0;
-}
-
-.ve-module__item--done > a::after {
-  content: " ✓";
-  color: var(--ve-gold);
-}
-
-.ve-module__item--current > a {
-  font-weight: 500;
-}
-
-.ve-module__details {
-  margin-top: 0.8rem;
-}
-
-.ve-module__details > summary {
-  cursor: pointer;
-  font-size: 0.78rem;
-  opacity: 0.85;
-}
-
-.ve-module__details > summary:hover {
-  color: var(--ve-gold);
-}
-
-/* Shared accessible surfaces and responsive learning components. */
-:root { --ve-radius: .6rem; --ve-action-bg: #39478b; --ve-action-fg: #fff; }
-[data-md-color-scheme="slate"] { --ve-action-bg: #b9c2ff; --ve-action-fg: #111827; }
+[data-md-color-scheme] .md-header { background: #39478b; color: #fff; }
 .md-typeset { line-height: 1.7; }
 .md-content, .md-content__inner, .md-typeset, .repl-output-area > div { min-width: 0; }
-.md-typeset mjx-container[display="true"], .md-typeset pre { max-width: 100%; overflow-x: auto; }
+.md-typeset a:not(.ve-button):not(.ve-course-card):not(.headerlink):not(.md-content__button) { text-decoration: underline; text-underline-offset: .15em; }
 .md-typeset img, .md-typeset video { max-width: 100%; }
+mjx-container { margin: .5em 0; }
+.md-typeset mjx-container[display="true"], .md-typeset pre { max-width: 100%; overflow-x: auto; }
+:focus-visible { outline: 3px solid var(--ve-gold); outline-offset: 3px; }
+
+/* Shared controls. */
+.md-typeset button, .md-typeset .ve-button {
+  display: inline-block;
+  background: var(--ve-action-bg); color: var(--ve-action-fg);
+  border: 0; border-radius: var(--ve-radius);
+  padding: .5rem .85rem; cursor: pointer; font: inherit;
+  min-height: 44px; text-decoration: none;
+  transition: var(--ve-transition);
+}
+.md-typeset button[hidden] { display: none; }
+.md-typeset button:disabled { opacity: .6; cursor: not-allowed; }
+.md-typeset button:hover:not(:disabled), .md-typeset .ve-button:hover { filter: brightness(.93); }
+.md-typeset input, .md-typeset textarea { accent-color: var(--ve-action-bg); }
+.repl-controls, .plot-controls, .ve-progress-actions, .ve-status {
+  display: flex; gap: .75rem; align-items: center; flex-wrap: wrap;
+}
+
+/* Course cards and progress. */
 .ve-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-.ve-course-card { display: flex; flex-direction: column; gap: .6rem; border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius); padding: 1rem; background: var(--ve-indigo-lighter); }
+.ve-course-card {
+  display: flex; flex-direction: column; gap: .6rem;
+  border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius);
+  padding: 1rem; background: var(--ve-indigo-lighter);
+}
 .ve-course-card strong { color: var(--ve-indigo-dark); }
 .ve-course-card span { font-size: .8rem; }
-.md-typeset button, .md-typeset .ve-button { background: var(--ve-action-bg); color: var(--ve-action-fg); border-radius: var(--ve-radius); padding: .5rem .85rem; cursor: pointer; font: inherit; }
-.md-typeset button:disabled { opacity: .6; cursor: not-allowed; }
-.md-typeset button:hover:not(:disabled), .md-typeset .ve-button:hover { filter: brightness(.93); background: var(--ve-action-bg); color: var(--ve-action-fg); }
-:focus-visible { outline: 3px solid var(--ve-gold); outline-offset: 3px; }
-.mcq li[data-option] { padding: 0; }
+.ve-course-card, .ve-button { overflow-wrap: anywhere; }
+.ve-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #252e60; }
+.ve-progress__fill { height: 100%; width: 0; background: #ffca28; transition: width .2s ease; }
+.md-nav__link.ve-done::after { content: " ✓"; color: var(--ve-correct); }
+.ve-status, .ve-panel, .ve-module {
+  margin: 1.5rem 0; padding: 1rem 1.25rem;
+  border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius);
+  background: var(--ve-indigo-light);
+}
+.ve-panel h2 { margin-top: 0; }
+.ve-panel p { margin: .6rem 0; }
+.ve-panel [role="status"] { font-size: .8rem; }
+.ve-module summary { cursor: pointer; }
+
+/* Author-owned worked examples and solutions. */
+.md-typeset .admonition, .md-typeset details {
+  border-radius: var(--ve-radius); border-left: 4px solid var(--ve-indigo);
+  background: var(--ve-indigo-light);
+}
+.md-typeset .admonition > .admonition-title, .md-typeset details > summary {
+  background: rgba(100,110,170,.08); color: var(--ve-indigo-dark); font-weight: 600;
+}
+
+/* Native quiz controls with unchanged author labels. */
+.mcq {
+  margin: 1.5rem 0; padding: 1rem 1.25rem;
+  border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius);
+  background: var(--ve-indigo-lighter);
+}
+.mcq > p { margin-top: 0; }
+.mcq ul { list-style: none; padding-left: 0; margin: .75rem 0; }
+.mcq li[data-option] { padding: 0; margin: .25rem 0; border: 1px solid transparent; border-radius: .4rem; }
+.mcq li[data-option]:hover { background: var(--ve-indigo-light); }
+.mcq li.selected { border-color: var(--ve-indigo); background: var(--ve-indigo-light); }
 .mcq li[data-option] label { display: flex; align-items: baseline; gap: .6rem; padding: .5rem .65rem; cursor: pointer; min-height: 44px; }
-.mcq li[data-option] input { flex-shrink: 0; accent-color: var(--ve-action-bg); }
-.mcq.mcq-inline li[data-option]::before { display: none; }
-.mcq-feedback { border-radius: .4rem; }
-[data-md-color-scheme="slate"] .mcq-feedback--correct { color: #a5d6a7; }
-[data-md-color-scheme="slate"] .mcq-feedback--incorrect { color: #ffb4ab; }
-[data-md-color-scheme="slate"] .mcq-feedback--warn { color: #ffda84; }
-.python-repl .repl-output-area pre { background: #111827; color: #f4f4ff; min-height: 3rem; }
-.repl-controls, .plot-controls, .ve-progress-actions { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
-.plot-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.mcq li[data-option] input { flex-shrink: 0; }
+.mcq li[data-option] span { min-width: 0; }
+.mcq.mcq-inline ul { display: flex; flex-wrap: wrap; gap: .5rem; }
+.mcq-feedback { margin-top: .5rem; font-weight: 500; border-radius: .4rem; padding: .25rem .5rem; }
+.mcq-feedback:empty { display: none; }
+.mcq-feedback--correct { color: var(--ve-correct); background: rgba(76,175,80,.1); }
+.mcq-feedback--incorrect { color: var(--ve-incorrect); background: rgba(244,67,54,.1); }
+.mcq-feedback--warn { color: var(--ve-warning); }
+#quiz-check-all { display: block; margin: 1.5rem auto 0; }
+
+/* Video and circuit figures. */
+.lesson-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; margin: 1rem 0 1.5rem; border-radius: var(--ve-radius); }
+.lesson-video iframe, .lesson-video video { width: 100%; height: 100%; border: 0; }
+.circuit-figure { max-width: 260px; margin: 1.5rem auto; text-align: center; }
+.circuit-figure img { display: block; width: 100%; height: auto; }
+.circuit-figure figcaption { margin-top: .3rem; font-size: .9rem; font-style: italic; }
+[data-md-color-scheme="slate"] .circuit-figure img { filter: invert(.9) brightness(1.1) contrast(1.05); }
+
+/* Interactive practice. */
+.edge-demo { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; margin-top: 1rem; }
+.edge-demo .controls { min-width: 220px; padding: .75rem 1rem; border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius); background: var(--ve-indigo-lighter); }
+.edge-demo label { display: block; margin-bottom: .75rem; }
+.edge-demo input[type="range"] { width: 100%; }
+.edge-demo .preview { flex: 1; min-width: 260px; }
+.edge-demo img { border-radius: var(--ve-radius); }
+.python-repl { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+.python-repl textarea { width: 100%; min-height: 180px; padding: .75rem; font: .9rem var(--md-code-font-family, monospace); border: 1px solid var(--ve-indigo); border-radius: var(--ve-radius); background: #111827; color: #f4f4ff; }
+.python-repl .repl-output-area, .plot-results { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+.python-repl .repl-output-area h3 { margin: 0 0 .25rem; color: var(--ve-indigo-dark); }
+.python-repl .repl-output-area pre { background: #111827; color: #f4f4ff; padding: .75rem; border-radius: var(--ve-radius); min-height: 3rem; }
 #plotter input { max-width: 100%; border: 1px solid var(--ve-indigo); border-radius: .3rem; padding: .3rem; }
 #plotter input[type="number"] { width: 6rem; }
 #plotter input[type="text"] { width: 16rem; }
 #plot-status, #repl-status { opacity: 1 !important; }
-.ve-status { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
-@media screen and (min-width: 76.25em) {
-  .md-sidebar--primary { width: 12.1rem; left: auto; }
-  .md-nav--primary .md-nav__list { width: auto; }
-}
+
 @media screen and (max-width: 50em) {
-  .ve-course-grid, .plot-results, .python-repl .repl-output-area { grid-template-columns: minmax(0, 1fr); }
+  .ve-course-grid, .plot-results, .python-repl .repl-output-area { grid-template-columns: minmax(0,1fr); }
   .edge-demo .controls, .edge-demo .preview { min-width: 0; width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
-
-[data-md-color-scheme="default"] { --md-primary-fg-color: #39478b; }
-.md-typeset .mcq .mcq-check, .md-typeset #quiz-check-all, .md-typeset #repl-run,
-.md-typeset .edge-demo button { background: var(--ve-action-bg); color: var(--ve-action-fg); }
-.ve-course-card, .ve-button { overflow-wrap: anywhere; }
-/* Links remain identifiable without relying on colour alone. */
-.md-typeset p a:not(.ve-button) { text-decoration: underline; text-underline-offset: .15em; }
-[data-md-color-scheme="slate"] .md-header { background-color: #39478b; color: #fff; }
+/* Syntax tokens meet normal-text contrast in both reading themes. */
+[data-md-color-scheme="default"] {
+  --md-code-hl-comment-color: #545a6c;
+  --md-code-hl-operator-color: #5e327e;
+  --md-code-hl-keyword-color: #5e327e;
+  --md-code-hl-name-color: #175c70;
+  --md-code-hl-special-color: #175c70;
+}
+[data-md-color-scheme="slate"] {
+  --md-code-hl-comment-color: #b1b8c8;
+  --md-code-hl-operator-color: #d4baff;
+  --md-code-hl-keyword-color: #d4baff;
+  --md-code-hl-name-color: #93d5ee;
+  --md-code-hl-constant-color: #93d5ee;
+  --md-code-hl-special-color: #93d5ee;
+}

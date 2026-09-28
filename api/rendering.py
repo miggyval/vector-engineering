@@ -1,7 +1,6 @@
 """Numerical rendering in disposable worker processes; no HTTP state."""
 import ast
 import io
-import re
 from pathlib import Path
 import cv2
 import numpy as np
@@ -111,70 +110,6 @@ def _eval_expr(expr: str, t: np.ndarray) -> np.ndarray:
     if not np.isfinite(y).any():
         raise ValueError("Expression has no finite values on this domain")
     return y
-
-
-def _expr_to_math(expr: str) -> str:
-    """
-    Convert a Python-style expression into something that looks nicer in
-    Matplotlib mathtext, without changing how it's actually evaluated.
-
-    - t**2, (t-1)**2, sin(t)**2, t**(2*t) -> base^{...}
-    - sin, cos, ...                       -> \\sin, \\cos, ...
-    - pi                                  -> \\pi
-    - *                                   -> space
-    - underscores                         -> escaped
-    """
-    s = expr
-
-    # Escape underscores (but not already-escaped ones)
-    s = re.sub(r'(?<!\\)_', r'\_', s)
-
-    # Powers: base ** exponent -> base^{exponent}
-    def power_repl(m: re.Match) -> str:
-        base = m.group(1).strip()
-        exp_part = m.group(2).strip()
-        if exp_part.startswith("(") and exp_part.endswith(")"):
-            exp_part = exp_part[1:-1].strip()
-        return f"{base}^{{{exp_part}}}"
-
-    power_pattern = (
-        r'('
-        r'(?:[A-Za-z0-9_\\]+\([^()]*\)'   # func call: f(...)
-        r'|\([^()]*\)'                    # or parenthesised group: (...)
-        r'|[A-Za-z0-9_\\]+'               # or simple token: t, 2, etc.
-        r')'
-        r')\s*\*\*\s*'
-        r'('
-        r'\([^()]*\)'                     # exponent in parens: (2*t)
-        r'|[A-Za-z0-9\.\+\-]+'            # or simple exponent: 2, -1, n
-        r')'
-    )
-    s = re.sub(power_pattern, power_repl, s)
-
-    func_names = [
-        "sin", "cos", "tan", "exp",
-        "arcsin", "arccos", "arctan",
-        "sinh", "cosh", "tanh",
-        "log", "log10", "sqrt",
-    ]
-    for name in func_names:
-        s = re.sub(rf"\b{name}\b", rf"\\{name}", s)
-
-    # pi -> \pi
-    s = re.sub(r"\bpi\b", r"\\pi", s)
-
-    # Remove explicit * but keep a single space
-    s = re.sub(r'\s*\*\s*', ' ', s)
-
-    # Collapse spaces
-    s = re.sub(r'\s+', ' ', s).strip()
-
-    return s
-
-
-# ------------------------
-# PLOTTING
-# ------------------------
 
 
 def _new_figure() -> Figure:
